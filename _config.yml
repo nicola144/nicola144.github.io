@@ -35,6 +35,7 @@ titles_from_headings:
 
 highlighter: rouge
 markdown: kramdown
+mathjax: true
 kramdown:
   math_engine: katex
   input: GFM
