@@ -7,3 +7,4 @@ The current title of my degree is technically "Artificial Intelligence", but I d
 
 # Cool stuff
 - The [Machine Learning Summer School videos 2009 (!)](http://videolectures.net/mlss09uk_cambridge/)
+- [Literally any blogpost here](https://betanalpha.github.io/writing/?fbclid=IwAR32LpCi6bC6SwqGmsbfmo147GhKrfup7P4JY0_o2jiW6dT9BQ58arigx8M) 
