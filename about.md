@@ -5,7 +5,8 @@ As undergrad, I studied Computer Science at the [University of Warwick](https://
 The current title of my degree is technically "Artificial Intelligence", but I don't think it is a word that particularly well represents its actual content. [This](https://medium.com/@mijordan3/artificial-intelligence-the-revolution-hasnt-happened-yet-5e1d5812e1e7) blogpost well summarizes something I'd agree with on this whole AI fanatism.
 
 
-# Cool stuff
+# Cool random stuff
 - The [Machine Learning Summer School videos 2009 (!)](http://videolectures.net/mlss09uk_cambridge/)
 - [Literally any blogpost here](https://betanalpha.github.io/writing/?fbclid=IwAR32LpCi6bC6SwqGmsbfmo147GhKrfup7P4JY0_o2jiW6dT9BQ58arigx8M) 
 - [CMU blog on ML](https://blog.ml.cmu.edu/)
+- [Terence Tao's blog](https://terrytao.wordpress.com/)
