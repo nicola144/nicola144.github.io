@@ -228,7 +228,7 @@ The ratio $$ \frac{p(\mathbf{x}_i, \mathcal{D})}{q(\mathbf{x}_i)}$$ is called th
 
 $$
 
-\widehat{\mathcal{I}}_{NN} := \frac{1}{N} \cdot \frac{1}{Z} \sum_{n=1}^{N}  f(\mathbf{x}_i) \frac{p(\mathbf{x}_i, \mathcal{D})}{q(\mathbf{x}_i)} 
+\widehat{\mathcal{I}}_{NN} := \frac{1}{N} \cdot \frac{1}{Z} \sum_{n=1}^{N}  f(\mathbf{x}_i) \frac{p(\mathbf{x}_i, \mathcal{D})}{q(\mathbf{x}_i)} = \frac{1}{N} \sum_{n=1}^{N}  f(\mathbf{x}_i) \frac{\pi(\mathbf{x}_i)}{q(\mathbf{x}_i)}
 
 $$
 
@@ -240,8 +240,15 @@ It is pretty intuitive that our IS estimates can only be as good as our proposal
 
 $$ 
 
-\mathbb{V}_{q} [ \widehat{\mathcal{I}}_{NN} ] = \mathbb{E} \left [ \left ( \widehat{\mathcal{I}}_{NN} - \mathbb{E} \left [  \frac{f(\mathbf{x}) \pi(\mathbf{x})}{q(\mathbf{x})} \right ] \right )^{2} \right ]
+\mathbb{V}_{q} [ \widehat{\mathcal{I}}_{NN} ] = \mathbb{E}_{q} \left [ \left ( \widehat{\mathcal{I}}_{NN} - \overbrace{\mathbb{E}_{q} \left [  \frac{f(\mathbf{x}) \pi(\mathbf{x})}{q(\mathbf{x})} \right ]}^{= \mathcal{I}} \right )^{2} \right ]
 
+$$
+
+Which follows by simply applying the definition of variance (recalling that our samples are obtained through the proposal $$q$$ so that all expectations are under $$q$$). In order to derive the proposal that minimizes the variance, it is easier to inspect a different expression for the variance $$\mathbb{V}_{q} [ \widehat{\mathcal{I}}_{NN} ] $$, which uses the identity that variance equals second moment minus first moment squared, instead of the definition: 
+
+$$ 
+
+\mathbb{V}_{q} [ \widehat{\mathcal{I}}_{NN} ] = 
 $$
 
 ### Sequential Importance Sampling <a name="sis"></a>
