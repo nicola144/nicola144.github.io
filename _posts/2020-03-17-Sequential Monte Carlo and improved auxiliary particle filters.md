@@ -2,7 +2,7 @@
 <style> 
 #example1 {
   border: 1px solid;
-  padding: 1px;
+  padding: 5px;
   box-shadow: 5px 10px;
 }
 </style>
