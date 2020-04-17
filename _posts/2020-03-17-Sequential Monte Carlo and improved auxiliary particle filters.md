@@ -240,7 +240,7 @@ It is pretty intuitive that our IS estimates can only be as good as our proposal
 
 $$ 
 
-\mathbb{V}_{q} [ \widehat{\mathcal{I}}_{NN} \right \] = \mathbb{E} [ ( \widehat{\mathcal{I}}_{NN} - \mathbb{E} (  \frac{f(\mathbf{x}) \pi(\mathbf{x})}{q(\mathbf{x})} ] )^{2} ]
+\mathbb{V}_{q} [ \widehat{\mathcal{I}}_{NN} ] = \mathbb{E} [ ( \widehat{\mathcal{I}}_{NN} - \mathbb{E} (  \frac{f(\mathbf{x}) \pi(\mathbf{x})}{q(\mathbf{x})} ] )^{2} ]
 
 $$
 
