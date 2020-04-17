@@ -257,7 +257,7 @@ $$\begin{equation}\begin{aligned}
 &= \int  \left | f(\mathbf{x})\pi(\mathbf{x})  \right | \frac{\left | f(\mathbf{x})\pi(\mathbf{x})  \right |}{q(\mathbf{x})} \mathrm{d} \mathbf{x}
 \end{aligned}\end{equation}\tag{15}\label{eq15}$$
 
-Clearly, if we want this quantity to be small, then whenever the numerator is high , then $$q$$ should also be at least as high. That is, when $$  \vert f(\mathbf{x}) \pi(\mathbf{x})  \vert $$ is high, then $$q(\mathbf{x})$$ should be high, or at least it should definitely not be small. For a good approximation, we need  ... large   $$\Rightarrow q(\mathbf{x})$$ large. In fact, the proposal that minimizes the variance turns out to be a normalized version of .. : 
+Clearly, if we want this quantity to be small, then whenever the numerator is high , then $$q$$ should also be at least as high. That is, when $$  \vert f(\mathbf{x}) \pi(\mathbf{x})  \vert $$ is high, then $$q(\mathbf{x})$$ should be high, or at least it should definitely not be small. For a good approximation, we need  $$  \vert f(\mathbf{x}) \pi(\mathbf{x})  \vert $$  large   $$\Rightarrow q(\mathbf{x})$$ large. In fact, the proposal that minimizes the variance turns out to be a normalized version of $$  \vert f(\mathbf{x}) \pi(\mathbf{x})  \vert $$  : 
 
 $$ 
 q^{*}(\mathbf{x}) = \frac{\left | f(\mathbf{x})\pi(\mathbf{x})  \right | }{\int \left | f(\mathbf{x})\pi(\mathbf{x})  \right |  \mathrm{d}\mathbf{x}}
@@ -359,7 +359,7 @@ Let us put it into the same framework that we used to derive the weight update f
 At time $t=1$: 
 <ol>
   <li> <b>Propagation</b> : sample from proposal $\mathbf{s}_{1}^{n} \sim {\color{#FF8000}q}_{1}(\mathbf{s}_1)$ </li>
-  <li> <b>Update</b>:  w_{1}^{n} \propto \frac{p(\mathbf{s}_{1}^{n}, \mathbf{v}_{1})}{{\color{#FF8000}q}_{1}(\mathbf{s}_{1}^{n})}   </li>
+  <li> <b>Update</b>: bla  $w_{1}^{n} \propto \frac{p(\mathbf{s}_{1}^{n}, \mathbf{v}_{1})}{{\color{#FF8000}q}_{1}(\mathbf{s}_{1}^{n})}$   </li>
   <li> <b>Resample</b>: $\left \{ \mathbf{s}_{1}^{n} , w_{1}^{n} \right \}_{n=1}^{N} $ to obtain $ \left \{ \mathbf{r}_{1}^{n}, 1/N \right \}_{n=1}^{N} $ </li>
 </ol>
 
