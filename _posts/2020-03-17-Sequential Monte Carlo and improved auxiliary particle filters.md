@@ -2,25 +2,11 @@
 <style> 
 #example1 {
   border: 1px solid;
-  padding: 10px;
+  padding: 5px;
   box-shadow: 5px 10px;
-}
-
-#example2 {
-  border: 1px solid;
-  padding: 10px;
-  box-shadow: 5px 10px #888888;
-}
-
-#example3 {
-  border: 1px solid;
-  padding: 10px;
-  box-shadow: 5px 10px red;
 }
 </style>
 </head>
-
-# Sequential Monte Carlo and Improved Auxiliary Particle Filters
 
 In this post, my aims are: 
 * Introduce Bayesian inference in state space models
