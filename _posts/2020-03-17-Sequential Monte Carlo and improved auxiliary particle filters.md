@@ -257,7 +257,26 @@ $$\begin{equation}\begin{aligned}
 &= \int  \left | f(\mathbf{x})\pi(\mathbf{x})  \right | \frac{\left | f(\mathbf{x})\pi(\mathbf{x})  \right |}{q(\mathbf{x})} \mathrm{d} \mathbf{x}
 \end{aligned}\end{equation}\tag{15}\label{eq15}$$
 
-Clearly, if we want this quantity to be small, then whenever the numerator is high , then $$q$$ should also be at least as high. That is, when $$ \left | f(\mathbf{x})\pi(\mathbf{x})  \right |  $$ is high, then $$q(\mathbf{x})$$ should be high, or at least it should definitely not be small. For a good approximation, **we need q to be large when $$\left | f(\mathbf{x})\pi(\mathbf{x})  \right |  $$ is large**.
+Clearly, if we want this quantity to be small, then whenever the numerator is high , then $$q$$ should also be at least as high. That is, when $$ \left | f(\mathbf{x})\pi(\mathbf{x})  \right |  $$ is high, then $$q(\mathbf{x})$$ should be high, or at least it should definitely not be small. **For a good approximation, we need**  $$\left | f(\mathbf{x})\pi(\mathbf{x})  \right |  $$ **implies** $$q(\mathbf{x})$$ **to be large**. In fact, the proposal that minimizes the variance turns out to be a normalized version of $$\left | f(\mathbf{x})\pi(\mathbf{x})  \right |  $$: 
+
+$$ 
+q^{*}(\mathbf{x}) = \frac{\left | f(\mathbf{x})\pi(\mathbf{x})  \right | }{\int \left | f(\mathbf{x})\pi(\mathbf{x})  \right |  \mathrm{d}\mathbf{x}}
+$$
+
+Unfortunately deriving this from scratch, by explicitly minimizing the second moment turns out to require some (basic) functional analysis. However, given knowledge of the optimal solution, we can verify that it is indeed minimizing the variance by making use of the following inequality:
+
+$$
+\mathbb{E}[x^2] \geq \mathbb{E}[ \left | x \right |]^{2}
+$$
+
+We show that this bound is tight by using the optimal proposal. Plugging in the optimal proposal gives:
+
+$$\begin{equation}\begin{aligned}
+ \mathbb{E}_{q^{*}} \left [ \left ( \frac{f(\mathbf{x})\pi(\mathbf{x})}{q^{*}(\mathbf{x})} \right )^2 \right ] &=  \int   \left | f(\mathbf{x})\pi(\mathbf{x})  \right | \frac{\left | f(\mathbf{x})\pi(\mathbf{x})  \right |}{q^{*}(\mathbf{x})} \mathrm{d} \mathbf{x} \\
+ &= \int  \left | f(\mathbf{x})\pi(\mathbf{x})  \right |  \mathrm{d}\mathbf{x} ~ \cdot ~ \int  \left | f(\mathbf{x})\pi(\mathbf{x})  \right |^2 \frac{1}{ \left | f(\mathbf{x})\pi(\mathbf{x})  \right | } \mathrm{d} \mathbf{x} \\
+ &=  \left ( \int  \left | f(\mathbf{x})\pi(\mathbf{x})  \right |  \mathrm{d} \mathbf{x} \right )^2 
+\end{aligned}\end{equation}\tag{16}\label{eq16}$$
+
 
 ### Sequential Importance Sampling <a name="sis"></a>
 
