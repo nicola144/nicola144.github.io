@@ -355,18 +355,20 @@ Let us put it into the same framework that we used to derive the weight update f
 
 **Algorithm 1: Sequential Monte Carlo / Sequential Importance Resampling*
 
+
 At time $t=1$: 
+<ol>
+<li> **Propagation** : sample from proposal $\mathbf{s}_{1}^{n} \sim \color{#FF8000}{q}_{1}(\mathbf{s}_1)$ </li>
+<li> **Update**: compute weights $w_{1}^{n} \propto \frac{p(\mathbf{s}_{1}^{n}, \mathbf{v}_{1})}{\color{#FF8000}{q}_{1}(\mathbf{s}_{1}^{n})}$ </li>
+<li> **Resample**: $\left \{ \mathbf{s}_{1}^{n} , w_{1}^{n} \right \}_{n=1}^{N} $ to obtain $ \left \{ \mathbf{r}_{1}^{n}, 1/N \right \}_{n=1}^{N} $ </li>
 
-1. **Propagation** : sample from proposal $$\mathbf{s}_{1}^{n} \sim \color{#FF8000}{q}_{1}(\mathbf{s}_1)$$
-2. **Update**: compute weights $$w_{1}^{n} \propto \frac{p(\mathbf{s}_{1}^{n}, \mathbf{v}_{1})}{\color{#FF8000}{q}_{1}(\mathbf{s}_{1}^{n})}$$
-3. **Resample**: $$\left \{ \mathbf{s}_{1}^{n} , w_{1}^{n} \right \}_{n=1}^{N} $$ to obtain $$ \left \{ \mathbf{r}_{1}^{n}, 1/N \right \}_{n=1}^{N} $$
+At time $t \geq 2$:
 
-At time $$t \geq 2$$:
+<li> **Propagation** : sample from proposal $\mathbf{s}_{t}^{n} \sim \color{#FF8000}{q}_{t}(\mathbf{s}_{t} \mid \mathbf{r}_{1:t-1}^{n})$ and set $ \mathbf{s}_{1:t}^{n} \leftarrow (\mathbf{r}_{1:t-1}^{n}, \mathbf{s}_{t}^{n})$ </li>
+<li> **Update**: compute weights $w_{t}^{n} \propto \frac{p(\mathbf{s}_{1:t}^{n}, \mathbf{v}_{1:t})}{\color{#FF8000}{q}_{t}(\mathbf{s}_{t}^{n} \mid \mathbf{r}_{1:t-1}^{n})}$ </li>
+<li> **Resample**: $\left \{ \mathbf{s}_{1:t}^{n} , w_{t}^{n} \right \}_{n=1}^{N} $ to obtain $ \left \{ \mathbf{r}_{1:t}^{n}, 1/N \right \}_{n=1}^{N} $  </li>
 
-1. **Propagation** : sample from proposal $\mathbf{s}_{t}^{n} \sim \color{#FF8000}{q}_{t}(\mathbf{s}_{t} \mid \mathbf{r}_{1:t-1}^{n})$ and set $ \mathbf{s}_{1:t}^{n} \leftarrow (\mathbf{r}_{1:t-1}^{n}, \mathbf{s}_{t}^{n})$
-2. **Update**: compute weights $$w_{t}^{n} \propto \frac{p(\mathbf{s}_{1:t}^{n}, \mathbf{v}_{1:t})}{\color{#FF8000}{q}_{t}(\mathbf{s}_{t}^{n} \mid \mathbf{r}_{1:t-1}^{n})}$$
-3. **Resample**: $$\left \{ \mathbf{s}_{1:t}^{n} , w_{t}^{n} \right \}_{n=1}^{N} $$ to obtain $$ \left \{ \mathbf{r}_{1:t}^{n}, 1/N \right \}_{n=1}^{N} $$ 
-
+</ol>
 
 </div>
 <br>
