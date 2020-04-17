@@ -2,7 +2,7 @@
 <style> 
 #example1 {
   border: 1px solid;
-  padding: 5px;
+  padding: 1px;
   box-shadow: 5px 10px;
 }
 </style>
@@ -42,6 +42,10 @@ Now we have to start making more assumptions. What does our belief on $\mathbf{s
 
 Suprisingly to me, it turns out for **a lot** of applications it just needs to depend on the $$\mathbf{s}$$tate at the previous timestep. 
 In other words, we can say that $$\mathbf{s}_{t}$$ is sampled from some density $$f$$ conditional on $$\mathbf{s}_{t-1}$$:
+
+
+
+
 <div id="example1">
 $$ 
 {
@@ -50,6 +54,10 @@ $$
 \tag{1}\label{eq1}
 $$
 </div>
+
+
+
+
 Further, usually the observation or $$\mathbf{v}$$isible is sampled according to the current state:
 
 $$
