@@ -472,9 +472,9 @@ Moreover, for the APF it assumed the common approximation to the predictive like
 
 <i> <b> Algorithm 3: APF (again) </b> </i> <br> 
 
-At time $$t=1$$: draw M i.i.d. samples from the prior proposal $$ p(\mathbf{s}_1) $$
+At time $t=1$: draw M i.i.d. samples from the prior proposal $ p(\mathbf{s}_1) $
 
-At time $$t \geq 2$$, with particle/weight set $$\left \{ \mathbf{s}_{t-1}^{m}, w_{t-1}^{m} \right \}_{m=1}^{M} $$:
+At time $t \geq 2$, with particle/weight set $\left \{ \mathbf{s}_{t-1}^{m}, w_{t-1}^{m} \right \}_{m=1}^{M} $:
 
 <ol>
   
