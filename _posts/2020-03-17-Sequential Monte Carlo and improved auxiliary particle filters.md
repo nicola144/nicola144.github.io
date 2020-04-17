@@ -13,7 +13,7 @@ In this post, my aims are:
 * Introduce approximate inference using importance sampling, in state space models
 * Finally, describe the Auxiliary Particle Filter, its intepretation and the recent Improved Particle Filter by Elvira et al. [1]
 
-The ideal target reader has familiarity with Bayesian inference, basics of Monte Carlo and importance sampling, basics of particle filters. However, if you are familiar with Bayesian inference in a "batch" setting (where data is processed all at once), you should be able to follow. If you are not, I will write a blogpost on Bayesian inference that assumes no prior background except basic rules of probability. Even then, I ambitiously hope that this post can be interesting to both Bayesian statistics experts who aren't aware of the work I will describe (these can skip to the sections on Auxiliary Particle Filters and Improved Auxiliary Particle Filters.) *and* people who see particle filters for the first time. 
+The ideal target reader has familiarity with Bayesian inference, basics of Monte Carlo and importance sampling, basics of particle filters. However, if you are familiar with Bayesian inference in a "batch" setting (where data is processed all at once), you should be able to follow. If you are not, I will (soon-ish) write a blogpost on Bayesian inference that assumes no prior background except basic rules of probability. Even then, I ambitiously hope that this post can be interesting to both Bayesian statistics experts who aren't aware of the work I will describe (these can skip to the sections on Auxiliary Particle Filters and Improved Auxiliary Particle Filters.) *and* people who see particle filters for the first time. 
 
 1. [Brief introduction to sequential inference](#introduction)
     1. [General Bayesian Filtering](#generalfilter)
@@ -355,7 +355,7 @@ Let us put it into the same framework that we used to derive the weight update f
 
 **Algorithm 1: Sequential Monte Carlo / Sequential Importance Resampling*
 
-At time $$t=1$$: 
+At time $t=1$: 
 
 1. **Propagation** : sample from proposal $$\mathbf{s}_{1}^{n} \sim \color{#FF8000}{q}_{1}(\mathbf{s}_1)$$
 2. **Update**: compute weights $$w_{1}^{n} \propto \frac{p(\mathbf{s}_{1}^{n}, \mathbf{v}_{1})}{\color{#FF8000}{q}_{1}(\mathbf{s}_{1}^{n})}$$
@@ -363,7 +363,7 @@ At time $$t=1$$:
 
 At time $$t \geq 2$$:
 
-1. **Propagation** : sample from proposal $$\mathbf{s}_{t}^{n} \sim \color{#FF8000}{q}_{t}(\mathbf{s}_{t} \mid \mathbf{r}_{1:t-1}^{n})$$ and set $$ \mathbf{s}_{1:t}^{n} \leftarrow (\mathbf{r}_{1:t-1}^{n}, \mathbf{s}_{t}^{n})$$
+1. **Propagation** : sample from proposal $\mathbf{s}_{t}^{n} \sim \color{#FF8000}{q}_{t}(\mathbf{s}_{t} \mid \mathbf{r}_{1:t-1}^{n})$ and set $ \mathbf{s}_{1:t}^{n} \leftarrow (\mathbf{r}_{1:t-1}^{n}, \mathbf{s}_{t}^{n})$
 2. **Update**: compute weights $$w_{t}^{n} \propto \frac{p(\mathbf{s}_{1:t}^{n}, \mathbf{v}_{1:t})}{\color{#FF8000}{q}_{t}(\mathbf{s}_{t}^{n} \mid \mathbf{r}_{1:t-1}^{n})}$$
 3. **Resample**: $$\left \{ \mathbf{s}_{1:t}^{n} , w_{t}^{n} \right \}_{n=1}^{N} $$ to obtain $$ \left \{ \mathbf{r}_{1:t}^{n}, 1/N \right \}_{n=1}^{N} $$ 
 
