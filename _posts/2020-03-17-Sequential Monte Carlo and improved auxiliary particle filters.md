@@ -366,7 +366,7 @@ At time $t=1$:
 At time $t \geq 2$:
 <ol>
 <li> <b>Propagation</b> : sample from proposal $\mathbf{s}_{t}^{n} \sim {\color{#FF8000}q}_{t}(\mathbf{s}_{t} \mid \mathbf{r}_{1:t-1}^{n})$ and set $ \mathbf{s}_{1:t}^{n} \leftarrow (\mathbf{r}_{1:t-1}^{n}, \mathbf{s}_{t}^{n})$ </li>
-<li> <b>Update</b>: compute weights $w_{t}^{n} \propto \frac{p(\mathbf{s}_{1:t}^{n}, \mathbf{v}_{1:t})}{{\color{#FF8000}q}_{t}(\mathbf{s}_{t}^{n} \mid \mathbf{r}_{1:t-1}^{n})}$ </li>
+<li> <b>Update</b>: 
 <li> <b>Resample</b>: $\left \{ \mathbf{s}_{1:t}^{n} , w_{t}^{n} \right \}_{n=1}^{N} $ to obtain $ \left \{ \mathbf{r}_{1:t}^{n}, 1/N \right \}_{n=1}^{N} $  </li>
 
 </ol>
