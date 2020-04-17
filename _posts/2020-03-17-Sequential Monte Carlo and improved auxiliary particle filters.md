@@ -239,7 +239,9 @@ Where $$Z$$ is the normalizing constant of the posterior distribution $$\pi(\mat
 It is pretty intuitive that our IS estimates can only be as good as our proposal. In general, we should seek a proposal that minimizes the variance of our estimators. This follows from the fact that the variance of a MC estimate (which is a sample average) is the expected square error from the true value of the integral. Let us see this by considering, for simplicity, the variance of the non-normalized estimator: 
 
 $$ 
-\mathbb{V}\left [ \widehat{\mathcal{I}}_{NN} \right \] = \mathbb{E}\left [ \left ( \widehat{\mathcal{I}}_{NN} - \mathbb{E}\left [  \frac{f(\mathbf{x})\pi(\mathbf{x})}{q(\mathbf{x})} \right  ] \right )^{2} \right ]
+
+\mathbb{V}_{q} \left [ \widehat{\mathcal{I}}_{NN} \right \] = \mathbb{E}\left [ \left ( \widehat{\mathcal{I}}_{NN} - \mathbb{E} \left [  \frac{f(\mathbf{x}) \pi(\mathbf{x})}{q(\mathbf{x})} \right  ] \right )^{2} \right ]
+
 $$
 
 ### Sequential Importance Sampling <a name="sis"></a>
