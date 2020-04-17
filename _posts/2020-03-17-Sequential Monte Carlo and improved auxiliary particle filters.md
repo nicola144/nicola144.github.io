@@ -41,10 +41,7 @@ We observe this state through a (noisy) measurement $\mathbf{v}_{t}$ (where v st
 Now we have to start making more assumptions. What does our belief on $\mathbf{s}_{t}$ depend on ? 
 
 Suprisingly to me, it turns out for **a lot** of applications it just needs to depend on the $$\mathbf{s}$$tate at the previous timestep. 
-In other words, we can say that $$\mathbf{s}_{t}$$ is sampled from some density $$f$$ conditional on $$\mathbf{s}_{t-1}$$:
-
-
-
+In other words, we can say that $$\mathbf{s}_{t}$$ is sampled from some density $$f$$ conditional on $$\mathbf{s}_{t-1}$$: <br>
 
 <div id="example1">
 $$ 
@@ -53,6 +50,7 @@ $$
 }
 \tag{1}\label{eq1}
 $$
+<br>
 </div>
 
 
