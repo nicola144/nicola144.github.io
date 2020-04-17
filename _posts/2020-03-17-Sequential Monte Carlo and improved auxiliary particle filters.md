@@ -246,8 +246,18 @@ Which follows by simply applying the definition of variance (recalling that our 
 
 $$ 
 
-\mathbb{V}_{q} [ \widehat{\mathcal{I}}_{NN} ] = \frac{1}{N} \mathbb{V}_{q} \left [ \frac{f(\mathbf{x})\pi(\mathbf{x})}{q(\mathbf{x})} \right ] = \frac{1}{N} \mathbb{E}_q \left [ \left ( \frac{f(\mathbf{x})\pi(\mathbf{x})}{q(\mathbf{x})} \right )^2 \right ] - \frac{1}{N}  \underbrace{\left (  \mathbb{E}_q \left [ \frac{f(\mathbf{x})\pi(\mathbf{x})}{q(\mathbf{x})} \right ] \right )^2}_{(\mathcal{I}^2)}
+\mathbb{V}_{q} [ \widehat{\mathcal{I}}_{NN} ] = \frac{1}{N} \mathbb{V}_{q} \left [ \frac{f(\mathbf{x})\pi(\mathbf{x})}{q(\mathbf{x})} \right ] = \frac{1}{N} \mathbb{E}_q \left [ \left ( \frac{f(\mathbf{x})\pi(\mathbf{x})}{q(\mathbf{x})} \right )^2 \right ] - \frac{1}{N}  \underbrace{\left (  \mathbb{E}_q \left [ \frac{f(\mathbf{x})\pi(\mathbf{x})}{q(\mathbf{x})} \right ] \right )^2}_{=(\mathcal{I})^2}
 $$
+
+Notice that the right term in this expression is just $$\mathcal{I}^2$$ and thus does not involve $$q$$. We only need to minimize the first term with respect to $$q$$. Expanding this left term it a bit more builds some intuition on what the form of the minimizing proposal looks like: 
+
+$$\begin{equation}\begin{aligned}
+\mathbb{E}_q \left [ \left ( \frac{f(\mathbf{x})\pi(\mathbf{x})}{q(\mathbf{x})} \right )^2 \right ]  &=  \int \left ( \frac{f(\mathbf{x})\pi(\mathbf{x})}{q(\mathbf{x})} \right )^2 q(\mathbf{x}) \mathrm{d} \mathbf{x} \\
+&=  \int \frac{(f(\mathbf{x})\pi(\mathbf{x}))^2}{q(\mathbf{x})} \mathrm{d}\mathbf{x} \\
+&= \int  \left | f(\mathbf{x})\pi(\mathbf{x})  \right | \frac{\left | f(\mathbf{x})\pi(\mathbf{x})  \right |}{q(\mathbf{x})} \mathrm{d} \mathbf{x}
+\end{aligned}\end{equation}\tag{15}\label{eq15}$$
+
+From
 
 ### Sequential Importance Sampling <a name="sis"></a>
 
