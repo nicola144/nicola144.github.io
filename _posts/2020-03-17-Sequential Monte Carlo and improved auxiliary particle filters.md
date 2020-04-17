@@ -50,12 +50,9 @@ $$
 }
 \tag{1}\label{eq1}
 $$
-<br>
 </div>
-
-
-
-
+<br>
+<br>
 Further, usually the observation or $$\mathbf{v}$$isible is sampled according to the current state:
 
 $$
