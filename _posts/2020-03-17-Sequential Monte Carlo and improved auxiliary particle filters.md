@@ -469,25 +469,6 @@ In this section, we drop the $$\gamma$$ notation since our target is always assu
 Moreover, for the APF it assumed the common approximation to the predictive likelihood described earlier $$g(\mathbf{v}_{t} \mid \boldsymbol{\mu}_{t})$$, where $$ \boldsymbol{\mu}_{t} := \mathbb{E}_{\color{blue}{f}(\mathbf{s}_{t} \mid \mathbf{s}_{t-1})} [ \mathbf{s}_t ] $$. Finally, the proposal is selected to be the transition density. 
 
 <div id="example1">
-  <i> <b> Algorithm 1: Sequential Monte Carlo / Sequential Importance Resampling </b> </i> <br>
-
-
-  At time $t=1$: 
-  <ol>
-    <li> <b>Propagation</b> : sample from proposal $\mathbf{s}_{1}^{n} \sim {\color{#FF8000}q}_{1}(\mathbf{s}_1)$ </li>
-    <li> <b>Update</b>: bla perche PERCHEE </li>
-    <li> <b>Resample</b>: $\left \{ \mathbf{s}_{1}^{n} , w_{1}^{n} \right \}_{n=1}^{N} $ to obtain $ \left \{ \mathbf{r}_{1}^{n}, 1/N \right \}_{n=1}^{N} $ </li>
-  </ol>
-
-  At time $t \geq 2$:
-  <ol>
-    <li> <b>Propagation</b> : sample from proposal $\mathbf{s}_{t}^{n} \sim {\color{#FF8000}q}_{t}(\mathbf{s}_{t} \mid \mathbf{r}_{1:t-1}^{n})$ and set $ \mathbf{s}_{1:t}^{n} \leftarrow (\mathbf{r}_{1:t-1}^{n}, \mathbf{s}_{t}^{n})$ </li>
-    <li> <b>Update</b>: </li>
-    <li> <b>Resample</b>: $\left \{ \mathbf{s}_{1:t}^{n} , w_{t}^{n} \right \}_{n=1}^{N} $ to obtain $ \left \{ \mathbf{r}_{1:t}^{n}, 1/N \right \}_{n=1}^{N} $  </li>
- </ol>
-
-
-<div id="example1">
 
 <i> <b> Algorithm 3: APF (again) </b> </i> <br> 
 
