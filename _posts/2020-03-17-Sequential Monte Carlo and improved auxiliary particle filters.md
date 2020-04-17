@@ -499,11 +499,11 @@ At time $$t \geq 2$$, with particle/weight set $$\left \{ \mathbf{s}_{t-1}^{m}, 
   
 <li> <b> Preweights computation </b> :
   <ul>
-    <li> Compute $\boldsymbol{\mu}_{t}^{m} := \mathbb{E}_{{\color{blue}f}(\mathbf{s}_{t} \mid \mathbf{s}_{t-1}^{m})} [ \mathbf{s}_t ]$  for all $m$ </li>
+    <li> Compute $\boldsymbol{\mu}_{t}^{m} := \mathbb{E}_{ f(\mathbf{s}_{t} \mid \mathbf{s}_{t-1}^{m})} [ \mathbf{s}_t ]$  for all $m$ </li>
     <li> Preweights are computed as:
     $ \lambda_{t}^{m} \propto {\color{green}g}(\mathbf{v}_{t} \mid \boldsymbol{\mu}_{t}^{m}) w_{t-1}^{m} $ for all $m$ </li>
   </ul> 
- </li>
+</li>
   
 <li> <b> Delayed (multinomial) resampling step </b> : Sample with replacement from the previous particle set with probabilities $\lambda_{t}^{m}$ to obtain $\left \{ \mathbf{r}_{t-1}^{m} \right \}_{m=1}^{M} $ as well as associated means $\left \{  ^{r \hspace{-1pt}}\boldsymbol{\mu}_{t}^{m} \right \}_{m=1}^{M} $. Here however, instead of considering this generic resampling with a new particle set, let's be more specific. Notice that if this step uses multinomial resampling, what we just said is equivalent to: 
   <ul>
@@ -513,7 +513,7 @@ At time $$t \geq 2$$, with particle/weight set $$\left \{ \mathbf{s}_{t-1}^{m}, 
     
 <li> <b> Propagation </b> : Sample $\mathbf{s}_{t}^{m} \sim {\color{blue}f}(\mathbf{s}_t \mid \mathbf{r}_{t-1}^{m}) $ or equivalently $\mathbf{s}_{t}^{m} \sim {\color{blue}f}(\mathbf{s}_t \mid \mathbf{s}_{t-1}^{r^{m}}) $ for $m = 1, \dots, M$ <\li>
 
-4. <li> <b> Weight update </b> : Compute weights:
+<li> <b> Weight update </b> : Compute weights:
     $\tilde{w}_{t} =  \frac{{\color{green}g}(\mathbf{v}_t \mid \mathbf{s}_{t}^{m})}{{\color{green}g}(\mathbf{v}_{t} \mid \boldsymbol{\mu}_{t}^{r^{m}} )}$ </li> 
     
 </ol>
