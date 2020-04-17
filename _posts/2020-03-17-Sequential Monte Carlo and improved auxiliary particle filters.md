@@ -278,6 +278,14 @@ $$\begin{equation}\begin{aligned}
 \end{aligned}\end{equation}\tag{16}\label{eq16}$$
 
 
+
+$$\begin{equation}\begin{aligned}
+ \mathbb{E}_{q^{*}} \left [ \left | \frac{f(\mathbf{x})\pi(\mathbf{x})}{q^{*}(\mathbf{x})} \right |^2 \right ] &= \left ( \int \left | \frac{f(\mathbf{x})\pi(\mathbf{x})}{q^{*}(\mathbf{x})} \right | q^{*}(\mathbf{x}) \mathrm{d} \mathbf{x}  \right )^2 \\
+ &= \left ( \int \left | f(\mathbf{x})\pi(\mathbf{x}) \right |  \mathrm{d} \mathbf{x}  \right )^2
+\end{aligned}\end{equation}\tag{17}\label{eq17}$$
+
+whis is indeed that same as
+
 ### Sequential Importance Sampling <a name="sis"></a>
 
 Let us now go back to the task of sequentially estimating a distribution of the form $$ \left \{ p(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t}) \right \}$$. This time however, we estimate any distribution by a set of weighted samples, a.k.a particles. 
@@ -289,13 +297,13 @@ So, let's suppose then that we are trying to find a particle approximation for o
 
 $$\begin{equation}\begin{aligned}
 \tilde{w}_{t} = \frac{\gamma_t(\mathbf{s}_{1:t})}{\color{#FF8000}{q}_{t}(\mathbf{s}_{1:t})}
-\end{aligned}\end{equation}\tag{15}\label{eq15}$$
+\end{aligned}\end{equation}\tag{18}\label{eq18}$$
 
 With these , we can build the self-normalized importance sampling estimator as we have seen in the previous section. Recalling that all distributions we are dealing with are actually just a set of (possibly weighted particles), we can then approximate the (normalized) target by replacing the proposal with its particle approximation in \eqref{eq13}: 
 
 $$\begin{equation}\begin{aligned}
  p(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t}) \approx \sum_{n=1}^{N} w_{t}^{n} \delta_{\mathbf{s}_{1:t}}(\mathbf{s}_{1:t}^{n}) \qquad \mathbf{s}_{1:t}^{n} \sim \color{#FF8000}{q}_{t}(\mathbf{s}_{1:t})
-\end{aligned}\end{equation}\tag{16}\label{eq16}$$
+\end{aligned}\end{equation}\tag{19}\label{eq19}$$
 
 where $$w_{t}^{n}$$ are the normalized weights, and we are using $$N$$ sample trajectories for our proposal. Notice here the reason we can focus on $$p(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t})$$ instead of $$p(\mathbf{s}_t \mid \mathbf{v}_{1:t})$$ (more commonly needed). Since the latter is just a marginal of the former, and we have (approximate) samples from  $$p(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t})$$, we can form an approximation to $$p(\mathbf{s}_t \mid \mathbf{v}_{1:t})$$ simply as:
 
@@ -317,13 +325,13 @@ In other words, to obtain a sample from the full proposal at time $$t$$, we can 
 $$\begin{equation}\begin{aligned}
  \tilde{w}_{t}\left(\mathbf{s}_{1:t}\right) &=\frac{\gamma_{t}\left(\mathbf{s}_{1:t}\right)}{\color{#FF8000}{q}_{t}\left(\mathbf{s}_{1:t}\right)} \\ &=\frac{1}{\color{#FF8000}{q}_{t-1}\left(\mathbf{s}_{1:t-1}\right)} \frac{\gamma_{t-1}\left(\mathbf{s}_{1:t-1}\right)}{\gamma_{t-1}\left(\mathbf{s}_{1:t-1}\right)} \frac{\gamma_{t}\left(\mathbf{s}_{1:t}\right)}{\color{#FF8000}{q}_{t}\left(\mathbf{s}_{t} | \mathbf{s}_{1:t-1}\right)} \\ &=\frac{\gamma_{t-1}\left(\mathbf{s}_{1:t-1}\right)}{\color{#FF8000}{q}_{t-1}\left(\mathbf{s}_{1:t-1}\right)} \frac{\gamma_{t}\left(\mathbf{s}_{1:t}\right)}{\gamma_{t-1}\left(\mathbf{s}_{1:t-1}\right) \color{#FF8000}{q}_{t}\left(\mathbf{s}_{t} | \mathbf{s}_{1:t-1}\right)} \\
  &= \tilde{w}_{t-1}(\mathbf{s}_{1:t-1}) \cdot \frac{\gamma_{t}(\mathbf{s}_{1:t})}{\gamma_{t-1}(\mathbf{s}_{1:t-1}) \color{#FF8000}{q}_{t}(\mathbf{s}_{t}\mid \mathbf{s}_{1:t-1})}
-\end{aligned}\end{equation}\tag{17}\label{eq17}$$
+\end{aligned}\end{equation}\tag{20}\label{eq20}$$
 
 Therefore, we can approximate our desired distribution as:
 
 $$\begin{equation}\begin{aligned}
 p(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t}) \approx \sum_{n=1}^{N} w_{t}^{n} \delta_{\mathbf{s}_{1:t}}(\mathbf{s}_{1:t}^{n})
-\end{aligned}\end{equation}\tag{18}\label{eq18}$$
+\end{aligned}\end{equation}\tag{21}\label{eq21}$$
 
 with the weights $$w_{t}^{n}$$ defined as the normalized weights found in \eqref{eq15}.
 This is the essence of SIS (Sequential Importance Sampling). Important note: this is a standard presentation you can find e.g. from Johansen et al [2]. However, you should note that for example, if we put this into context of state space models say, then the proposal can depend on measurements too. Crucially, although it would be natural to split it as: $$ \color{#FF8000}{q}_{t}\left(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t}\right)= \color{#FF8000}{q}_{t-1}\left(\mathbf{s}_{1:t-1} \mid \mathbf{v}_{1:\color{red}{t-1}}\right) \color{#FF8000}{q}_{t}\left(\mathbf{s}_{t} \mid \mathbf{s}_{1:t-1}, \mathbf{v}_{1:\color{red}{t}}\right)$$ this is usually a *choice*, we could make both terms dependent on the current measurements! We will come back to this when discussing the Auxiliary Particle Filter. 
@@ -333,7 +341,7 @@ $$\begin{equation}\begin{aligned}
 \tilde{w}_t &= \tilde{w}_{t-1}(\mathbf{s}_{1:t-1}) \cdot \frac{\gamma_{t}(\mathbf{s}_{1:t})}{\gamma_{t-1}(\mathbf{s}_{1:t-1}) \color{#FF8000}{q}_{t}(\mathbf{s}_{t}\mid \mathbf{s}_{1:t-1})} \\
 &=  \tilde{w}_{t-1}(\mathbf{s}_{1:t-1}) \cdot \frac{\color{blue}{f}(\mathbf{s}_{t}\mid \mathbf{s}_{t-1}) \color{green}{g}(\mathbf{v}_{t} \mid \mathbf{s}_{t}) \overbrace{p(\mathbf{s}_{1:t-1}, \mathbf{v}_{1:t-1})}^{\cancel{\gamma_{t-1}(\mathbf{s}_{1:t-1})}}}{\cancel{\gamma_{t-1}(\mathbf{s}_{1:t-1})} \color{#FF8000}{q}_{t}(\mathbf{s}_{t} \mid \mathbf{s}_{1:t-1})} \\
 &= \tilde{w}_{t-1}(\mathbf{s}_{1:t-1}) \cdot \frac{\color{blue}{f}(\mathbf{s}_{t}\mid \mathbf{s}_{t-1}) \color{green}{g}(\mathbf{v}_{t} \mid \mathbf{s}_{t})}{\color{#FF8000}{q}_{t}(\mathbf{s}_{t} \mid \mathbf{s}_{1:t-1})}
-\end{aligned}\end{equation}\tag{19}\label{eq19}$$$$
+\end{aligned}\end{equation}\tag{22}\label{eq22}$$$$
 
 
 If you are given a choice for the proposal $$\color{#FF8000}{q}_{t}(\mathbf{s}_{t} \mid \mathbf{s}_{1:t-1}) $$, then you have a concrete algorithm to sequentially approximate $$\left \{ p(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t}) \right \}_{t \geq 1}$$, with constant time per update (remembering that throughout the algorithm only uses unnormalized weights, and only when one wants to approximate the desired distribution one has to normalize the weights). This algorithm is neat, but being a special case of IS it still suffers from variance of the weights scaling exponentially with time. This results in well known problems, the first of which is known under the names of *sample degeneracy* or *weight degeneracy*. Basically, if you actually run this after not-so-many iterations there will be one weight $$\approx 1$$ and all other will be zero, which equates to approximate the target with one sample. 
@@ -422,7 +430,7 @@ $$\begin{equation}\begin{aligned}
 &= \int p(\mathbf{s}_{1:t} , \mathbf{v}_{1:t}) \cdot {\color{blue}{f}}(\mathbf{s}_{t+1} \mid \mathbf{s}_{t}) \cdot {\color{green}{g}}(\mathbf{v}_{t+1} \mid \mathbf{s}_{t+1}) \mathrm{d} \mathbf{s}_{t+1} \\
 &=  p(\mathbf{s}_{1:t} , \mathbf{v}_{1:t}) \int {\color{blue}{f}}(\mathbf{s}_{t+1} \mid \mathbf{s}_{t}) \cdot {\color{green}{g}}(\mathbf{v}_{t+1} \mid \mathbf{s}_{t+1}) \mathrm{d} \mathbf{s}_{t+1} \\
 &=  p(\mathbf{s}_{1:t} , \mathbf{v}_{1:t}) \cdot \underbrace{p(\mathbf{v}_{t+1} \mid \mathbf{s}_{t})}_{"predictive~likelihood"} 
-\end{aligned}\end{equation}\tag{20}\label{eq20}$$
+\end{aligned}\end{equation}\tag{23}\label{eq23}$$
 
 Which we see is equivalent to the product between what would be the target in standard SMC times the so called "predictive likelihood" $$p(\mathbf{v}_{t+1} \mid \mathbf{s}_{t})$$. The weight update can be derived by making use of this: 
 
@@ -430,7 +438,7 @@ $$\begin{equation}\begin{aligned}
 \tilde{w} &= \tilde{w}_{t-1}(\mathbf{s}_{1:t-1}) \cdot \frac{\gamma_{t}(\mathbf{s}_{1:t})}{\gamma_{t-1}(\mathbf{s}_{1:t-1}) \color{#FF8000}{q}_{t}(\mathbf{s}_{t}\mid \mathbf{s}_{1:t-1})} \\
 &=  \tilde{w}_{t-1}(\mathbf{s}_{1:t-1}) \cdot  \frac{p(\mathbf{s}_{1:t}, \mathbf{v}_{1:t}) p(\mathbf{v}_{t+1} \mid \mathbf{s}_{t})}{p(\mathbf{s}_{1:t-1}, \mathbf{v}_{1:t-1}) p(\mathbf{v}_{t} \mid \mathbf{s}_{t-1}) \color{#FF8000}{q}_{t}(\mathbf{s}_{t} \mid \mathbf{s}_{1:t-1})} \\
 &= \tilde{w}_{t-1}(\mathbf{s}_{1:t-1}) \cdot \frac{\cancel{p(\mathbf{s}_{1:t-1}, \mathbf{v}_{1:t-1})} \color{blue}{f}(\mathbf{s}_{t} \mid \mathbf{s}_{t-1}) \color{green}{g}(\mathbf{v}_{t} \mid \mathbf{s}_{t}) p(\mathbf{v}_{t+1} \mid \mathbf{s}_{t})}{\cancel{p(\mathbf{s}_{1:t-1}, \mathbf{v}_{1:t-1})} p(\mathbf{v}_{t} \mid \mathbf{s}_{t-1}) \color{#FF8000}{q}_{t}(\mathbf{s}_{t} \mid \mathbf{s}_{1:t-1})} 
-\end{aligned}\end{equation}\tag{21}\label{eq21}$$
+\end{aligned}\end{equation}\tag{24}\label{eq24}$$
 
 
 Suppose we have been running the APF for $$1\dots t-1$$ iterations, and now we want a particle approximation of $$p(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t})$$. We can't compute the weights as in APF, because recall that it sequentially estimates something different to what we want, namely $$p(\mathbf{s}_{1:t-1} \mid \mathbf{v}_{1:t}) \cdot p(\mathbf{v}_{t} \mid \mathbf{s}_{t-1})$$. Thus, to compute the weights for our approximation, we have to use $$\gamma_t(\mathbf{s}_{1:t}) = p(\mathbf{s}_{1:t}, \mathbf{v}_{1:t})$$ and $$\gamma_{t-1}(\mathbf{s}_{1:t-1}) = p(\mathbf{s}_{1:t-1} , \mathbf{v}_{1:t}) \cdot p(\mathbf{v}_{t} \mid \mathbf{s}_{t-1})$$. Doing the whole derivation: 
@@ -441,7 +449,7 @@ $$\begin{equation}\begin{aligned}
 \tilde{w}_t &= \tilde{w}_{t-1}(\mathbf{s}_{1:t-1}) \cdot  \frac{p(\mathbf{s}_{1:t}, \mathbf{v}_{1:t})}{ p(\mathbf{s}_{1:t-1}, \mathbf{v}_{1:t-1}) p(\mathbf{v}_{t} \mid \mathbf{s}_{t-1}) \color{#FF8000}{q}_{t}(\mathbf{s}_{t} \mid \mathbf{v}_{t}, \mathbf{s}_{t-1})}  \\
 &=  \tilde{w}_{t-1}(\mathbf{s}_{1:t-1}) \cdot \frac{\cancel{p(\mathbf{s}_{1:t-1}, \mathbf{v}_{1:t-1})}f(\mathbf{s}_{t}\mid \mathbf{s}_{t-1}) g(\mathbf{v}_{t} \mid \mathbf{s}_{t})}{\cancel{p(\mathbf{s}_{1:t-1}, \mathbf{v}_{1:t-1})} p(\mathbf{v}_{t} \mid \mathbf{s}_{t-1}) \color{#FF8000}{q}_{t}(\mathbf{s}_{t} \mid \mathbf{v}_{t}, \mathbf{s}_{t-1})} \\
 &= \tilde{w}_{t-1}(\mathbf{s}_{1:t-1}) \cdot \frac{f(\mathbf{s}_{t}\mid \mathbf{s}_{t-1}) g(\mathbf{v}_{t} \mid \mathbf{s}_{t})}{p(\mathbf{v}_{t} \mid \mathbf{s}_{t-1}) \color{#FF8000}{q}_{t}(\mathbf{s}_{t} \mid \mathbf{v}_{t}, \mathbf{s}_{t-1})}
-\end{aligned}\end{equation}\tag{22}\label{eq22}$$ 
+\end{aligned}\end{equation}\tag{25}\label{eq25}$$ 
 
 
 Note that in practice the predictive likelihood involves an intractable integral, so we have to approximate it with $$\hat{p}(\mathbf{v}_{t} \mid \mathbf{s}_{t-1}) $$. However, in the ideal case, selecting $$\color{#FF8000}{q}_{t}(\mathbf{s}_{t} \mid \mathbf{s}_{1:t-1}) =  p(\mathbf{s}_{t} \mid \mathbf{v}_{t}, \mathbf{s}_{t-1})$$ and $$\hat{p}(\mathbf{v}_{t} \mid \mathbf{s}_{t-1}) = p(\mathbf{v}_{t} \mid \mathbf{s}_{t-1})$$ leads to the so called "perfect adaptation" . 
@@ -451,7 +459,7 @@ Setting the approximation to the predictive likelihood to $$\hat{p}(\mathbf{v}_{
 $$\begin{equation}\begin{aligned}
 \tilde{w} &= \tilde{w}_{t-1}(\mathbf{s}_{1:t-1}) \cdot \frac{f(\mathbf{s}_{t}\mid \mathbf{s}_{t-1}) \color{green}{g}(\mathbf{v}_{t} \mid \mathbf{s}_{t})}{\hat{p}(\mathbf{v}_{t} \mid \mathbf{s}_{t-1}) \color{#FF8000}{q}_{t}(\mathbf{s}_{t} \mid \mathbf{v}_{t}, \mathbf{s}_{t-1})} \\
 &= \tilde{w}_{t-1}(\mathbf{s}_{1:t-1}) \cdot \frac{\cancel{f(\mathbf{s}_{t}\mid \mathbf{s}_{t-1})} \color{green}{g}(\mathbf{v}_{t} \mid \mathbf{s}_{t})}{\color{green}{g}(\mathbf{v}_{t} \mid \boldsymbol{\mu}_{t}) \cancel{f(\mathbf{s}_{t}\mid \mathbf{s}_{t-1})}}
-\end{aligned}\end{equation}\tag{23}\label{eq23}$$ 
+\end{aligned}\end{equation}\tag{26}\label{eq26}$$ 
 
 ## The Multiple Importance Sampling interpretation <a name="mis"></a>
 
@@ -529,7 +537,7 @@ w_{t}^{m} &\propto \frac{p(\mathbf{s}_{t}^{m} \mid \mathbf{v}_{1:t})}{\color{#FF
 &= \frac{\color{green}{g}(\mathbf{v}_{t} \mid \mathbf{s}_{t}^{m}) \sum_{\color{red}{i}=1}^{M} w_{t-1}^{\color{red}{i}} \color{blue}{f}(\mathbf{s}_{t}^{m} \mid \mathbf{s}_{t-1}^{\color{red}{i}})}{\sum_{\color{red}{i}=1}^{M} \color{#FF8000}{\lambda}_{t}^{i} \color{blue}{f}(\mathbf{s}_{t}^{m} \mid \mathbf{s}_{t-1}^{\color{red}{i}})} \\
 &\approx \frac{\color{green}{g}(\mathbf{v}_{t} \mid \mathbf{s}_{t}^{m}) w_{t-1}^{m}}{\color{#FF8000}{\lambda}_{t}^{m}}
 
-\end{aligned}\end{equation}\tag{24}\label{eq24}$$ 
+\end{aligned}\end{equation}\tag{27}\label{eq27}$$ 
 
 ___
 
