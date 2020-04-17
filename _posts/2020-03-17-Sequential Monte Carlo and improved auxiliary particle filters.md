@@ -185,7 +185,7 @@ Recall that the Monte Carlo method is a general tool to approximate integrals, e
 
 $$
 \mathbb{E}_{p(\mathbf{x})}[f(\mathbf{x})] = \int f(\mathbf{x}) p(\mathbf{x}) \mathrm{d}\mathbf{x} \approx \frac{1}{N} \sum_{n=1}^{N} f(\mathbf{x}_{n}) \qquad \mathbf{x}_n \sim p(\mathbf{x})
-\tag{10}\label{eq10}$$
+\tag{11}\label{eq11}$$
 
 Where $$f(\mathbf{x})$$ is some generic function of $$\mathbf{x}$$. Monte Carlo approximations of this kind are very appealing since unbiased and consistent, and it is easy to show that the variance of the estimate is $$ \mathcal{O}(n^{-1})$$ *regardless* of the dimensionality of the vector $$\mathbf{x}$$. Another simple idea that we will use extensively in particle filtering is that these samples can not only be used to approximate integrals with respect to the target distribution $$p(\mathbf{x})$$, but also to approximate the target itself:
 
@@ -200,14 +200,14 @@ $$\begin{equation}\begin{aligned}
 \mathbb{E}_{p(\mathbf{x})}[f(\mathbf{x})] &= \int f(\mathbf{x}) \cdot p(\mathbf{x}) \mathrm{d}\mathbf{x} \\
 &= \int \frac{f(\mathbf{x}) \cdot p(\mathbf{x})}{q(\mathbf{x})} \cdot q(\mathbf{x}) \mathrm{d} \mathbf{x} \\
 &= \mathbb{E}_{q(\mathbf{x})} \left [ f(\mathbf{x}) \cdot \frac{p(\mathbf{x})}{q(\mathbf{x})} \right ]
-\end{aligned}\end{equation}\tag{11}\label{eq11}$$
+\end{aligned}\end{equation}\tag{12}\label{eq12}$$
 
 Under certain conditions, namely that $$ f(\mathbf{x}) \cdot p(\mathbf{x}) > 0 \Rightarrow q(\mathbf{x}) > 0$$, we have rewritten the expectation under a distribution of choice $$q(\mathbf{x})$$c alled *proposal* which we can sample from. Note that it is not possible to have $$ q(\mathbf{x}) = 0$$, as we will never sample any $$\mathbf{x}_{i}$$ from $$q$$ such that this holds. 
 Let's return in the context of Bayesian inference, where we have a target posterior distribution $$ \pi(\mathbf{x}) = p(\mathbf{x} \mid \mathcal{D}) $$ where $$ \mathcal{D}$$ is any observed data. For example, in state space models $$\mathcal{D} = \mathbf{v}_{1:t}$$. Consider an integral of some function of $$ \mathbf{x}$$ under the posterior: 
 
 $$\begin{equation}\begin{aligned}
 \mathcal{I} = \mathbb{E}_{\pi(\mathbf{x})}[f(\mathbf{x})] = \int f(\mathbf{x}) \pi(\mathbf{x}) 
-\end{aligned}\end{equation}\tag{12}\label{eq12}$$
+\end{aligned}\end{equation}\tag{13}\label{eq13}$$
 
 Note that we can estimate this integral in two main ways with importance sampling: the former which assumes that we know the normalizing constant of the posterior $$ \pi(\mathbf{x})$$, and the latter estimates the normalizing constant too by importance sampling, with the same set of samples. Let's examine the latter option, called *self-normalized* IS estimator:
 
@@ -222,7 +222,7 @@ $$\begin{equation}\begin{aligned}
 \cdot \mathbb{E}_{q}\left [ f(\mathbf{x}) \frac{p(\mathbf{x}, \mathcal{D})}{q(\mathbf{x})} \right ] \\
 &\approx \frac{1}{\cancel{\frac{1}{N}}\sum_{n=1}^{N} \frac{p(\mathbf{x}_i , \mathcal{D})}{q(\mathbf{x}_i)}}
 \cdot ~ \cancel{\frac{1}{N}} \sum_{n=1}^{N} f(\mathbf{x}_i) \frac{p(\mathbf{x}_i, \mathcal{D})}{q(\mathbf{x}_i)} := \widehat{\mathcal{I}}_{SN}
-\end{aligned}\end{equation}\tag{13}\label{eq13}$$
+\end{aligned}\end{equation}\tag{14}\label{eq14}$$
 
 The ratio $$ \frac{p(\mathbf{x}_i, \mathcal{D})}{q(\mathbf{x}_i)}$$ is called the importance weight: it can be intepreted as "adjusting" the estimate of the integral by taking into account that the samples were generated from the "wrong" distribution. If the normalizing constant was known, then we would build a *non-normalized* IS estimator that has different properties (with an almost equivalent derivation, omitted):  
 
@@ -247,13 +247,13 @@ So, let's suppose then that we are trying to find a particle approximation for o
 
 $$\begin{equation}\begin{aligned}
 \tilde{w}_{t} = \frac{\gamma_t(\mathbf{s}_{1:t})}{\color{#FF8000}{q}_{t}(\mathbf{s}_{1:t})}
-\end{aligned}\end{equation}\tag{14}\label{eq14}$$
+\end{aligned}\end{equation}\tag{15}\label{eq15}$$
 
 With these , we can build the self-normalized importance sampling estimator as we have seen in the previous section. Recalling that all distributions we are dealing with are actually just a set of (possibly weighted particles), we can then approximate the (normalized) target by replacing the proposal with its particle approximation in \eqref{eq13}: 
 
 $$\begin{equation}\begin{aligned}
  p(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t}) \approx \sum_{n=1}^{N} w_{t}^{n} \delta_{\mathbf{s}_{1:t}}(\mathbf{s}_{1:t}^{n}) \qquad \mathbf{s}_{1:t}^{n} \sim \color{#FF8000}{q}_{t}(\mathbf{s}_{1:t})
-\end{aligned}\end{equation}\tag{15}\label{eq15}$$
+\end{aligned}\end{equation}\tag{16}\label{eq16}$$
 
 where $$w_{t}^{n}$$ are the normalized weights, and we are using $$N$$ sample trajectories for our proposal. Notice here the reason we can focus on $$p(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t})$$ instead of $$p(\mathbf{s}_t \mid \mathbf{v}_{1:t})$$ (more commonly needed). Since the latter is just a marginal of the former, and we have (approximate) samples from  $$p(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t})$$, we can form an approximation to $$p(\mathbf{s}_t \mid \mathbf{v}_{1:t})$$ simply as:
 
@@ -275,13 +275,13 @@ In other words, to obtain a sample from the full proposal at time $$t$$, we can 
 $$\begin{equation}\begin{aligned}
  \tilde{w}_{t}\left(\mathbf{s}_{1:t}\right) &=\frac{\gamma_{t}\left(\mathbf{s}_{1:t}\right)}{\color{#FF8000}{q}_{t}\left(\mathbf{s}_{1:t}\right)} \\ &=\frac{1}{\color{#FF8000}{q}_{t-1}\left(\mathbf{s}_{1:t-1}\right)} \frac{\gamma_{t-1}\left(\mathbf{s}_{1:t-1}\right)}{\gamma_{t-1}\left(\mathbf{s}_{1:t-1}\right)} \frac{\gamma_{t}\left(\mathbf{s}_{1:t}\right)}{\color{#FF8000}{q}_{t}\left(\mathbf{s}_{t} | \mathbf{s}_{1:t-1}\right)} \\ &=\frac{\gamma_{t-1}\left(\mathbf{s}_{1:t-1}\right)}{\color{#FF8000}{q}_{t-1}\left(\mathbf{s}_{1:t-1}\right)} \frac{\gamma_{t}\left(\mathbf{s}_{1:t}\right)}{\gamma_{t-1}\left(\mathbf{s}_{1:t-1}\right) \color{#FF8000}{q}_{t}\left(\mathbf{s}_{t} | \mathbf{s}_{1:t-1}\right)} \\
  &= \tilde{w}_{t-1}(\mathbf{s}_{1:t-1}) \cdot \frac{\gamma_{t}(\mathbf{s}_{1:t})}{\gamma_{t-1}(\mathbf{s}_{1:t-1}) \color{#FF8000}{q}_{t}(\mathbf{s}_{t}\mid \mathbf{s}_{1:t-1})}
-\end{aligned}\end{equation}\tag{16}\label{eq16}$$
+\end{aligned}\end{equation}\tag{17}\label{eq17}$$
 
 Therefore, we can approximate our desired distribution as:
 
 $$\begin{equation}\begin{aligned}
 p(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t}) \approx \sum_{n=1}^{N} w_{t}^{n} \delta_{\mathbf{s}_{1:t}}(\mathbf{s}_{1:t}^{n})
-\end{aligned}\end{equation}\tag{17}\label{eq17}$$
+\end{aligned}\end{equation}\tag{18}\label{eq18}$$
 
 with the weights $$w_{t}^{n}$$ defined as the normalized weights found in \eqref{eq15}.
 This is the essence of SIS (Sequential Importance Sampling). Important note: this is a standard presentation you can find e.g. from Johansen et al [2]. However, you should note that for example, if we put this into context of state space models say, then the proposal can depend on measurements too. Crucially, although it would be natural to split it as: $$ \color{#FF8000}{q}_{t}\left(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t}\right)= \color{#FF8000}{q}_{t-1}\left(\mathbf{s}_{1:t-1} \mid \mathbf{v}_{1:\color{red}{t-1}}\right) \color{#FF8000}{q}_{t}\left(\mathbf{s}_{t} \mid \mathbf{s}_{1:t-1}, \mathbf{v}_{1:\color{red}{t}}\right)$$ this is usually a *choice*, we could make both terms dependent on the current measurements! We will come back to this when discussing the Auxiliary Particle Filter. 
@@ -291,7 +291,7 @@ $$\begin{equation}\begin{aligned}
 \tilde{w}_t &= \tilde{w}_{t-1}(\mathbf{s}_{1:t-1}) \cdot \frac{\gamma_{t}(\mathbf{s}_{1:t})}{\gamma_{t-1}(\mathbf{s}_{1:t-1}) \color{#FF8000}{q}_{t}(\mathbf{s}_{t}\mid \mathbf{s}_{1:t-1})} \\
 &=  \tilde{w}_{t-1}(\mathbf{s}_{1:t-1}) \cdot \frac{\color{blue}{f}(\mathbf{s}_{t}\mid \mathbf{s}_{t-1}) \color{green}{g}(\mathbf{v}_{t} \mid \mathbf{s}_{t}) \overbrace{p(\mathbf{s}_{1:t-1}, \mathbf{v}_{1:t-1})}^{\cancel{\gamma_{t-1}(\mathbf{s}_{1:t-1})}}}{\cancel{\gamma_{t-1}(\mathbf{s}_{1:t-1})} \color{#FF8000}{q}_{t}(\mathbf{s}_{t} \mid \mathbf{s}_{1:t-1})} \\
 &= \tilde{w}_{t-1}(\mathbf{s}_{1:t-1}) \cdot \frac{\color{blue}{f}(\mathbf{s}_{t}\mid \mathbf{s}_{t-1}) \color{green}{g}(\mathbf{v}_{t} \mid \mathbf{s}_{t})}{\color{#FF8000}{q}_{t}(\mathbf{s}_{t} \mid \mathbf{s}_{1:t-1})}
-\end{aligned}\end{equation}\tag{18}\label{eq18}$$$$
+\end{aligned}\end{equation}\tag{19}\label{eq19}$$$$
 
 
 If you are given a choice for the proposal $$\color{#FF8000}{q}_{t}(\mathbf{s}_{t} \mid \mathbf{s}_{1:t-1}) $$, then you have a concrete algorithm to sequentially approximate $$\left \{ p(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t}) \right \}_{t \geq 1}$$, with constant time per update (remembering that throughout the algorithm only uses unnormalized weights, and only when one wants to approximate the desired distribution one has to normalize the weights). This algorithm is neat, but being a special case of IS it still suffers from variance of the weights scaling exponentially with time. This results in well known problems, the first of which is known under the names of *sample degeneracy* or *weight degeneracy*. Basically, if you actually run this after not-so-many iterations there will be one weight $$\approx 1$$ and all other will be zero, which equates to approximate the target with one sample. 
@@ -378,7 +378,7 @@ $$\begin{equation}\begin{aligned}
 &= \int p(\mathbf{s}_{1:t} , \mathbf{v}_{1:t}) \cdot {\color{blue}{f}}(\mathbf{s}_{t+1} \mid \mathbf{s}_{t}) \cdot {\color{green}{g}}(\mathbf{v}_{t+1} \mid \mathbf{s}_{t+1}) \mathrm{d} \mathbf{s}_{t+1} \\
 &=  p(\mathbf{s}_{1:t} , \mathbf{v}_{1:t}) \int {\color{blue}{f}}(\mathbf{s}_{t+1} \mid \mathbf{s}_{t}) \cdot {\color{green}{g}}(\mathbf{v}_{t+1} \mid \mathbf{s}_{t+1}) \mathrm{d} \mathbf{s}_{t+1} \\
 &=  p(\mathbf{s}_{1:t} , \mathbf{v}_{1:t}) \cdot \underbrace{p(\mathbf{v}_{t+1} \mid \mathbf{s}_{t})}_{"predictive~likelihood"} 
-\end{aligned}\end{equation}\tag{19}\label{eq19}$$
+\end{aligned}\end{equation}\tag{20}\label{eq20}$$
 
 Which we see is equivalent to the product between what would be the target in standard SMC times the so called "predictive likelihood" $$p(\mathbf{v}_{t+1} \mid \mathbf{s}_{t})$$. The weight update can be derived by making use of this: 
 
@@ -386,7 +386,7 @@ $$\begin{equation}\begin{aligned}
 \tilde{w} &= \tilde{w}_{t-1}(\mathbf{s}_{1:t-1}) \cdot \frac{\gamma_{t}(\mathbf{s}_{1:t})}{\gamma_{t-1}(\mathbf{s}_{1:t-1}) \color{#FF8000}{q}_{t}(\mathbf{s}_{t}\mid \mathbf{s}_{1:t-1})} \\
 &=  \tilde{w}_{t-1}(\mathbf{s}_{1:t-1}) \cdot  \frac{p(\mathbf{s}_{1:t}, \mathbf{v}_{1:t}) p(\mathbf{v}_{t+1} \mid \mathbf{s}_{t})}{p(\mathbf{s}_{1:t-1}, \mathbf{v}_{1:t-1}) p(\mathbf{v}_{t} \mid \mathbf{s}_{t-1}) \color{#FF8000}{q}_{t}(\mathbf{s}_{t} \mid \mathbf{s}_{1:t-1})} \\
 &= \tilde{w}_{t-1}(\mathbf{s}_{1:t-1}) \cdot \frac{\cancel{p(\mathbf{s}_{1:t-1}, \mathbf{v}_{1:t-1})} \color{blue}{f}(\mathbf{s}_{t} \mid \mathbf{s}_{t-1}) \color{green}{g}(\mathbf{v}_{t} \mid \mathbf{s}_{t}) p(\mathbf{v}_{t+1} \mid \mathbf{s}_{t})}{\cancel{p(\mathbf{s}_{1:t-1}, \mathbf{v}_{1:t-1})} p(\mathbf{v}_{t} \mid \mathbf{s}_{t-1}) \color{#FF8000}{q}_{t}(\mathbf{s}_{t} \mid \mathbf{s}_{1:t-1})} 
-\end{aligned}\end{equation}\tag{20}\label{eq20}$$
+\end{aligned}\end{equation}\tag{21}\label{eq21}$$
 
 
 Suppose we have been running the APF for $$1\dots t-1$$ iterations, and now we want a particle approximation of $$p(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t})$$. We can't compute the weights as in APF, because recall that it sequentially estimates something different to what we want, namely $$p(\mathbf{s}_{1:t-1} \mid \mathbf{v}_{1:t}) \cdot p(\mathbf{v}_{t} \mid \mathbf{s}_{t-1})$$. Thus, to compute the weights for our approximation, we have to use $$\gamma_t(\mathbf{s}_{1:t}) = p(\mathbf{s}_{1:t}, \mathbf{v}_{1:t})$$ and $$\gamma_{t-1}(\mathbf{s}_{1:t-1}) = p(\mathbf{s}_{1:t-1} , \mathbf{v}_{1:t}) \cdot p(\mathbf{v}_{t} \mid \mathbf{s}_{t-1})$$. Doing the whole derivation: 
@@ -397,7 +397,7 @@ $$\begin{equation}\begin{aligned}
 \tilde{w}_t &= \tilde{w}_{t-1}(\mathbf{s}_{1:t-1}) \cdot  \frac{p(\mathbf{s}_{1:t}, \mathbf{v}_{1:t})}{ p(\mathbf{s}_{1:t-1}, \mathbf{v}_{1:t-1}) p(\mathbf{v}_{t} \mid \mathbf{s}_{t-1}) \color{#FF8000}{q}_{t}(\mathbf{s}_{t} \mid \mathbf{v}_{t}, \mathbf{s}_{t-1})}  \\
 &=  \tilde{w}_{t-1}(\mathbf{s}_{1:t-1}) \cdot \frac{\cancel{p(\mathbf{s}_{1:t-1}, \mathbf{v}_{1:t-1})}f(\mathbf{s}_{t}\mid \mathbf{s}_{t-1}) g(\mathbf{v}_{t} \mid \mathbf{s}_{t})}{\cancel{p(\mathbf{s}_{1:t-1}, \mathbf{v}_{1:t-1})} p(\mathbf{v}_{t} \mid \mathbf{s}_{t-1}) \color{#FF8000}{q}_{t}(\mathbf{s}_{t} \mid \mathbf{v}_{t}, \mathbf{s}_{t-1})} \\
 &= \tilde{w}_{t-1}(\mathbf{s}_{1:t-1}) \cdot \frac{f(\mathbf{s}_{t}\mid \mathbf{s}_{t-1}) g(\mathbf{v}_{t} \mid \mathbf{s}_{t})}{p(\mathbf{v}_{t} \mid \mathbf{s}_{t-1}) \color{#FF8000}{q}_{t}(\mathbf{s}_{t} \mid \mathbf{v}_{t}, \mathbf{s}_{t-1})}
-\end{aligned}\end{equation}\tag{21}\label{eq21}$$ 
+\end{aligned}\end{equation}\tag{22}\label{eq22}$$ 
 
 
 Note that in practice the predictive likelihood involves an intractable integral, so we have to approximate it with $$\hat{p}(\mathbf{v}_{t} \mid \mathbf{s}_{t-1}) $$. However, in the ideal case, selecting $$\color{#FF8000}{q}_{t}(\mathbf{s}_{t} \mid \mathbf{s}_{1:t-1}) =  p(\mathbf{s}_{t} \mid \mathbf{v}_{t}, \mathbf{s}_{t-1})$$ and $$\hat{p}(\mathbf{v}_{t} \mid \mathbf{s}_{t-1}) = p(\mathbf{v}_{t} \mid \mathbf{s}_{t-1})$$ leads to the so called "perfect adaptation" . 
@@ -407,7 +407,7 @@ Setting the approximation to the predictive likelihood to $$\hat{p}(\mathbf{v}_{
 $$\begin{equation}\begin{aligned}
 \tilde{w} &= \tilde{w}_{t-1}(\mathbf{s}_{1:t-1}) \cdot \frac{f(\mathbf{s}_{t}\mid \mathbf{s}_{t-1}) \color{green}{g}(\mathbf{v}_{t} \mid \mathbf{s}_{t})}{\hat{p}(\mathbf{v}_{t} \mid \mathbf{s}_{t-1}) \color{#FF8000}{q}_{t}(\mathbf{s}_{t} \mid \mathbf{v}_{t}, \mathbf{s}_{t-1})} \\
 &= \tilde{w}_{t-1}(\mathbf{s}_{1:t-1}) \cdot \frac{\cancel{f(\mathbf{s}_{t}\mid \mathbf{s}_{t-1})} \color{green}{g}(\mathbf{v}_{t} \mid \mathbf{s}_{t})}{\color{green}{g}(\mathbf{v}_{t} \mid \boldsymbol{\mu}_{t}) \cancel{f(\mathbf{s}_{t}\mid \mathbf{s}_{t-1})}}
-\end{aligned}\end{equation}\tag{22}\label{eq22}$$ 
+\end{aligned}\end{equation}\tag{23}\label{eq23}$$ 
 
 ## The Multiple Importance Sampling interpretation <a name="mis"></a>
 
@@ -485,22 +485,22 @@ w_{t}^{m} &\propto \frac{p(\mathbf{s}_{t}^{m} \mid \mathbf{v}_{1:t})}{\color{#FF
 &= \frac{\color{green}{g}(\mathbf{v}_{t} \mid \mathbf{s}_{t}^{m}) \sum_{\color{red}{i}=1}^{M} w_{t-1}^{\color{red}{i}} \color{blue}{f}(\mathbf{s}_{t}^{m} \mid \mathbf{s}_{t-1}^{\color{red}{i}})}{\sum_{\color{red}{i}=1}^{M} \color{#FF8000}{\lambda}_{t}^{i} \color{blue}{f}(\mathbf{s}_{t}^{m} \mid \mathbf{s}_{t-1}^{\color{red}{i}})} \\
 &\approx \frac{\color{green}{g}(\mathbf{v}_{t} \mid \mathbf{s}_{t}^{m}) w_{t-1}^{m}}{\color{#FF8000}{\lambda}_{t}^{m}}
 
-\end{aligned}\end{equation}\tag{23}\label{eq23}$$ 
+\end{aligned}\end{equation}\tag{24}\label{eq24}$$ 
 
 ___
 
 We will show how the algorithm, under certain approximations, leads to BPF and APF respectively with two different choices of $$\lambda$$'s. We can also show how these choices are somewhat crude approximations: this will lead to the Improved Auxiliary Particle Filter.   
 
 Let's start with the first of the three main stages, namely *proposal adaptation*. 
-In this stage, weights akin to the APF "preweights" are computed in order to build the MIS proposal, which is a mixture (in this case of transition densities or *kernels*, but this is a choice really). The accuracy of inferences depends on the discrepancy between the numerator and denominator in \eqref{eq23}. 
+In this stage, weights akin to the APF "preweights" are computed in order to build the MIS proposal, which is a mixture (in this case of transition densities or *kernels*, but this is a choice really). The accuracy of inferences depends on the discrepancy between the numerator and denominator in \eqref{eq24}. 
 
-Let's examine more closely again how PFs act under the MIS interpretation. In \eqref{eq23} the last approximation is derived by essentially **assuming well separated kernels**. Pay attention to the fact that \eqref{eq23} is a function of a specific particle $$m$$. If the distance between kernels $$\left \{ \color{blue}{f}(\mathbf{s}_t \mid \mathbf{s}_{t-1}^{m}) \right \}_{m=1}^{M} $$ is high with respect to the kernel's width, then the two sums in the numerator and denominator can be well approximated by a single term. More precisely, consider that the $$m$$-th particle $$\mathbf{s}_{t}^{m}$$ has been simulated from kernel $$ k \in \left \{ 1 \dots M \right \}$$. If the other kernels $$ \color{blue}{f}(\mathbf{s}_t \mid \mathbf{s}_{t-1}^{j})$$ with $$j \neq k$$ take small values when evaluated at $$\boldsymbol{\mu}_{t}^{k}$$, then 
+Let's examine more closely again how PFs act under the MIS interpretation. In \eqref{eq24} the last approximation is derived by essentially **assuming well separated kernels**. Pay attention to the fact that \eqref{eq24} is a function of a specific particle $$m$$. If the distance between kernels $$\left \{ \color{blue}{f}(\mathbf{s}_t \mid \mathbf{s}_{t-1}^{m}) \right \}_{m=1}^{M} $$ is high with respect to the kernel's width, then the two sums in the numerator and denominator can be well approximated by a single term. More precisely, consider that the $$m$$-th particle $$\mathbf{s}_{t}^{m}$$ has been simulated from kernel $$ k \in \left \{ 1 \dots M \right \}$$. If the other kernels $$ \color{blue}{f}(\mathbf{s}_t \mid \mathbf{s}_{t-1}^{j})$$ with $$j \neq k$$ take small values when evaluated at $$\boldsymbol{\mu}_{t}^{k}$$, then 
 
 $$
 \sum_{\color{red}{i}=1}^{M} w_{t-1}^{\color{red}{i}} \color{blue}{f}(\mathbf{s}_{t}^{m} \mid \mathbf{s}_{t-1}^{\color{red}{i}}) \approx w_{t-1}^{k} \color{blue}{f}(\mathbf{s}_{t}^{m} \mid \mathbf{s}_{t-1}^{k}) \qquad \sum_{\color{red}{i}=1}^{M} \color{#FF8000}{\lambda}_{t}^{\color{red}{i}} \color{blue}{f}(\mathbf{s}_{t}^{m} \mid \mathbf{s}_{t-1}^{\color{red}{i}}) \approx \color{#FF8000}{\lambda}_{t}^{k} \color{blue}{f}(\mathbf{s}_{t}^{m} \mid \mathbf{s}_{t-1}^{k})
 $$
 
-which are indeed the approximations carried out in the last line of \eqref{eq23}.
+which are indeed the approximations carried out in the last line of \eqref{eq24}.
 
 The next issue to be discussed is the choice of mixture coefficients in the proposal $$  \color{#FF8000}{\lambda}_{t}^{m}$$. 
 Notice that by setting the proposal to the (approximate) predictive distribution, $$\color{#FF8000}{\Psi}_t(\mathbf{s}_t) := p(\mathbf{s}_{t} \mid \mathbf{v}_{1:t-1}) \approx \sum_{i=1}^{M} w_{t-1}^{i} \color{blue}{f}(\mathbf{s}_t \mid \mathbf{s}_{t-1}^{i})  $$ , i.e. setting $$ \color{#FF8000}{\lambda}_{t}^{m} = w_{t-1}^{m} $$ then we are trying to match the right term of the numerator. This results in low discrepancy between denominator and numerator, *if* we had observations that are little informative, and recovers the BPF. However, if the likelihood is high then this is clearly a bad choice. This can be seen by plugging the likelihood into the sum that composes the predictive distribution:  $$\sum_{\color{red}{i}=1}^{M} \color{green}{g}(\mathbf{v}_{t} \mid \mathbf{s}_{t}^{m}) w_{t-1}^{\color{red}{i}} \color{blue}{f}(\mathbf{s}_{t}^{m} \mid \mathbf{s}_{t-1}^{\color{red}{i}}) $$ . Some kernels could be severely amplified with respect to others, thereby making the numerator very different to the proposal. The APF tries to improve on BPF *by trying to match the whole numerator with the proposal, and not just part of it*. It does so with a different choice of $$ \color{#FF8000}{\lambda}_{t}^{m} $$ in a very natural way: the only term we were not matching previously is $$ \color{green}{g}(\mathbf{v}_{t} \mid \mathbf{s}_{t}^{m}) $$. Importantly, this is a function of $$\mathbf{s}_{t}^{m}$$
