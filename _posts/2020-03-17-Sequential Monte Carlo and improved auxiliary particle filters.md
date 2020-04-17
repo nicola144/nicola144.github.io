@@ -239,16 +239,14 @@ Where $$Z$$ is the normalizing constant of the posterior distribution $$\pi(\mat
 It is pretty intuitive that our IS estimates can only be as good as our proposal. In general, we should seek a proposal that minimizes the variance of our estimators. This follows from the fact that the variance of a MC estimate (which is a sample average) is the expected square error from the true value of the integral. Let us see this by considering, for simplicity, the variance of the non-normalized estimator: 
 
 $$ 
-
-\mathbb{V}_{q} [ \widehat{\mathcal{I}}_{NN} ] = \mathbb{E}_{q} \left [ \left ( \widehat{\mathcal{I}}_{NN} - \mathbb{E}_{q} \left [  \frac{f(\mathbf{x}) \pi(\mathbf{x})}{q(\mathbf{x})} \right ]} \right )^{2} \right ] = \mathbb{E}_{q} \left [ \left ( \widehat{\mathcal{I}}_{NN} - \mathcal{I} \right )^{2} \right ]
-
+\mathbb{V}_{q} [ \widehat{\mathcal{I}}_{NN} ] =  \mathbb{E}_{q} \left [ \left ( \widehat{\mathcal{I}}_{NN} - \mathbb{E}_{q} \left [  \frac{f(\mathbf{x}) \pi(\mathbf{x})}{q(\mathbf{x})} \right ] \right )^{2} \right ] = \mathbb{E}_{q} \left [ \left ( \widehat{\mathcal{I}}_{NN} - \mathcal{I} \right )^2  \right ] 
 $$
 
 Which follows by simply applying the definition of variance (recalling that our samples are obtained through the proposal $$q$$ so that all expectations are under $$q$$). In order to derive the proposal that minimizes the variance, it is easier to inspect a different expression for the variance $$\mathbb{V}_{q} [ \widehat{\mathcal{I}}_{NN} ] $$, which uses the identity that variance equals second moment minus first moment squared, instead of the definition: 
 
 $$ 
 
-\mathbb{V}_{q} [ \widehat{\mathcal{I}}_{NN} ] = \frac{1}{N} \mathbb{V}_{q} \left [ \frac{f(\mathbf{x})\pi(\mathbf{x})}{q(\mathbf{x})} \right ] = \frac{1}{N} \mathbb{E} \left [ \left ( \frac{f(\mathbf{x})\pi(\mathbf{x})}{q(\mathbf{x})} \right )^2 \right ] - \frac{1}{N}  \left (  \mathbb{E} \left [ \frac{f(\mathbf{x})\pi(\mathbf{x})}{q(\mathbf{x})} \right ] \right )^2
+\mathbb{V}_{q} [ \widehat{\mathcal{I}}_{NN} ] = \frac{1}{N} \mathbb{V}_{q} \left [ \frac{f(\mathbf{x})\pi(\mathbf{x})}{q(\mathbf{x})} \right ] = \frac{1}{N} \mathbb{E}_q \left [ \left ( \frac{f(\mathbf{x})\pi(\mathbf{x})}{q(\mathbf{x})} \right )^2 \right ] - \frac{1}{N}  \underbrace{\left (  \mathbb{E}_q \left [ \frac{f(\mathbf{x})\pi(\mathbf{x})}{q(\mathbf{x})} \right ] \right )^2}_{(\mathcal{I}^2)}
 $$
 
 ### Sequential Importance Sampling <a name="sis"></a>
