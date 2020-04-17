@@ -503,6 +503,7 @@ At time $$t \geq 2$$, with particle/weight set $$\left \{ \mathbf{s}_{t-1}^{m}, 
     <li> Preweights are computed as:
     $ \lambda_{t}^{m} \propto {\color{green}g}(\mathbf{v}_{t} \mid \boldsymbol{\mu}_{t}^{m}) w_{t-1}^{m} $ for all $m$ </li>
   </ul> 
+ </li>
   
 <li> <b> Delayed (multinomial) resampling step </b> : Sample with replacement from the previous particle set with probabilities $\lambda_{t}^{m}$ to obtain $\left \{ \mathbf{r}_{t-1}^{m} \right \}_{m=1}^{M} $ as well as associated means $\left \{  ^{r \hspace{-1pt}}\boldsymbol{\mu}_{t}^{m} \right \}_{m=1}^{M} $. Here however, instead of considering this generic resampling with a new particle set, let's be more specific. Notice that if this step uses multinomial resampling, what we just said is equivalent to: 
   <ul>
