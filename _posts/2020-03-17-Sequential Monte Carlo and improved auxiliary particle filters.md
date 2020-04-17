@@ -240,7 +240,7 @@ It is pretty intuitive that our IS estimates can only be as good as our proposal
 
 $$ 
 
-\mathbb{V}_{q} [ \widehat{\mathcal{I}}_{NN} ] = \mathbb{E}_{q} \left [ \left ( \widehat{\mathcal{I}}_{NN} - \overbrace{\mathbb{E}_{q} \left [  \frac{f(\mathbf{x}) \pi(\mathbf{x})}{q(\mathbf{x})} \right ]}^{= \mathcal{I}} \right )^{2} \right ]
+\mathbb{V}_{q} [ \widehat{\mathcal{I}}_{NN} ] = \mathbb{E}_{q} \left [ \left ( \widehat{\mathcal{I}}_{NN} - \mathbb{E}_{q} \left [  \frac{f(\mathbf{x}) \pi(\mathbf{x})}{q(\mathbf{x})} \right ]} \right )^{2} \right ] = \mathbb{E}_{q} \left [ \left ( \widehat{\mathcal{I}}_{NN} - \mathcal{I} \right )^{2} \right ]
 
 $$
 
@@ -248,7 +248,7 @@ Which follows by simply applying the definition of variance (recalling that our 
 
 $$ 
 
-\mathbb{V}_{q} [ \widehat{\mathcal{I}}_{NN} ] = 
+\mathbb{V}_{q} [ \widehat{\mathcal{I}}_{NN} ] = \frac{1}{N} \mathbb{V}_{q} \left [ \frac{f(\mathbf{x})\pi(\mathbf{x})}{q(\mathbf{x})} \right ] = \frac{1}{N} \mathbb{E} \left [ \left ( \frac{f(\mathbf{x})\pi(\mathbf{x})}{q(\mathbf{x})} \right )^2 \right ] - \frac{1}{N}  \left (  \mathbb{E} \left [ \frac{f(\mathbf{x})\pi(\mathbf{x})}{q(\mathbf{x})} \right ] \right )^2
 $$
 
 ### Sequential Importance Sampling <a name="sis"></a>
