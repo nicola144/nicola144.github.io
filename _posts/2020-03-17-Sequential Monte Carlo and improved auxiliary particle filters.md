@@ -468,27 +468,58 @@ Recently in [3] a novel re-intepretation of classic particle filters such as BPF
 In this section, we drop the $$\gamma$$ notation since our target is always assumed to be $$p(\mathbf{s}_{t} \mid \mathbf{v}_{1:t})$$. Note that in order to sequentially estimate this distribution and derive the importance weights, we will make use of \eqref{eq8} rather than \eqref{eq7}, that is our numerator of the (unnormalized) weights will be $$p(\mathbf{s}_{t} \mid \mathbf{v}_{1:t-1}) \color{green}{g}(\mathbf{v}_{t} \mid \mathbf{s}_{t}) $$ and not $$p(\mathbf{s}_{1:t-1}, \mathbf{v}_{1:t-1}) \color{blue}{f}(\mathbf{s}_{t} \mid \mathbf{s}_{t-1}) \color{green}{g}(\mathbf{v}_{t} \mid \mathbf{s}_{t})$$. 
 Moreover, for the APF it assumed the common approximation to the predictive likelihood described earlier $$g(\mathbf{v}_{t} \mid \boldsymbol{\mu}_{t})$$, where $$ \boldsymbol{\mu}_{t} := \mathbb{E}_{\color{blue}{f}(\mathbf{s}_{t} \mid \mathbf{s}_{t-1})} [ \mathbf{s}_t ] $$. Finally, the proposal is selected to be the transition density. 
 
----
+<div id="example1">
+  <i> <b> Algorithm 1: Sequential Monte Carlo / Sequential Importance Resampling </b> </i> <br>
 
-**Algorithm 3: APF (again)**
+
+  At time $t=1$: 
+  <ol>
+    <li> <b>Propagation</b> : sample from proposal $\mathbf{s}_{1}^{n} \sim {\color{#FF8000}q}_{1}(\mathbf{s}_1)$ </li>
+    <li> <b>Update</b>: bla perche PERCHEE </li>
+    <li> <b>Resample</b>: $\left \{ \mathbf{s}_{1}^{n} , w_{1}^{n} \right \}_{n=1}^{N} $ to obtain $ \left \{ \mathbf{r}_{1}^{n}, 1/N \right \}_{n=1}^{N} $ </li>
+  </ol>
+
+  At time $t \geq 2$:
+  <ol>
+    <li> <b>Propagation</b> : sample from proposal $\mathbf{s}_{t}^{n} \sim {\color{#FF8000}q}_{t}(\mathbf{s}_{t} \mid \mathbf{r}_{1:t-1}^{n})$ and set $ \mathbf{s}_{1:t}^{n} \leftarrow (\mathbf{r}_{1:t-1}^{n}, \mathbf{s}_{t}^{n})$ </li>
+    <li> <b>Update</b>: </li>
+    <li> <b>Resample</b>: $\left \{ \mathbf{s}_{1:t}^{n} , w_{t}^{n} \right \}_{n=1}^{N} $ to obtain $ \left \{ \mathbf{r}_{1:t}^{n}, 1/N \right \}_{n=1}^{N} $  </li>
+ </ol>
+
+
+<div id="example1">
+
+<i> <b> Algorithm 3: APF (again) </b> </i> <br> 
 
 At time $$t=1$$: draw M i.i.d. samples from the prior proposal $$ p(\mathbf{s}_1) $$
 
 At time $$t \geq 2$$, with particle/weight set $$\left \{ \mathbf{s}_{t-1}^{m}, w_{t-1}^{m} \right \}_{m=1}^{M} $$:
 
-1. **Preweights computation**: 
-    - Compute $$\boldsymbol{\mu}_{t}^{m} := \mathbb{E}_{\color{blue}{f}(\mathbf{s}_{t} \mid \mathbf{s}_{t-1}^{m})} [ \mathbf{s}_t ]$$  for all $$m$$
-    - *Preweights* are computed as:
-    $$ \lambda_{t}^{m} \propto \color{green}{g}(\mathbf{v}_{t} \mid \boldsymbol{\mu}_{t}^{m}) w_{t-1}^{m} $$ for all $$m$$
-2. **Delayed (multinomial) resampling step:** Sample with replacement from the previous particle set with probabilities $$\lambda_{t}^{m}$$ to obtain $$\left \{ \mathbf{r}_{t-1}^{m} \right \}_{m=1}^{M} $$ as well as associated means $$\left \{  ^{r \hspace{-1pt}}\boldsymbol{\mu}_{t}^{m} \right \}_{m=1}^{M} $$. Here however, instead of considering this generic resampling with a new particle set, let's be more specific. Notice that if this step uses multinomial resampling, what we just said is equivalent to: 
-    - Selecting resampled **indices** $$ r^{m}, ~~ m= 1 \dots M$$ with probability mass function given by $$\Pr(r^{m} = j) = \lambda_{t}^{j}$$ for $$j \in \left \{ 1 \dots M \right \}$$. Having this representation with resampled indices from the previous particle set instead of using a new particle set will be useful. 
+<ol>
+  
+<li> <b> Preweights computation </b> :
+  <ul>
+    <li> Compute $\boldsymbol{\mu}_{t}^{m} := \mathbb{E}_{{\color{blue}f}(\mathbf{s}_{t} \mid \mathbf{s}_{t-1}^{m})} [ \mathbf{s}_t ]$  for all $m$ </li>
+    <li> Preweights are computed as:
+    $ \lambda_{t}^{m} \propto {\color{green}g}(\mathbf{v}_{t} \mid \boldsymbol{\mu}_{t}^{m}) w_{t-1}^{m} $ for all $m$ </li>
+  </ul> 
+  
+<li> <b> Delayed (multinomial) resampling step </b> : Sample with replacement from the previous particle set with probabilities $\lambda_{t}^{m}$ to obtain $\left \{ \mathbf{r}_{t-1}^{m} \right \}_{m=1}^{M} $ as well as associated means $\left \{  ^{r \hspace{-1pt}}\boldsymbol{\mu}_{t}^{m} \right \}_{m=1}^{M} $. Here however, instead of considering this generic resampling with a new particle set, let's be more specific. Notice that if this step uses multinomial resampling, what we just said is equivalent to: 
+  <ul>
+    <li> Selecting resampled **indices** $ r^{m}, ~~ m= 1 \dots M$ with probability mass function given by $\Pr(r^{m} = j) = \lambda_{t}^{j}$ for $j \in \left \{ 1 \dots M \right \}$. Having this representation with resampled indices from the previous particle set instead of using a new particle set will be useful. </li>
+  </ul>
+ </li>
     
-3. **Propagation**: Sample $$\mathbf{s}_{t}^{m} \sim \color{blue}{f}(\mathbf{s}_t \mid \mathbf{r}_{t-1}^{m}) $$ or equivalently $$\mathbf{s}_{t}^{m} \sim \color{blue}{f}(\mathbf{s}_t \mid \mathbf{s}_{t-1}^{r^{m}}) $$ for $$m = 1, \dots, M$$
+<li> <b> Propagation </b> : Sample $\mathbf{s}_{t}^{m} \sim {\color{blue}f}(\mathbf{s}_t \mid \mathbf{r}_{t-1}^{m}) $ or equivalently $\mathbf{s}_{t}^{m} \sim {\color{blue}f}(\mathbf{s}_t \mid \mathbf{s}_{t-1}^{r^{m}}) $ for $m = 1, \dots, M$ <\li>
 
-4. **Weight update**: Compute weights:
-    $$\tilde{w}_{t} =  \frac{\color{green}{g}(\mathbf{v}_t \mid \mathbf{s}_{t}^{m})}{\color{green}{g}(\mathbf{v}_{t} \mid \boldsymbol{\mu}_{t}^{r^{m}} )}$$
+4. <li> <b> Weight update </b> : Compute weights:
+    $\tilde{w}_{t} =  \frac{{\color{green}g}(\mathbf{v}_t \mid \mathbf{s}_{t}^{m})}{{\color{green}g}(\mathbf{v}_{t} \mid \boldsymbol{\mu}_{t}^{r^{m}} )}$ </li> 
+    
+</ol>
 
----
+</div>
+
+<br>
 
 It was not immediate for me to check that indeed this algorithm does exactly the same thing as if we used Algorithm 2 with the assumptions above.
 
