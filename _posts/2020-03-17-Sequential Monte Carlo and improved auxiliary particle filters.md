@@ -165,11 +165,16 @@ Which is the indeed same result that we got through the prediction and correctio
 <div id="example1">
   
 $$\begin{equation}\begin{aligned}
- p(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t}) =  p(\mathbf{s}_{1:t-1} \mid \mathbf{v}_{1:t-1}) \frac{\color{blue}{f}(\mathbf{s}_{t} \mid \mathbf{s}_{t-1}) \color{green}{g}(\mathbf{v}_{t} \mid \mathbf{s}_{t})}{p(\mathbf{v}_{t} \mid \mathbf{v}_{1:t-1})} \qquad p(\mathbf{s}_{t} \mid \mathbf{v}_{1:t}) = \frac{p(\mathbf{s}_{t} \mid \mathbf{v}_{1:t-1}) \color{green}{g}(\mathbf{v}_{t} \mid \mathbf{s}_{t})}{p(\mathbf{v}_{t} \mid \mathbf{v}_{1:t-1})} 
+ p(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t}) =  p(\mathbf{s}_{1:t-1} \mid \mathbf{v}_{1:t-1}) \frac{\color{blue}{f}(\mathbf{s}_{t} \mid \mathbf{s}_{t-1}) \color{green}{g}(\mathbf{v}_{t} \mid \mathbf{s}_{t})}{p(\mathbf{v}_{t} \mid \mathbf{v}_{1:t-1})} 
 \end{aligned}\end{equation}\tag{9}\label{eq9}$$
-
 </div>
 <br>
+
+<div id="example1">
+$$\begin{equation}\begin{aligned}
+p(\mathbf{s}_{t} \mid \mathbf{v}_{1:t}) = \frac{p(\mathbf{s}_{t} \mid \mathbf{v}_{1:t-1}) \color{green}{g}(\mathbf{v}_{t} \mid \mathbf{s}_{t})}{p(\mathbf{v}_{t} \mid \mathbf{v}_{1:t-1})} 
+\end{aligned}\end{equation}\tag{10}\label{eq10}$$
+</div>
 <br>
 
 ## Particle filtering <a name="pf"></a> 
@@ -180,7 +185,7 @@ Recall that the Monte Carlo method is a general tool to approximate integrals, e
 
 $$
 \mathbb{E}_{p(\mathbf{x})}[f(\mathbf{x})] = \int f(\mathbf{x}) p(\mathbf{x}) \mathrm{d}\mathbf{x} \approx \frac{1}{N} \sum_{n=1}^{N} f(\mathbf{x}_{n}) \qquad \mathbf{x}_n \sim p(\mathbf{x})
-\tag{9}\label{eq10}$$
+\tag{10}\label{eq10}$$
 
 Where $$f(\mathbf{x})$$ is some generic function of $$\mathbf{x}$$. Monte Carlo approximations of this kind are very appealing since unbiased and consistent, and it is easy to show that the variance of the estimate is $$ \mathcal{O}(n^{-1})$$ *regardless* of the dimensionality of the vector $$\mathbf{x}$$. Another simple idea that we will use extensively in particle filtering is that these samples can not only be used to approximate integrals with respect to the target distribution $$p(\mathbf{x})$$, but also to approximate the target itself:
 
@@ -195,7 +200,7 @@ $$\begin{equation}\begin{aligned}
 \mathbb{E}_{p(\mathbf{x})}[f(\mathbf{x})] &= \int f(\mathbf{x}) \cdot p(\mathbf{x}) \mathrm{d}\mathbf{x} \\
 &= \int \frac{f(\mathbf{x}) \cdot p(\mathbf{x})}{q(\mathbf{x})} \cdot q(\mathbf{x}) \mathrm{d} \mathbf{x} \\
 &= \mathbb{E}_{q(\mathbf{x})} \left [ f(\mathbf{x}) \cdot \frac{p(\mathbf{x})}{q(\mathbf{x})} \right ]
-\end{aligned}\end{equation}\tag{10}\label{eq11}$$
+\end{aligned}\end{equation}\tag{11}\label{eq11}$$
 
 Under certain conditions, namely that $$ f(\mathbf{x}) \cdot p(\mathbf{x}) > 0 \Rightarrow q(\mathbf{x}) > 0$$, we have rewritten the expectation under a distribution of choice $$q(\mathbf{x})$$c alled *proposal* which we can sample from. Note that it is not possible to have $$ q(\mathbf{x}) = 0$$, as we will never sample any $$\mathbf{x}_{i}$$ from $$q$$ such that this holds. 
 Let's return in the context of Bayesian inference, where we have a target posterior distribution $$ \pi(\mathbf{x}) = p(\mathbf{x} \mid \mathcal{D}) $$ where $$ \mathcal{D}$$ is any observed data. For example, in state space models $$\mathcal{D} = \mathbf{v}_{1:t}$$. Consider an integral of some function of $$ \mathbf{x}$$ under the posterior: 
