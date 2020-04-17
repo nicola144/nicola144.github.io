@@ -19,7 +19,7 @@ The ideal target reader has familiarity with Bayesian inference, basics of Monte
     1. [General Bayesian Filtering](#generalfilter)
     2. [Recursive Formulations](#recursive)
 2. [Particle Filtering](#pf)
-    1. [Basics](#basics)
+    1. [Basics of Monte Carlo and Importance Sampling](#basics)
     2. [Choice of proposal and variance of importance weights](#isproposal)
     3. [Sequential Importance Sampling](#sis)
     4. [Resampling](#resampling)
@@ -179,7 +179,7 @@ p(\mathbf{s}_{t} \mid \mathbf{v}_{1:t}) = \frac{p(\mathbf{s}_{t} \mid \mathbf{v}
 
 ## Particle filtering <a name="pf"></a> 
 
-### Basics <a name="basics"></a> 
+### Basics of Monte Carlo and Importance Sampling <a name="basics"></a> 
 Most things aren't linear and/or Gaussian, so we need approximate inference. Specifically in the filtering/sequential Bayes literature, importance sampling based methods are more popular than deterministic approximations such as Laplace's method, Variational Bayes and Expectation Propagation. 
 Recall that the Monte Carlo method is a general tool to approximate integrals, expectations, probabilities with random samples: 
 
