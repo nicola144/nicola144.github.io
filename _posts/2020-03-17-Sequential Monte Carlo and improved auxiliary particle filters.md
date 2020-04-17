@@ -350,10 +350,10 @@ This is where Sequential Monte Carlo or Sequential Importance Resampling (SIR)/ 
 
 Let us put it into the same framework that we used to derive the weight update for SIS, and discuss some details. In vanilla SIS, at each iteration we build an approximate empirical distribution to our target, say $$ p(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t})$$, that is represented by a weighted sum or "mixture" : $$ \sum_{n=1}^{N} w_{t}^{n} \delta_{\mathbf{s}_{1:t}}(\mathbf{s}_{1:t}^{n})$$. The samples $$\left \{ \mathbf{s}_{1:t}^{n} \right \}_{n=1}^{N}$$ used in our approximation however come from the proposal $$ q_t(\mathbf{s}_{1:t})$$. We can obtain a set of samples approximately distributed according to $$p(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t})$$ by multinomial resampling from our mixture approximation. Crucially, using these resampled particles, we can form a *different* estimator than $$ \sum_{n=1}^{N} w_{t}^{n} \delta_{\mathbf{s}_{1:t}}(\mathbf{s}_{1:t}^{n})$$, namely: $$ \frac{1}{N} \sum_{n=1}^{N}\delta_{\mathbf{r}_{1:t}} (\mathbf{r}_{1:t}^{n})$$. **This is because the samples actually come from** $$ p(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t})$$ (or whatever our target was) and thus to approximate the distribution itself we use its empirical approximation. The estimates (e.g. moments) under this approximation however have *higher variance* than the previous estimator. This is the price that we have to pay to mitigate the weight degeneracy: increase (temporarily) the variance of the estimator to however reduce the variance in the long run, many iterations later. 
 
---- 
 
+<div id="example1">
 
-**Algorithm 1: Sequential Monte Carlo / Sequential Importance Resampling *
+**Algorithm 1: Sequential Monte Carlo / Sequential Importance Resampling*
 
 At time $$t=1$$: 
 
@@ -368,7 +368,8 @@ At time $$t \geq 2$$:
 3. **Resample**: $$\left \{ \mathbf{s}_{1:t}^{n} , w_{t}^{n} \right \}_{n=1}^{N} $$ to obtain $$ \left \{ \mathbf{r}_{1:t}^{n}, 1/N \right \}_{n=1}^{N} $$ 
 
 
----
+</div>
+<br>
 
 HERE SAY WHY NOT MULTIPICATIVE UPDATE.
 Finally, note that if we chose a proposal equal to the transition density, so $$ \color{#FF8000}{q}_{t}(\mathbf{s}_{t}\mid \mathbf{s}_{1:t-1}) = \color{blue}{f}(\mathbf{s}_{t}\mid \mathbf{s}_{t-1})$$ , then the weight update simpli
