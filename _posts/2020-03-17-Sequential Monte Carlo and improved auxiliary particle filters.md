@@ -257,7 +257,7 @@ $$\begin{equation}\begin{aligned}
 &= \int  \left | f(\mathbf{x})\pi(\mathbf{x})  \right | \frac{\left | f(\mathbf{x})\pi(\mathbf{x})  \right |}{q(\mathbf{x})} \mathrm{d} \mathbf{x}
 \end{aligned}\end{equation}\tag{15}\label{eq15}$$
 
-Clearly, if we want this quantity to be small, then whenever the numerator is high , then $$q$$ should also be at least as high. That is, when $$ \left | f(\mathbf{x}) \pi(\mathbf{x})  \right |$$ is high, then $$q(\mathbf{x})$$ should be high, or at least it should definitely not be small. For a good approximation, we need  ... large   $$\Rightarrow q(\mathbf{x})$$ large. In fact, the proposal that minimizes the variance turns out to be a normalized version of .. : 
+Clearly, if we want this quantity to be small, then whenever the numerator is high , then $$q$$ should also be at least as high. That is, when $$ \left \| f(\mathbf{x}) \pi(\mathbf{x})  \right \|$$ is high, then $$q(\mathbf{x})$$ should be high, or at least it should definitely not be small. For a good approximation, we need  ... large   $$\Rightarrow q(\mathbf{x})$$ large. In fact, the proposal that minimizes the variance turns out to be a normalized version of .. : 
 
 $$ 
 q^{*}(\mathbf{x}) = \frac{\left | f(\mathbf{x})\pi(\mathbf{x})  \right | }{\int \left | f(\mathbf{x})\pi(\mathbf{x})  \right |  \mathrm{d}\mathbf{x}}
