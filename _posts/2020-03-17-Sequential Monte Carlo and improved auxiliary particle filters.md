@@ -488,11 +488,11 @@ At time $$t \geq 2$$, with particle/weight set $$\left \{ \mathbf{s}_{t-1}^{m}, 
   
 <li> <b> Delayed (multinomial) resampling step </b> : Sample with replacement from the previous particle set with probabilities $\lambda_{t}^{m}$ to obtain $\left \{ \mathbf{r}_{t-1}^{m} \right \}_{m=1}^{M} $ as well as associated means $\left \{  ^{r \hspace{-1pt}}\boldsymbol{\mu}_{t}^{m} \right \}_{m=1}^{M} $. Here however, instead of considering this generic resampling with a new particle set, let's be more specific. Notice that if this step uses multinomial resampling, what we just said is equivalent to: 
   <ul>
-    <li> Selecting resampled **indices** $ r^{m}, ~~ m= 1 \dots M$ with probability mass function given by $\Pr(r^{m} = j) = \lambda_{t}^{j}$ for $j \in \left \{ 1 \dots M \right \}$. Having this representation with resampled indices from the previous particle set instead of using a new particle set will be useful. </li>
+    <li> Selecting resampled <i> indices </i> $ r^{m}, ~~ m= 1 \dots M$ with probability mass function given by $\Pr(r^{m} = j) = \lambda_{t}^{j}$ for $j \in \left \{ 1 \dots M \right \}$. Having this representation with resampled indices from the previous particle set instead of using a new particle set will be useful. </li>
   </ul>
  </li>
     
-<li> <b> Propagation </b> : Sample $\mathbf{s}_{t}^{m} \sim {\color{blue}f}(\mathbf{s}_t \mid \mathbf{r}_{t-1}^{m}) $ or equivalently $\mathbf{s}_{t}^{m} \sim {\color{blue}f}(\mathbf{s}_t \mid \mathbf{s}_{t-1}^{r^{m}}) $ for $m = 1, \dots, M$ <\li>
+<li> <b> Propagation </b> : Sample $\mathbf{s}_{t}^{m} \sim {\color{blue}f}(\mathbf{s}_t \mid \mathbf{r}_{t-1}^{m}) $ or equivalently $\mathbf{s}_{t}^{m} \sim {\color{blue}f}(\mathbf{s}_t \mid \mathbf{s}_{t-1}^{r^{m}}) $ for $m = 1, \dots, M$ </li>
 
 <li> <b> Weight update </b> : Compute weights:
     $\tilde{w}_{t} =  \frac{g(\mathbf{v}_t \mid \mathbf{s}_{t}^{m})}{g(\mathbf{v}_{t} \mid \boldsymbol{\mu}_{t}^{r^{m}} )}$ </li> 
