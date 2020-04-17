@@ -236,6 +236,12 @@ Where $$Z$$ is the normalizing constant of the posterior distribution $$\pi(\mat
 
 ### Choice of proposal and variance of importance weights <a name="isproposal"></a>
 
+It is pretty intuitive that our IS estimates can only be as good as our proposal. In general, we should seek a proposal that minimizes the variance of our estimators. This follows from the fact that the variance of a MC estimate (which is a sample average) is the expected square error from the true value of the integral. Let us see this by considering, for simplicity, the variance of the non-normalized estimator: 
+
+$$ 
+\mathbb{V}\left [ \widehat{\mathcal{I}}_{NN} \right \] = \mathbb{E}\left [ \left ( \widehat{\mathcal{I}}_{NN} - \mathbb{E}\left [  \frac{f(\mathbf{x})\pi(\mathbf{x})}{q(\mathbf{x})} \right  ] \right )^{2} \right ]
+$$
+
 ### Sequential Importance Sampling <a name="sis"></a>
 
 Let us now go back to the task of sequentially estimating a distribution of the form $$ \left \{ p(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t}) \right \}$$. This time however, we estimate any distribution by a set of weighted samples, a.k.a particles. 
