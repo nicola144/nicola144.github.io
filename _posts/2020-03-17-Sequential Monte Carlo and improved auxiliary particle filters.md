@@ -1,3 +1,6 @@
+---
+title : "Sequential Monte Carlo and Improved Auxiliary Particle Filters"
+---
 <head>
 <style> 
 #example1 {
