@@ -5,6 +5,12 @@ As undergrad, I studied Computer Science at the [University of Warwick](https://
 I am broadly interested in Bayesian inference, applied (or not) to Machine Learning. 
 
 
+# Great books 
+- [The book of why, Judea Pearl & Dana McKenzie](https://www.amazon.co.uk/Book-Why-Science-Cause-Effect/dp/0141982411/ref=sr_1_1?dchild=1&keywords=the+book+of+why+judea&qid=1589542460&sr=8-1)
+- [Meditations, Marcus Aurelius](https://www.amazon.co.uk/Meditations-Penguin-Classics-Marcus-Aurelius/dp/0140449337/ref=sr_1_1?crid=RRDPU6IPJQ5N&dchild=1&keywords=meditations+marcus+aurelius&qid=1589542523&sprefix=meditations+%2Caps%2C154&sr=8-1)
+- [Sustainable energy - without the hot air, David McKay](http://www.withouthotair.com/)
+
+
 # Cool random stuff
 - The [Machine Learning Summer School videos 2009 (!)](http://videolectures.net/mlss09uk_cambridge/)
 - [Ferenc Huszár's blog](https://www.inference.vc/)
