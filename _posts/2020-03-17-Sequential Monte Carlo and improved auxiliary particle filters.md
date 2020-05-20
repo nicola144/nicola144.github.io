@@ -210,7 +210,8 @@ Often it is not possible to sample from the distribution of interest. Therefore 
 $$\begin{equation}\begin{aligned}
 \mathbb{E}_{p(\mathbf{x})}[f(\mathbf{x})] &= \int f(\mathbf{x}) \cdot p(\mathbf{x}) \mathrm{d}\mathbf{x} \\
 &= \int \frac{f(\mathbf{x}) \cdot p(\mathbf{x})}{q(\mathbf{x})} \cdot q(\mathbf{x}) \mathrm{d} \mathbf{x} \\
-&= \mathbb{E}_{q(\mathbf{x})} \left [ f(\mathbf{x}) \cdot \frac{p(\mathbf{x})}{q(\mathbf{x})} \right ] = \mathbb{E}_{q(\mathbf{x})} \left [ f(\mathbf{x}) \cdot w(\mathbf{x})} \right ]
+&= \mathbb{E}_{q(\mathbf{x})} \left [ f(\mathbf{x}) \cdot \frac{p(\mathbf{x})}{q(\mathbf{x})} \right ] \\ 
+&= \mathbb{E}_{q(\mathbf{x})} \left [ f(\mathbf{x}) \cdot w(\mathbf{x}) \right ]
 \end{aligned}\end{equation}\tag{12}\label{eq12}$$
 
 Under certain conditions, namely that $$ f(\mathbf{x}) \cdot p(\mathbf{x}) > 0 \Rightarrow q(\mathbf{x}) > 0$$, we have rewritten the expectation under a distribution of choice $$q(\mathbf{x})$$c alled *proposal* which we can sample from. Note that it is not possible to have $$ q(\mathbf{x}) = 0$$, as we will never sample any $$\mathbf{x}_{i}$$ from $$q$$ such that this holds. 
