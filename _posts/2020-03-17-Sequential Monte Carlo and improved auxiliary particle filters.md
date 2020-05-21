@@ -238,13 +238,13 @@ $$\begin{equation}\begin{aligned}
 \cdot ~ \cancel{\frac{1}{N}} \sum_{n=1}^{N} f(\mathbf{x}_n) \frac{p(\mathbf{x}_n, \mathcal{D})}{q(\mathbf{x}_n)} := \widehat{\mathcal{I}}_{SN}
 \end{aligned}\end{equation}\tag{14}\label{eq14}$$
 
-Where the ratio $$ \frac{p(\mathbf{x}_i, \mathcal{D})}{q(\mathbf{x}_i)}$$ plays the role of the importance weight. The estimator $$\widehat{\mathcal{I}}_{SN}$$ can be shown to be biased. An important observation that is useful in particle filtering is that the normalizing constant estimate $$\widehat{Z} \approx \frac{1}{N} \sum_{n=1}^{N} \frac{p(\mathbf{x}_n , \mathcal{D})}{q(\mathbf{x}_n)} = \frac{1}{N} \sum_{n=1}^{N} w(\mathbf{x}_n) $$ is unbiased. 
+Where the ratio $$ \frac{p(\mathbf{x}_i, \mathcal{D})}{q(\mathbf{x}_i)}$$ plays the role of the importance weight. The estimator $$\widehat{\mathcal{I}}_{SN}$$ can be shown to be biased. An important observation that is useful in particle filtering is that the normalizing constant estimate $$ Z \approx  \widehat{Z} \frac{1}{N} \sum_{n=1}^{N} \frac{p(\mathbf{x}_n , \mathcal{D})}{q(\mathbf{x}_n)} = \frac{1}{N} \sum_{n=1}^{N} w(\mathbf{x}_n) $$ is unbiased. 
 
 If the normalizing constant was known exactly, then we could build a *non-normalized* IS estimator which is actually unbiased (with an almost equivalent derivation, omitted):  
 
 $$
 
-\widehat{\mathcal{I}}_{NN} := \frac{1}{N} \cdot \frac{1}{Z} \sum_{n=1}^{N}  f(\mathbf{x}_i) \frac{p(\mathbf{x}_i, \mathcal{D})}{q(\mathbf{x}_i)} = \frac{1}{N} \sum_{n=1}^{N}  f(\mathbf{x}_i) \frac{\pi(\mathbf{x}_i)}{q(\mathbf{x}_i)}
+\widehat{\mathcal{I}}_{NN} := \frac{1}{N} \cdot \frac{1}{Z} \sum_{n=1}^{N}  f(\mathbf{x}_i) \frac{p(\mathbf{x}_n, \mathcal{D})}{q(\mathbf{x}_n)} = \frac{1}{N} \sum_{n=1}^{N}  f(\mathbf{x}_n) \frac{\pi(\mathbf{x}_n)}{q(\mathbf{x}_n)}
 
 $$
 
