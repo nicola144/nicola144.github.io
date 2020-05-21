@@ -241,10 +241,10 @@ $$\begin{equation}\begin{aligned}
 Where the ratio $$ \frac{p(\mathbf{x}_n, \mathcal{D})}{q(\mathbf{x}_n)} := \tilde{w}(\mathbf{x}_n)$$ plays the role of the (unnormalized) importance weight. The estimator $$\widehat{\mathcal{I}}_{SN}$$ can be shown to be biased. An important observation that is useful in particle filtering is that the normalizing constant estimate $$ Z \approx  \widehat{Z} \frac{1}{N} \sum_{n=1}^{N} \frac{p(\mathbf{x}_n , \mathcal{D})}{q(\mathbf{x}_n)} = \frac{1}{N} \sum_{n=1}^{N} \tilde{w}(\mathbf{x}_n) $$ is unbiased. Even more importantly, the approximate posterior is : 
 
 $$ 
-\pi(\mathbf{x}) \approx \sum_{n=1}^{N} w(\mathbf{x_n})\delta_{\mathbf{x}_n}(\mathbf{x})
+\pi(\mathbf{x}) \approx \sum_{n=1}^{N} w(\mathbf{x}_n)\delta_{\mathbf{x}_n}(\mathbf{x})
 $$
 
-If the normalizing constant was known exactly, then we could build a *non-normalized* IS estimator which is actually unbiased (with an almost equivalent derivation, omitted):  
+Using normalized weights. If the normalizing constant was known exactly, then we could build a *non-normalized* IS estimator which is actually unbiased (with an almost equivalent derivation, omitted):  
 
 $$
 
@@ -253,7 +253,8 @@ $$
 $$
 
 Where $$Z$$ is the normalizing constant of the posterior distribution $$\pi(\mathbf{x})$$. In this post we are only concerned with self-normalized estimators which, while biased, turn out to have lower variance in several settings. 
-
+From now on, an importance weight as function of sample $$ \mathbf{x}_n $$ is abbreviated as $$w_n$$; it is important however to keep in mind that weights are a function of inputs/samples. 
+ 
 ### Choice of proposal and variance of importance weights <a name="isproposal"></a>
 
 It is pretty intuitive that our IS estimates can only be as good as our proposal. In general, we should seek a proposal that minimizes the variance of our estimators. This follows from the fact that the variance of a MC estimate (which is a sample average) is the expected square error from the true value of the integral. Let us see this by considering, for simplicity, the variance of the non-normalized estimator: 
@@ -312,6 +313,7 @@ Let us now go back to the task of sequentially estimating a distribution of the 
 First I am going to explain necessary notation. Note that the treatment in this section is very general and not specific to any particular state space model (hence not to the first order Markov one described earlier).  
 
 * Let $$\gamma_{t}(\mathbf{s}_{1:t})$$ be the "target" distribution at time $$t$$ for states $$\mathbf{s}_{1:t}$$. Always keep track of all indices. For example, $$\gamma_{t}(\mathbf{s}_{1:t-1})$$ is a different object, namely $$\int \gamma_{t}(\mathbf{s}_{1:t}) \mathrm{d} \mathbf{s}_t $$. It is also different of course from $$\gamma_{t-1}(\mathbf{s}_{1:t-1})$$, which is simply the target at $$t-1$$. Importantly, note that the usual "target" is **the unnormalized version** of whatever our distribution of interest is ($$ p(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t})$$ or $$p(\mathbf{s}_{t} \mid \mathbf{v}_{1:t}) $$ The reason we can ignore normalizing constants is that since these algorithms are IS based, we can always normalize the weights.
+* The Dirac delta mass for multiple elements is defined naturally as $$\delta_{\mathbf{x}_{1:t}^{n}}(\mathbf{x}_{1:t}) := \prod_{t=1}^{T}  \delta_{\mathbf{x}_{1}^{n}}(\mathbf{x}) \delta_{\mathbf{x}_{2}^{n}}(\mathbf{x}) \dots \delta_{\mathbf{x}_{t}^{n}}(\mathbf{x}) $$
 
 So, let's suppose then that we are trying to find a particle approximation for our target $$\gamma_{t}(\mathbf{s}_{1:t})$$. We can use importance sampling directly with a proposal distribution that also depends on $$\mathbf{s}_{1:t}$$ and find the  (unnormalized) importance weights: 
 
