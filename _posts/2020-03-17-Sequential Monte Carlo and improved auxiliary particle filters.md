@@ -379,7 +379,7 @@ $$\begin{equation}\begin{aligned}
 &= \frac{\frac{1}{N^2}\sum_{n=1}^{N} \left \{ \int \frac{(\gamma_t(\mathbf{s}_{1:t}))^2}{(q_t(\mathbf{s}_{1:t}))^2}  q_t(\mathbf{s}_{1:t})\mathrm{d}\mathbf{s}_{1:t} - \left (\int  \frac{\gamma_t(\mathbf{s}_{1:t})}{q_t(\mathbf{s}_{1:t})} q_t(\mathbf{s}_{1:t})\mathrm{d}\mathbf{s}_{1:t} \right )^2 \right \}}{Z_{t}^{2}} \\
 &= \frac{\frac{1}{N^2}\sum_{n=1}^{N} \left \{ \int \frac{(\gamma_t(\mathbf{s}_{1:t}))^2}{q_t(\mathbf{s}_{1:t})} \mathrm{d}\mathbf{s}_{1:t} - \left (\int  \gamma_t(\mathbf{s}_{1:t})\mathrm{d}\mathbf{s}_{1:t} \right )^2 \right \}}{Z_{t}^{2}} \\
 &=  \frac{\frac{1}{N^2} \cdot N \cdot  \int \frac{(\gamma_t(\mathbf{s}_{1:t}))^2}{q_t(\mathbf{s}_{1:t})} \mathrm{d}\mathbf{s}_{1:t} }{Z_{t}^{2}} - \frac{ \frac{1}{N^2}\cdot N \cdot  \overbrace{\left (\int  \gamma_t(\mathbf{s}_{1:t})\mathrm{d}\mathbf{s}_{1:t} \right )^2}^{Z_{t}^2}}{Z_{t}^{2}} \\ 
-&= \frac{1}{N}\left (  \int  \frac{(\gamma_t(\mathbf{s}_{1:t}))^2}{q_t(\mathbf{s}_{1:t})}  \mathrm{d}\mathbf{s}_{1:t} - 1 \right )
+&= \frac{1}{N}\left (  \int  \frac{(\gamma_t(\mathbf{s}_{1:t}))^2}{Z_{t}^{2} q_t(\mathbf{s}_{1:t})}  \mathrm{d}\mathbf{s}_{1:t} - 1 \right ) = \frac{1}{N}\left (  \int  \frac{(\pi_t(\mathbf{s}_{1:t}))^2}{ q_t(\mathbf{s}_{1:t})}  \mathrm{d}\mathbf{s}_{1:t} - 1 \right )
 \end{aligned}\end{equation}\tag{23}\label{eq23}$$$$
 
 We now show that even for an extremely simple model, this expression is exponential in $$t$$. Consider a univariate state space model where the TFD at each timestep is a Gaussian. Then, the sequence of target distributions, and normalizing constant at time $$t$$ are:  
