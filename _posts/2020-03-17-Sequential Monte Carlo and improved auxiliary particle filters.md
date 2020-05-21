@@ -369,14 +369,17 @@ $$\begin{equation}\begin{aligned}
 
 
 If you are given a choice for the proposal $$\color{#FF8000}{q}_{t}(\mathbf{s}_{t} \mid \mathbf{s}_{1:t-1}) $$, then you have a concrete algorithm to sequentially approximate $$\left \{ p(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t}) \right \}_{t \geq 1}$$, with constant time per update (remembering that throughout the algorithm only uses unnormalized weights, and only when one wants to approximate the desired distribution one needs to normalize the weights). This algorithm is neat, but it can be shown that the variance of the resulting estimates increases as $$\mathcal(O)(t)$$. This is because the sequential algorithm just derived is a special case of IS, and we can easily show that this fact holds if we were simply using IS. 
-To check this , consider the variance of $$\widehat{Z}/ Z_t $$ or "relative variance": 
+To check this , consider the variance of $$\widehat{Z}/ Z_t $$ known as "relative variance": 
 
 $$\begin{equation}\begin{aligned}
 \mathbb{V}_q\left[ \frac{\widehat{Z}_t}{Z_t} \right] &=  \frac{\mathbb{V}_q[\widehat{Z}_t]}{Z_{t}^{2}} \\ 
 &= \frac{\frac{1}{N^2}\sum_{n=1}^{N} \mathbb{V}_q[\tilde{w}_{t}^{n}]  }{Z_{t}^{2}} \\
 &= \frac{\frac{1}{N^2}\sum_{n=1}^{N} \mathbb{V}_q \left [\frac{\gamma_t(\mathbf{s}_{1:t})}{q_t(\mathbf{s}_{1:t})} \right ]  }{Z_{t}^{2}} \\
-&=  \frac{\frac{1}{N^2}\sum_{n=1}^{N} \mathbb{E}_q \left [ \left ( \frac{\gamma_t(\mathbf{s}_{1:t})}{q_t(\mathbf{s}_{1:t})} \right )^2 \right ] - \left (\mathbb{E}_q \left [ \frac{\gamma_t(\mathbf{s}_{1:t})}{q_t(\mathbf{s}_{1:t})} \right ] \right )^2}{Z_{t}^{2}} \\ 
-&= \frac{\frac{1}{N^2}\sum_{n=1}^{N} \int \frac{(\gamma_t(\mathbf{s}_{1:t}))^2}{(q_t(\mathbf{s}_{1:t}))^2}  q_t(\mathbf{s}_{1:t})\mathrm{d}\mathbf{s}_{1:t} - \left (\mathbb{E}_q \left [ \frac{\gamma_t(\mathbf{s}_{1:t})}{q_t(\mathbf{s}_{1:t})} \right ] \right )^2}{Z_{t}^{2}} 
+&=  \frac{\frac{1}{N^2}\sum_{n=1}^{N} \left \{ \mathbb{E}_q \left [ \left ( \frac{\gamma_t(\mathbf{s}_{1:t})}{q_t(\mathbf{s}_{1:t})} \right )^2 \right ] - \left (\mathbb{E}_q \left [ \frac{\gamma_t(\mathbf{s}_{1:t})}{q_t(\mathbf{s}_{1:t})} \right ] \right )^2 \right \} }{Z_{t}^{2}} \\ 
+&= \frac{\frac{1}{N^2}\sum_{n=1}^{N} \left \{ \int \frac{(\gamma_t(\mathbf{s}_{1:t}))^2}{(q_t(\mathbf{s}_{1:t}))^2}  q_t(\mathbf{s}_{1:t})\mathrm{d}\mathbf{s}_{1:t} - \left (\int  \frac{\gamma_t(\mathbf{s}_{1:t})}{q_t(\mathbf{s}_{1:t})} q_t(\mathbf{s}_{1:t})\mathrm{d}\mathbf{s}_{1:t} \right )^2 \right \}}{Z_{t}^{2}} \\
+&= \frac{\frac{1}{N^2}\sum_{n=1}^{N} \left \{ \int \frac{(\gamma_t(\mathbf{s}_{1:t}))^2}{q_t(\mathbf{s}_{1:t})} \mathrm{d}\mathbf{s}_{1:t} - \left (\int  \gamma_t(\mathbf{s}_{1:t})\mathrm{d}\mathbf{s}_{1:t} \right )^2 \right \}}{Z_{t}^{2}} \\
+&= \frac{\frac{1}{N^2} \cdot N \cdot  \int \frac{(\gamma_t(\mathbf{s}_{1:t}))^2}{q_t(\mathbf{s}_{1:t})} \mathrm{d}\mathbf{s}_{1:t} }{Z_{t}^{2}} - \frac{ \frac{1}{N^2}\cdot N \cdot  \overbrace{\left (\int  \gamma_t(\mathbf{s}_{1:t})\mathrm{d}\mathbf{s}_{1:t} \right )^2}^{Z_{t}^2}}{Z_{t}^{2}}
+
 \end{aligned}\end{equation}\tag{22}\label{eq23}$$$$
 
 This results in well known problems, the first of which is known under the names of *sample degeneracy* or *weight degeneracy*. Basically, if you actually run this after not-so-many iterations there will be one weight $$\approx 1$$ and all other will be zero, which equates to approximate the target with one sample. 
