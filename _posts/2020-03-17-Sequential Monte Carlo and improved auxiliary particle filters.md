@@ -314,27 +314,26 @@ First I am going to explain necessary notation. Note that the treatment in this 
 * Let $$\gamma_{t}(\mathbf{s}_{1:t})$$ be the "target" distribution at time $$t$$ for states $$\mathbf{s}_{1:t}$$. Always keep track of all indices. For example, $$\gamma_{t}(\mathbf{s}_{1:t-1})$$ is a different object, namely $$\int \gamma_{t}(\mathbf{s}_{1:t}) \mathrm{d} \mathbf{s}_t $$. It is also different of course from $$\gamma_{t-1}(\mathbf{s}_{1:t-1})$$, which is simply the target at $$t-1$$. Importantly, note that the usual "target" is **the unnormalized version** of whatever our distribution of interest is ($$ p(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t})$$ or $$p(\mathbf{s}_{t} \mid \mathbf{v}_{1:t}) $$ The reason we can ignore normalizing constants is that since these algorithms are IS based, we can always normalize the weights.
 * The Dirac delta mass for multiple elements is defined naturally as $$\delta_{\mathbf{x}_{1:t}^{n}}(\mathbf{x}_{1:t}) := \prod_{t=1}^{T}  \delta_{\mathbf{x}_{1}^{n}}(\mathbf{x}) \delta_{\mathbf{x}_{2}^{n}}(\mathbf{x}) \dots \delta_{\mathbf{x}_{t}^{n}}(\mathbf{x}) $$
 
-So, let's suppose then that we are trying to find a particle approximation for our target $$\gamma_{t}(\mathbf{s}_{1:t})$$. We can use importance sampling directly with a proposal distribution that also depends on $$\mathbf{s}_{1:t}$$ and find the  (unnormalized) importance weights: 
+So, let's suppose then that we are trying to find a particle approximation for our target at iteration $$t$$: $$\gamma_{t}(\mathbf{s}_{1:t}) := p(\mathbf{s}_{1:t}, \mathbf{v}_{1:t})$$. We can use IS directly with a proposal distribution that also depends on $$\mathbf{s}_{1:t}$$ and find the  (unnormalized) importance weights: 
 
 $$\begin{equation}\begin{aligned}
 \tilde{w}_{t} = \frac{\gamma_t(\mathbf{s}_{1:t})}{\color{#FF8000}{q}_{t}(\mathbf{s}_{1:t})}
 \end{aligned}\end{equation}\tag{18}\label{eq18}$$
 
-With these , we can build the self-normalized importance sampling estimator as we have seen in the previous section. Recalling that all distributions we are dealing with are actually just a set of (possibly weighted particles), we can then approximate the (normalized) target by replacing the proposal with its particle approximation in \eqref{eq13}: 
+With these , we can build the self-normalized importance sampling estimator as we have seen in the previous section. As we have seen in the discussion of IS, we can approximate the normalized posterior using normalized weights:
 
 $$\begin{equation}\begin{aligned}
  p(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t}) \approx \sum_{n=1}^{N} w_{t}^{n} \delta_{\mathbf{s}_{1:t}}(\mathbf{s}_{1:t}^{n}) \qquad \mathbf{s}_{1:t}^{n} \sim \color{#FF8000}{q}_{t}(\mathbf{s}_{1:t})
 \end{aligned}\end{equation}\tag{19}\label{eq19}$$
 
-where $$w_{t}^{n}$$ are the normalized weights, and we are using $$N$$ sample trajectories for our proposal. Notice here the reason we can focus on $$p(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t})$$ instead of $$p(\mathbf{s}_t \mid \mathbf{v}_{1:t})$$ (more commonly needed). Since the latter is just a marginal of the former, and we have (approximate) samples from  $$p(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t})$$, we can form an approximation to $$p(\mathbf{s}_t \mid \mathbf{v}_{1:t})$$ simply as:
-
+where $$w_{t}^{n}$$ are the normalized weights, and we are using $$N$$ sample *trajectories* for our proposal. If we were only interested in $$p(\mathbf{s}_t \mid \mathbf{v}_{1:t}) $$, we can simply discard previous samples: this is because  $$p(\mathbf{s}_t \mid \mathbf{v}_{1:t}) $$ is just a marginal of $$p(\mathbf{s}_{1:t}, \mathbf{v}_{1:t}) $$. Therefore, we can approximate the filtering distribution:
 $$ 
 
-p(\mathbf{s}_t \mid \mathbf{v}_{1:t}) \approx \sum_{n=1}^{N} w_{t}^{n} \delta_{\mathbf{s}_{t}}(\mathbf{s}_{t}^{n}) \qquad \mathbf{s}_{t}^{n} \sim \color{#FF8000}{q}_{t}(\mathbf{s}_{t} \mid \mathbf{s}_{1:t-1})
+p(\mathbf{s}_t \mid \mathbf{v}_{1:t}) \approx \sum_{n=1}^{N} w_{t}^{n} \delta_{\mathbf{s}_{t}}(\mathbf{s}_{t}^{n})
 
 $$
 
-So, how is this different to non-sequential importance sampling? The problem is that without explicitly stating any assumptions/constraints on the proposal these calculations scale linearly with the dimension of the state space $$t$$. Let's see how it is possible to avoid this by simply imposing a simple autoregressive (time series jargon) structure on the proposal. 
+So, how is this different to non-sequential importance sampling? The problem is that without explicitly stating any assumptions/constraints on the proposal these calculations scale linearly with the dimension of the state space $$t$$. It is intuitively unnecessary to propose a whole trajectory of samples at each iteration. Let's see how it is possible to avoid this by simply imposing a simple autoregressive (time series jargon) structure on the proposal. 
 Let our new proposal at time $$t$$ be the product of two factors: 
 
 $$
@@ -345,18 +344,24 @@ In other words, to obtain a sample from the full proposal at time $$t$$, we can 
 
 $$\begin{equation}\begin{aligned}
  \tilde{w}_{t}\left(\mathbf{s}_{1:t}\right) &=\frac{\gamma_{t}\left(\mathbf{s}_{1:t}\right)}{\color{#FF8000}{q}_{t}\left(\mathbf{s}_{1:t}\right)} \\ &=\frac{1}{\color{#FF8000}{q}_{t-1}\left(\mathbf{s}_{1:t-1}\right)} \frac{\gamma_{t-1}\left(\mathbf{s}_{1:t-1}\right)}{\gamma_{t-1}\left(\mathbf{s}_{1:t-1}\right)} \frac{\gamma_{t}\left(\mathbf{s}_{1:t}\right)}{\color{#FF8000}{q}_{t}\left(\mathbf{s}_{t} | \mathbf{s}_{1:t-1}\right)} \\ &=\frac{\gamma_{t-1}\left(\mathbf{s}_{1:t-1}\right)}{\color{#FF8000}{q}_{t-1}\left(\mathbf{s}_{1:t-1}\right)} \frac{\gamma_{t}\left(\mathbf{s}_{1:t}\right)}{\gamma_{t-1}\left(\mathbf{s}_{1:t-1}\right) \color{#FF8000}{q}_{t}\left(\mathbf{s}_{t} | \mathbf{s}_{1:t-1}\right)} \\
- &= \tilde{w}_{t-1}(\mathbf{s}_{1:t-1}) \cdot \frac{\gamma_{t}(\mathbf{s}_{1:t})}{\gamma_{t-1}(\mathbf{s}_{1:t-1}) \color{#FF8000}{q}_{t}(\mathbf{s}_{t}\mid \mathbf{s}_{1:t-1})}
+ &= \tilde{w}_{t-1}(\mathbf{s}_{1:t-1}) \cdot \frac{\gamma_{t}(\mathbf{s}_{1:t})}{\gamma_{t-1}(\mathbf{s}_{1:t-1}) \color{#FF8000}{q}_{t}(\mathbf{s}_{t}\mid \mathbf{s}_{1:t-1})} := \tilde{w}_{t-1}(\mathbf{s}_{1:t-1}) \cdot w_{t}(\mathbf{s}_{t-1}, \mathbf{s}_t)
 \end{aligned}\end{equation}\tag{20}\label{eq20}$$
 
-Therefore, we can approximate our desired distribution as:
+Where we define the *incremental importance weight* $$w_{t}(\mathbf{s}_{t-1}, \mathbf{s}_t)$$. Therefore, we can approximate our desired distribution as:
 
 $$\begin{equation}\begin{aligned}
 p(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t}) \approx \sum_{n=1}^{N} w_{t}^{n} \delta_{\mathbf{s}_{1:t}}(\mathbf{s}_{1:t}^{n})
 \end{aligned}\end{equation}\tag{21}\label{eq21}$$
 
-with the weights $$w_{t}^{n}$$ defined as the normalized weights found in \eqref{eq15}.
-This is the essence of SIS (Sequential Importance Sampling). Important note: this is a standard presentation you can find e.g. from Johansen et al [2]. However, you should note that for example, if we put this into context of state space models say, then the proposal can depend on measurements too. Crucially, although it would be natural to split it as: $$ \color{#FF8000}{q}_{t}\left(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t}\right)= \color{#FF8000}{q}_{t-1}\left(\mathbf{s}_{1:t-1} \mid \mathbf{v}_{1:\color{red}{t-1}}\right) \color{#FF8000}{q}_{t}\left(\mathbf{s}_{t} \mid \mathbf{s}_{1:t-1}, \mathbf{v}_{1:\color{red}{t}}\right)$$ this is usually a *choice*, we could make both terms dependent on the current measurements! We will come back to this when discussing the Auxiliary Particle Filter. 
-Ok, now it's time to apply SIS to the state space model we covered earlier. In this context, what we want is $$\left \{ p(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t}) \right \} $$ , hence our target $$\gamma$$ is the unnormalized posterior: $$\gamma_{t}(\mathbf{s}_{1:t}) := p(\mathbf{s}_{1:t}, \mathbf{v}_{1:t})$$. Recall that we can always get the filtering distribution from $$\left \{ p(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t}) \right \} $$. Now the recursion that we developed earlier in the post for the joint $$ p(\mathbf{s}_{1:t}, \mathbf{v}_{1:t})$$ becomes useful in deriving the weight update for SIS: 
+with the weights $$w_{t}^{n}$$ defined as the normalized weights found in \eqref{eq15}. As shown in the IS section, we can also approximate the normalizing constant:
+
+$$
+\widehat(Z)_t = \frac{1}{N} \tilde{w}_{t} = \frac{1}{N} \prod_{k=1}^{t} w_k(\mathbf(s)_{k-1}, \mathbf{s}_{k})
+$$
+
+
+This is the essence of SIS (Sequential Importance Sampling). Important note: this is a standard presentation you can find e.g. from Johansen et al [2]. However, you should note that for example, if we put this into context of state space models say, then the proposal can depend on measurements too. Crucially, although it would be natural to split the proposal as: $$ \color{#FF8000}{q}_{t}\left(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t}\right)= \color{#FF8000}{q}_{t-1}\left(\mathbf{s}_{1:t-1} \mid \mathbf{v}_{1:\color{red}{t-1}}\right) \color{#FF8000}{q}_{t}\left(\mathbf{s}_{t} \mid \mathbf{s}_{1:t-1}, \mathbf{v}_{1:\color{red}{t}}\right)$$ this is usually a *choice*, and we could make both terms dependent on the current measurements! We will come back to this when discussing the Auxiliary Particle Filter. 
+Ok, now it's time to apply SIS to the state space model we covered earlier. In this context, what we want is again $$\left \{ p(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t}) \right \}_{t} $$ , hence our target $$\gamma$$ is the unnormalized posterior: $$\gamma_{t}(\mathbf{s}_{1:t}) := p(\mathbf{s}_{1:t}, \mathbf{v}_{1:t})$$. Keep in mind that we can always get the filtering distribution from $$\left \{ p(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t}) \right \}_{t} $$. Now the recursion that we developed earlier in the post for the joint $$ p(\mathbf{s}_{1:t}, \mathbf{v}_{1:t})$$ becomes useful in deriving the weight update for SIS: 
 
 $$\begin{equation}\begin{aligned}
 \tilde{w}_t &= \tilde{w}_{t-1}(\mathbf{s}_{1:t-1}) \cdot \frac{\gamma_{t}(\mathbf{s}_{1:t})}{\gamma_{t-1}(\mathbf{s}_{1:t-1}) \color{#FF8000}{q}_{t}(\mathbf{s}_{t}\mid \mathbf{s}_{1:t-1})} \\
@@ -365,7 +370,9 @@ $$\begin{equation}\begin{aligned}
 \end{aligned}\end{equation}\tag{22}\label{eq22}$$$$
 
 
-If you are given a choice for the proposal $$\color{#FF8000}{q}_{t}(\mathbf{s}_{t} \mid \mathbf{s}_{1:t-1}) $$, then you have a concrete algorithm to sequentially approximate $$\left \{ p(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t}) \right \}_{t \geq 1}$$, with constant time per update (remembering that throughout the algorithm only uses unnormalized weights, and only when one wants to approximate the desired distribution one has to normalize the weights). This algorithm is neat, but being a special case of IS it still suffers from variance of the weights scaling exponentially with time. This results in well known problems, the first of which is known under the names of *sample degeneracy* or *weight degeneracy*. Basically, if you actually run this after not-so-many iterations there will be one weight $$\approx 1$$ and all other will be zero, which equates to approximate the target with one sample. 
+If you are given a choice for the proposal $$\color{#FF8000}{q}_{t}(\mathbf{s}_{t} \mid \mathbf{s}_{1:t-1}) $$, then you have a concrete algorithm to sequentially approximate $$\left \{ p(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t}) \right \}_{t \geq 1}$$, with constant time per update (remembering that throughout the algorithm only uses unnormalized weights, and only when one wants to approximate the desired distribution one needs to normalize the weights). This algorithm is neat, but it can be shown that the variance of the resulting estimates increases as $$\mathcal(O)(t)$$. To check this, let's derive the "relative variance" (i.e., the variance of $$\widehat{Z}_t / Z_t$$) of the estimate of the normalizing constant
+
+This results in well known problems, the first of which is known under the names of *sample degeneracy* or *weight degeneracy*. Basically, if you actually run this after not-so-many iterations there will be one weight $$\approx 1$$ and all other will be zero, which equates to approximate the target with one sample. 
 
 ![hhm]({{ '/assets/images/sample-deg.svg' | relative_url }})
 {: style="width: 100%;" class="center"}
