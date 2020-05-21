@@ -14,9 +14,8 @@ title : "Sequential Monte Carlo and Improved Auxiliary Particle Filters"
 In this post, my aims are: 
 * Introduce Bayesian inference in state space models
 * Introduce approximate inference using importance sampling, in state space models
-* Finally, describe the Auxiliary Particle Filter, its intepretation and the recent Improved Particle Filter by Elvira et al. [1]
+* Finally, describe the Auxiliary Particle Filter, its intepretation and the recent Improved Auxiliary Particle Filter by Elvira et al [1]
 
-The ideal target reader has familiarity with Bayesian inference, basics of Monte Carlo and importance sampling, basics of particle filters. However, if you are familiar with Bayesian inference in a "batch" setting (where data is processed all at once), you should be able to follow. If you are not, I will (soon-ish) write a blogpost on Bayesian inference that assumes no prior background except basic rules of probability. Even then, I ambitiously hope that this post can be interesting to both Bayesian statistics experts who aren't aware of the work I will describe (these can skip to the sections on Auxiliary Particle Filters and Improved Auxiliary Particle Filters.) *and* people who see particle filters for the first time. 
 
 1. [Brief introduction to sequential inference](#introduction)
     1. [General Bayesian Filtering](#generalfilter)
@@ -624,6 +623,10 @@ $$\require{bbox}$$
 2. Doucet, A. and Johansen, A.M., 2009. A tutorial on particle filtering and smoothing: Fifteen years later. Handbook of nonlinear filtering, 12(656-704), p.3.
 3. Elvira, V., Martino, L., Bugallo, M.F. and Djuric, P.M., 2019. Elucidating the Auxiliary Particle Filter via Multiple Importance Sampling [Lecture Notes]. IEEE Signal Processing Magazine, 36(6), pp.145-152.
 4. Naesseth, C.A., Lindsten, F. and Schön, T.B., 2019. Elements of Sequential Monte Carlo. Foundations and Trends® in Machine Learning, 12(3), pp.307-392.
+5. Doucet, A., 1998. On sequential simulation-based methods for Bayesian filtering.
+6. Doucet, A., Godsill, S. and Andrieu, C., 2000. On sequential Monte Carlo sampling methods for Bayesian filtering. Statistics and computing, 10(3), pp.197-208.
+7. Godsill, S., 2019, May. Particle filtering: the first 25 years and beyond. In ICASSP 2019-2019 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP) (pp. 7760-7764). IEEE.
+8. Arulampalam, M.S., Maskell, S., Gordon, N. and Clapp, T., 2002. A tutorial on particle filters for online nonlinear/non-Gaussian Bayesian tracking. IEEE Transactions on signal processing, 50(2), pp.174-188.
 5. Särkkä, S., 2013. Bayesian filtering and smoothing (Vol. 3). Cambridge University Press.
 
 
