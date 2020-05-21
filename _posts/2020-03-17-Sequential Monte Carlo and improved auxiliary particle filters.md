@@ -204,7 +204,7 @@ $$
 p(\mathbf{x}) \approx \frac{1}{N}\sum_{n=1}^{N} \delta_{\mathbf{x}}(\mathbf{x}_{n})
 $$
 
-Where $$  \delta_{\mathbf{x}}(\mathbf{x}_{n})$$ is the Dirac delta mass evaluated at point $$\mathbf{x}_{n}$$. This is an empirical approximation of a density or "particle" approximation. It does not really represent the true density in some particularly meaningful way, but we only ever really need the density to compute moments. 
+Where $$  \delta_{\mathbf{x}}(\mathbf{x}_{n})$$ is the Dirac delta mass evaluated at point $$\mathbf{x}_{n}$$. This should be interpreted as an approximation to the underlying distribution and not of the density function. 
 Often it is not possible to sample from the distribution of interest. Therefore we can use importance sampling, which is a technique based on the simple observation that we can sample from another, known distribution and assign a weight to the samples to represent their "importance" under the real target:
 
 $$\begin{equation}\begin{aligned}
@@ -214,14 +214,16 @@ $$\begin{equation}\begin{aligned}
 &= \mathbb{E}_{q(\mathbf{x})} \left [ f(\mathbf{x}) \cdot w(\mathbf{x}) \right ]
 \end{aligned}\end{equation}\tag{12}\label{eq12}$$
 
-Under certain conditions, namely that $$ f(\mathbf{x}) \cdot p(\mathbf{x}) > 0 \Rightarrow q(\mathbf{x}) > 0$$, we have rewritten the expectation under a distribution of choice $$q(\mathbf{x})$$c alled *proposal* which we can sample from. Note that it is not possible to have $$ q(\mathbf{x}) = 0$$, as we will never sample any $$\mathbf{x}_{i}$$ from $$q$$ such that this holds. 
-Let's return in the context of Bayesian inference, where we have a target posterior distribution $$ \pi(\mathbf{x}) = p(\mathbf{x} \mid \mathcal{D}) $$ where $$ \mathcal{D}$$ is any observed data. For example, in our state space model $$\mathcal{D} = \mathbf{v}_{1:t}$$, and $$\pi(\mathbf{x} = p(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t}))$$. Consider an integral of some function of $$ \mathbf{x}$$ under the posterior: 
+Under certain conditions, namely that $$ f(\mathbf{x}) \cdot p(\mathbf{x}) > 0 \Rightarrow q(\mathbf{x}) > 0$$, we have rewritten the expectation under a distribution of choice $$q(\mathbf{x})$$c alled *proposal* which we can sample from. Note that it is not possible to have $$ q(\mathbf{x}) = 0$$, as we will never sample any $$\mathbf{x}_{i}$$ from $$q$$ such that this holds. The weight $$w(\mathbf{x})$$ can be intepreted as “adjusting” the estimate of the integral by taking into account that the samples were generated from the “wrong” distribution. Notice that Importance Sampling can be used to approximate also generic integrals which are not necessarily expectations.
+
+Let's return in the context of Bayesian inference, where we have a target posterior distribution $$ \pi(\mathbf{x}) = p(\mathbf{x} \mid \mathcal{D}) $$ where $$ \mathcal{D}$$ is any observed data. 
+In our state space model $$\mathcal{D} = \mathbf{v}_{1:t}$$, and $$\pi(\mathbf{x}) = p(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t})$$. Consider an integral of some function of $$ \mathbf{x}$$ under the posterior, often the ultimate object of interest: 
 
 $$\begin{equation}\begin{aligned}
 \mathcal{I} = \mathbb{E}_{\pi(\mathbf{x})}[f(\mathbf{x})] = \int f(\mathbf{x}) \pi(\mathbf{x}) 
 \end{aligned}\end{equation}\tag{13}\label{eq13}$$
 
-Note that we can estimate this integral in two main ways with importance sampling: the former which assumes that we know the normalizing constant of the posterior $$ \pi(\mathbf{x})$$, and the latter estimates the normalizing constant too by importance sampling, with the same set of samples. Let's examine the latter option, called *self-normalized* IS estimator:
+We can estimate this integral in two main ways with IS: the former which assumes that we know the normalizing constant of the posterior $$ \pi(\mathbf{x})$$, and the latter estimates the normalizing constant too by IS, with the same set of samples. Since in Bayesian inference we usually can only evaluate $$\pi(\mathbf{x})$$ up to a normalizing constant, let's examine the latter option, called *self-normalized* IS estimator:
 
 $$\begin{equation}\begin{aligned}
 \mathbb{E}_{\pi} \left [ f(\mathbf{x}) \right ] &= \int f(\mathbf{x}) \pi(\mathbf{x}) \mathrm{d} \mathbf{x} \\
@@ -232,11 +234,13 @@ $$\begin{equation}\begin{aligned}
 &=  \frac{1}{\int \frac{p(\mathbf{x}, \mathcal{D})}{q(\mathbf{x})}  q(\mathbf{x}) \mathrm{d} \mathbf{x}}\int  f(\mathbf{x})\frac{p(\mathbf{x}, \mathcal{D})}{q(\mathbf{x})} q(\mathbf{x}) \mathrm{d} \mathbf{x} \\
 &= \frac{1}{\mathbb{E}_{q}\left [ \frac{p(\mathbf{x}, \mathcal{D})}{q(\mathbf{x})} \right ]}
 \cdot \mathbb{E}_{q}\left [ f(\mathbf{x}) \frac{p(\mathbf{x}, \mathcal{D})}{q(\mathbf{x})} \right ] \\
-&\approx \frac{1}{\cancel{\frac{1}{N}}\sum_{n=1}^{N} \frac{p(\mathbf{x}_i , \mathcal{D})}{q(\mathbf{x}_i)}}
-\cdot ~ \cancel{\frac{1}{N}} \sum_{n=1}^{N} f(\mathbf{x}_i) \frac{p(\mathbf{x}_i, \mathcal{D})}{q(\mathbf{x}_i)} := \widehat{\mathcal{I}}_{SN}
+&\approx \frac{1}{\cancel{\frac{1}{N}}\sum_{n=1}^{N} \frac{p(\mathbf{x}_n , \mathcal{D})}{q(\mathbf{x}_n)}}
+\cdot ~ \cancel{\frac{1}{N}} \sum_{n=1}^{N} f(\mathbf{x}_n) \frac{p(\mathbf{x}_n, \mathcal{D})}{q(\mathbf{x}_n)} := \widehat{\mathcal{I}}_{SN}
 \end{aligned}\end{equation}\tag{14}\label{eq14}$$
 
-The ratio $$ \frac{p(\mathbf{x}_i, \mathcal{D})}{q(\mathbf{x}_i)}$$ is called the importance weight: it can be intepreted as "adjusting" the estimate of the integral by taking into account that the samples were generated from the "wrong" distribution. If the normalizing constant was known, then we would build a *non-normalized* IS estimator that has different properties (with an almost equivalent derivation, omitted):  
+Where the ratio $$ \frac{p(\mathbf{x}_i, \mathcal{D})}{q(\mathbf{x}_i)}$$ plays the role of the importance weight. The estimator $$\widehat{\mathcal{I}}_{SN}$$ can be shown to be biased. An important observation that is useful in particle filtering is that the normalizing constant estimate $$\widehat{Z} \approx \frac{1}{N} \sum_{n=1}^{N} \frac{p(\mathbf{x}_n , \mathcal{D})}{q(\mathbf{x}_n)} = \frac{1}{N} \sum_{n=1}^{N} w(\mathbf{x}_n) $$ is unbiased. 
+
+If the normalizing constant was known exactly, then we could build a *non-normalized* IS estimator which is actually unbiased (with an almost equivalent derivation, omitted):  
 
 $$
 
@@ -244,7 +248,7 @@ $$
 
 $$
 
-Where $$Z$$ is the normalizing constant of the posterior distribution $$\pi(\mathbf{x})$$. In this post we are only concerned with self-normalized estimators.
+Where $$Z$$ is the normalizing constant of the posterior distribution $$\pi(\mathbf{x})$$. In this post we are only concerned with self-normalized estimators which, while biased, turn out to have lower variance in several settings. 
 
 ### Choice of proposal and variance of importance weights <a name="isproposal"></a>
 
@@ -261,7 +265,7 @@ $$
 \mathbb{V}_{q} [ \widehat{\mathcal{I}}_{NN} ] = \frac{1}{N} \mathbb{V}_{q} \left [ \frac{f(\mathbf{x})\pi(\mathbf{x})}{q(\mathbf{x})} \right ] = \frac{1}{N} \mathbb{E}_q \left [ \left ( \frac{f(\mathbf{x})\pi(\mathbf{x})}{q(\mathbf{x})} \right )^2 \right ] - \frac{1}{N}  \underbrace{\left (  \mathbb{E}_q \left [ \frac{f(\mathbf{x})\pi(\mathbf{x})}{q(\mathbf{x})} \right ] \right )^2}_{=(\mathcal{I})^2}
 $$
 
-Notice that the right term in this expression is just $$\mathcal{I}^2$$ and thus does not involve $$q$$. We only need to minimize the first term with respect to $$q$$. Expanding this left term it a bit more builds some intuition on what the form of the minimizing proposal looks like: 
+Notice that the term on the right in this expression is just $$\mathcal{I}^2$$ and thus does not involve $$q$$. We only need to minimize the first term with respect to $$q$$. Expanding this term on the left builds some intuition on what the form of the minimizing proposal looks like: 
 
 $$\begin{equation}\begin{aligned}
 \mathbb{E}_q \left [ \left ( \frac{f(\mathbf{x})\pi(\mathbf{x})}{q(\mathbf{x})} \right )^2 \right ]  &=  \int \left ( \frac{f(\mathbf{x})\pi(\mathbf{x})}{q(\mathbf{x})} \right )^2 q(\mathbf{x}) \mathrm{d} \mathbf{x} \\
@@ -269,7 +273,7 @@ $$\begin{equation}\begin{aligned}
 &= \int  \left | f(\mathbf{x})\pi(\mathbf{x})  \right | \frac{\left | f(\mathbf{x})\pi(\mathbf{x})  \right |}{q(\mathbf{x})} \mathrm{d} \mathbf{x}
 \end{aligned}\end{equation}\tag{15}\label{eq15}$$
 
-Clearly, if we want this quantity to be small, then whenever the numerator is high , then $$q$$ should also be at least as high. That is, when $$  \vert f(\mathbf{x}) \pi(\mathbf{x})  \vert $$ is high, then $$q(\mathbf{x})$$ should be high, or at least it should definitely not be small. For a good approximation, we need  $$  \vert f(\mathbf{x}) \pi(\mathbf{x})  \vert $$  large   $$\Rightarrow q(\mathbf{x})$$ large. In fact, the proposal that minimizes the variance turns out to be a normalized version of $$  \vert f(\mathbf{x}) \pi(\mathbf{x})  \vert $$  : 
+Clearly, if we want this quantity to be small, then whenever the numerator is high $$q$$ should be at least as high. That is, when $$  \vert f(\mathbf{x}) \pi(\mathbf{x})  \vert $$ is high, then $$q(\mathbf{x})$$ should be high, or at least it should definitely not be small. That is, we need  $$  \vert f(\mathbf{x}) \pi(\mathbf{x})  \vert $$  large   $$\Rightarrow q(\mathbf{x})$$ large. In fact, the proposal that minimizes the variance turns out to be a normalized version of $$  \vert f(\mathbf{x}) \pi(\mathbf{x})  \vert $$  : 
 
 $$ 
 q^{*}(\mathbf{x}) = \frac{\left | f(\mathbf{x})\pi(\mathbf{x})  \right | }{\int \left | f(\mathbf{x})\pi(\mathbf{x})  \right |  \mathrm{d}\mathbf{x}}
@@ -281,7 +285,7 @@ $$
 \mathbb{E}[x^2] \geq \mathbb{E}[ \left | x \right |]^{2}
 $$
 
-We show that this bound is tight by using the optimal proposal. Plugging in the optimal proposal gives:
+wich follows from the Cauchy-Schwartz inequality. We show that this bound is tight when using the optimal proposal. Plugging in the optimal proposal gives:
 
 $$\begin{equation}\begin{aligned}
  \mathbb{E}_{q^{*}} \left [ \left ( \frac{f(\mathbf{x})\pi(\mathbf{x})}{q^{*}(\mathbf{x})} \right )^2 \right ] &=  \int   \left | f(\mathbf{x})\pi(\mathbf{x})  \right | \frac{\left | f(\mathbf{x})\pi(\mathbf{x})  \right |}{q^{*}(\mathbf{x})} \mathrm{d} \mathbf{x} \\
@@ -289,21 +293,21 @@ $$\begin{equation}\begin{aligned}
  &=  \left ( \int  \left | f(\mathbf{x})\pi(\mathbf{x})  \right |  \mathrm{d} \mathbf{x} \right )^2 
 \end{aligned}\end{equation}\tag{16}\label{eq16}$$
 
-
+which gives an expression for $$ \mathbb{E}_{q^{*}} \left [ \left ( \frac{f(\mathbf{x})\pi(\mathbf{x})}{q^{*}(\mathbf{x})} \right )^2 \right ] $$. Further:
 
 $$\begin{equation}\begin{aligned}
  \mathbb{E}_{q^{*}} \left [ \left | \frac{f(\mathbf{x})\pi(\mathbf{x})}{q^{*}(\mathbf{x})} \right |^2 \right ] &= \left ( \int \left | \frac{f(\mathbf{x})\pi(\mathbf{x})}{q^{*}(\mathbf{x})} \right | q^{*}(\mathbf{x}) \mathrm{d} \mathbf{x}  \right )^2 \\
  &= \left ( \int \left | f(\mathbf{x})\pi(\mathbf{x}) \right |  \mathrm{d} \mathbf{x}  \right )^2
 \end{aligned}\end{equation}\tag{17}\label{eq17}$$
 
-whis is indeed that same as
+which indeed gives the same expression and thus shows that the bound is tight.
 
 ### Sequential Importance Sampling <a name="sis"></a>
 
-Let us now go back to the task of sequentially estimating a distribution of the form $$ \left \{ p(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t}) \right \}$$. This time however, we estimate any distribution by a set of weighted samples, a.k.a particles. 
+Let us now go back to the task of sequentially estimating a distribution of the form $$ \left \{ p(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t}) \right \}_{t}$$. This time however, we estimate any distribution by a set of weighted samples, a.k.a particles. 
 First I am going to explain necessary notation. Note that the treatment in this section is very general and not specific to any particular state space model (hence not to the first order Markov one described earlier).  
 
-* Let $$\gamma_{t}(\mathbf{s}_{1:t})$$ be the "target" distribution at time $$t$$ for states $$\mathbf{s}_{1:t}$$. Always keep track of all indices. For example, $$\gamma_{t}(\mathbf{s}_{1:t-1})$$ is a different object, namely $$\int \gamma_{t}(\mathbf{s}_{1:t}) \mathrm{d} \mathbf{s}_t $$. It is also different of course from $$\gamma_{t-1}(\mathbf{s}_{1:t})$$, which is just the target at $$t-1$$. Importantly, note that the usual "target" is **the unnormalized version** of whatever our distribution of interest is ($$ p(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t})$$ or $$p(\mathbf{s}_{t} \mid \mathbf{v}_{1:t}) $$.
+* Let $$\gamma_{t}(\mathbf{s}_{1:t})$$ be the "target" distribution at time $$t$$ for states $$\mathbf{s}_{1:t}$$. Always keep track of all indices. For example, $$\gamma_{t}(\mathbf{s}_{1:t-1})$$ is a different object, namely $$\int \gamma_{t}(\mathbf{s}_{1:t}) \mathrm{d} \mathbf{s}_t $$. It is also different of course from $$\gamma_{t-1}(\mathbf{s}_{1:t-1})$$, which is simply the target at $$t-1$$. Importantly, note that the usual "target" is **the unnormalized version** of whatever our distribution of interest is ($$ p(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t})$$ or $$p(\mathbf{s}_{t} \mid \mathbf{v}_{1:t}) $$ The reason we can ignore normalizing constants is that since these algorithms are IS based, we can always normalize the weights.
 
 So, let's suppose then that we are trying to find a particle approximation for our target $$\gamma_{t}(\mathbf{s}_{1:t})$$. We can use importance sampling directly with a proposal distribution that also depends on $$\mathbf{s}_{1:t}$$ and find the  (unnormalized) importance weights: 
 
