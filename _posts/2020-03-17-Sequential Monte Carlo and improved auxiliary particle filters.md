@@ -327,10 +327,9 @@ $$\begin{equation}\begin{aligned}
 \end{aligned}\end{equation}\tag{19}\label{eq19}$$
 
 where $$w_{t}^{n}$$ are the normalized weights, and we are using $$N$$ sample *trajectories* for our proposal. If we were only interested in $$p(\mathbf{s}_t \mid \mathbf{v}_{1:t}) $$, we can simply discard previous samples: this is because  $$p(\mathbf{s}_t \mid \mathbf{v}_{1:t}) $$ is just a marginal of $$p(\mathbf{s}_{1:t}, \mathbf{v}_{1:t}) $$. Therefore, we can approximate the filtering distribution:
+
 $$ 
-
-p(\mathbf{s}_t \mid \mathbf{v}_{1:t}) \approx \sum_{n=1}^{N} w_{t}^{n} \delta_{\mathbf{s}_{t}}(\mathbf{s}_{t}^{n})
-
+p(\mathbf{s}_t \mid \mathbf{v}_{1:t}) \approx 
 $$
 
 So, how is this different to non-sequential importance sampling? The problem is that without explicitly stating any assumptions/constraints on the proposal these calculations scale linearly with the dimension of the state space $$t$$. It is intuitively unnecessary to propose a whole trajectory of samples at each iteration. Let's see how it is possible to avoid this by simply imposing a simple autoregressive (time series jargon) structure on the proposal. 
@@ -356,9 +355,8 @@ p(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t}) \approx \sum_{n=1}^{N} w_{t}^{n} \delt
 with the weights $$w_{t}^{n}$$ defined as the normalized weights found in \eqref{eq15}. As shown in the IS section, we can also approximate the normalizing constant:
 
 $$
-\widehat(Z)_t = \frac{1}{N} \tilde{w}_{t} = \frac{1}{N} \prod_{k=1}^{t} w_k(\mathbf(s)_{k-1}, \mathbf{s}_{k})
+\widehat{Z}_t = \frac{1}{N} \sum_{n=1}^{N} \tilde{w}_{t}^{n} = \frac{1}{N} \sum_{n=1}^{N} \prod_{k=1}^{t} w_k(\mathbf(s)_{k-1}^{n}, \mathbf{s}_{k}^{n})
 $$
-
 
 This is the essence of SIS (Sequential Importance Sampling). Important note: this is a standard presentation you can find e.g. from Johansen et al [2]. However, you should note that for example, if we put this into context of state space models say, then the proposal can depend on measurements too. Crucially, although it would be natural to split the proposal as: $$ \color{#FF8000}{q}_{t}\left(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t}\right)= \color{#FF8000}{q}_{t-1}\left(\mathbf{s}_{1:t-1} \mid \mathbf{v}_{1:\color{red}{t-1}}\right) \color{#FF8000}{q}_{t}\left(\mathbf{s}_{t} \mid \mathbf{s}_{1:t-1}, \mathbf{v}_{1:\color{red}{t}}\right)$$ this is usually a *choice*, and we could make both terms dependent on the current measurements! We will come back to this when discussing the Auxiliary Particle Filter. 
 Ok, now it's time to apply SIS to the state space model we covered earlier. In this context, what we want is again $$\left \{ p(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t}) \right \}_{t} $$ , hence our target $$\gamma$$ is the unnormalized posterior: $$\gamma_{t}(\mathbf{s}_{1:t}) := p(\mathbf{s}_{1:t}, \mathbf{v}_{1:t})$$. Keep in mind that we can always get the filtering distribution from $$\left \{ p(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t}) \right \}_{t} $$. Now the recursion that we developed earlier in the post for the joint $$ p(\mathbf{s}_{1:t}, \mathbf{v}_{1:t})$$ becomes useful in deriving the weight update for SIS: 
