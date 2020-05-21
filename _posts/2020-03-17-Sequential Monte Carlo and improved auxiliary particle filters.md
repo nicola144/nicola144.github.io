@@ -378,8 +378,23 @@ $$\begin{equation}\begin{aligned}
 &=  \frac{\frac{1}{N^2}\sum_{n=1}^{N} \left \{ \mathbb{E}_q \left [ \left ( \frac{\gamma_t(\mathbf{s}_{1:t})}{q_t(\mathbf{s}_{1:t})} \right )^2 \right ] - \left (\mathbb{E}_q \left [ \frac{\gamma_t(\mathbf{s}_{1:t})}{q_t(\mathbf{s}_{1:t})} \right ] \right )^2 \right \} }{Z_{t}^{2}} \\ 
 &= \frac{\frac{1}{N^2}\sum_{n=1}^{N} \left \{ \int \frac{(\gamma_t(\mathbf{s}_{1:t}))^2}{(q_t(\mathbf{s}_{1:t}))^2}  q_t(\mathbf{s}_{1:t})\mathrm{d}\mathbf{s}_{1:t} - \left (\int  \frac{\gamma_t(\mathbf{s}_{1:t})}{q_t(\mathbf{s}_{1:t})} q_t(\mathbf{s}_{1:t})\mathrm{d}\mathbf{s}_{1:t} \right )^2 \right \}}{Z_{t}^{2}} \\
 &= \frac{\frac{1}{N^2}\sum_{n=1}^{N} \left \{ \int \frac{(\gamma_t(\mathbf{s}_{1:t}))^2}{q_t(\mathbf{s}_{1:t})} \mathrm{d}\mathbf{s}_{1:t} - \left (\int  \gamma_t(\mathbf{s}_{1:t})\mathrm{d}\mathbf{s}_{1:t} \right )^2 \right \}}{Z_{t}^{2}} \\
-&=  \frac{\frac{1}{N^2} \cdot N \cdot  \int \frac{(\gamma_t(\mathbf{s}_{1:t}))^2}{q_t(\mathbf{s}_{1:t})} \mathrm{d}\mathbf{s}_{1:t} }{Z_{t}^{2}} - \frac{ \frac{1}{N^2}\cdot N \cdot  \overbrace{\left (\int  \gamma_t(\mathbf{s}_{1:t})\mathrm{d}\mathbf{s}_{1:t} \right )^2}^{Z_{t}^2}}{Z_{t}^{2}}
+&=  \frac{\frac{1}{N^2} \cdot N \cdot  \int \frac{(\gamma_t(\mathbf{s}_{1:t}))^2}{q_t(\mathbf{s}_{1:t})} \mathrm{d}\mathbf{s}_{1:t} }{Z_{t}^{2}} - \frac{ \frac{1}{N^2}\cdot N \cdot  \overbrace{\left (\int  \gamma_t(\mathbf{s}_{1:t})\mathrm{d}\mathbf{s}_{1:t} \right )^2}^{Z_{t}^2}}{Z_{t}^{2}} \\ 
+&= \frac{1}{N}\left (  \int  \frac{(\gamma_t(\mathbf{s}_{1:t}))^2}{q_t(\mathbf{s}_{1:t})}  \mathrm{d}\mathbf{s}_{1:t} - 1 \right )
 \end{aligned}\end{equation}\tag{23}\label{eq23}$$$$
+
+We now show that even for an extremely simple model, this expression is exponential in $$t$$. Consider a univariate state space model where the TFD at each timestep is a Gaussian. Then, the sequence of target distributions, and normalizing constant at time $$t$$ are:  
+
+$$
+\gamma_t(s_{1:t}) = \prod_{k=1}^{t} \exp left ( -\frac{1}{2} x_{k}^{2} \right ) \qquad Z_t = (2\pi)^{t/2}
+$$
+
+Suppose we select a simple proposal distribution as a factorised Gaussian with unknown variance: 
+
+$$
+q_t(s_{1:t}) = \prod_{k=1}^{t} q_{k}(x_k) = \prod_{k}^{t} \mathcal(N)(x_k \mid 0, \sigma^2)
+$$
+
+Then, 
 
 This results in well known problems, the first of which is known under the names of *sample degeneracy* or *weight degeneracy*. Basically, if you actually run this after not-so-many iterations there will be one weight $$\approx 1$$ and all other will be zero, which equates to approximate the target with one sample. 
 
