@@ -239,7 +239,7 @@ $$\begin{equation}\begin{aligned}
 \cdot ~ \cancel{\frac{1}{N}} \sum_{n=1}^{N} f(\mathbf{x}_n) \frac{p(\mathbf{x}_n, \mathcal{D})}{q(\mathbf{x}_n)} := \widehat{\mathcal{I}}_{SN}
 \end{aligned}\end{equation}\tag{14}\label{eq14}$$
 
-Where the ratio $$ \frac{p(\mathbf{x}_n, \mathcal{D})}{q(\mathbf{x}_n)} := \tilde{w}(\mathbf{x}_n)$$ plays the role of the (unnormalized) importance weight. The estimator $$\widehat{\mathcal{I}}_{SN}$$ can be shown to be biased. An important observation that is useful in particle filtering is that the normalizing constant estimate $$ Z \approx  \widehat{Z} \frac{1}{N} \sum_{n=1}^{N} \frac{p(\mathbf{x}_n , \mathcal{D})}{q(\mathbf{x}_n)} = \frac{1}{N} \sum_{n=1}^{N} \tilde{w}(\mathbf{x}_n) $$ is unbiased. Even more importantly, the approximate posterior is : 
+Where the ratio $$ \frac{p(\mathbf{x}_n, \mathcal{D})}{q(\mathbf{x}_n)} := \tilde{w}(\mathbf{x}_n)$$ plays the role of the (unnormalized) importance weight. The estimator $$\widehat{\mathcal{I}}_{SN}$$ can be shown to be biased. An important observation that is useful in particle filtering is that the normalizing constant estimate $$ Z \approx  \widehat{Z} = \frac{1}{N} \sum_{n=1}^{N} \frac{p(\mathbf{x}_n , \mathcal{D})}{q(\mathbf{x}_n)} = \frac{1}{N} \sum_{n=1}^{N} \tilde{w}(\mathbf{x}_n) $$ is unbiased. Even more importantly, the approximate posterior is : 
 
 $$ 
 \pi(\mathbf{x}) \approx \sum_{n=1}^{N} w(\mathbf{x}_n)\delta_{\mathbf{x}_n}(\mathbf{x}) \qquad w(\mathbf{x}_n) = \frac{\tilde{w}(\mathbf{x}_n)}{\sum_{k=1}^{N} \tilde{w}(\mathbf{x}_k)}
@@ -311,11 +311,12 @@ which indeed gives the same expression and thus shows that the bound is tight.
 ### Sequential Importance Sampling <a name="sis"></a>
 
 Let us now go back to the task of sequentially estimating a distribution of the form $$ \left \{ p(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t}) \right \}_{t}$$. This time however, we estimate any distribution by a set of weighted samples, a.k.a particles. 
-First I am going to explain necessary notation. Note that the treatment in this section is very general and not specific to any particular state space model (hence not to the first order Markov one described earlier).  
+Firstly, I am going to explain necessary notation. Note that the treatment in this section is very general and not specific to any particular state space model (hence not to the first order Markov one described earlier).  
 
 * Let $$\gamma_{t}(\mathbf{s}_{1:t})$$ be the "target" distribution at time $$t$$ for states $$\mathbf{s}_{1:t}$$. Always keep track of all indices. For example, $$\gamma_{t}(\mathbf{s}_{1:t-1})$$ is a different object, namely $$\int \gamma_{t}(\mathbf{s}_{1:t}) \mathrm{d} \mathbf{s}_t $$. It is also different of course from $$\gamma_{t-1}(\mathbf{s}_{1:t-1})$$, which is simply the target at $$t-1$$. Importantly, note that the usual "target" is **the unnormalized version** of whatever our distribution of interest is ($$ p(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t})$$ or $$p(\mathbf{s}_{t} \mid \mathbf{v}_{1:t}) $$ The reason we can ignore normalizing constants is that since these algorithms are IS based, we can always normalize the weights.
 * Then, let $$\pi(\mathbf{s}_{1:t})$$ be the normalized version of the target $$\gamma_{t}(\mathbf{s}_{1:t})$$, i.e. : $$ \pi(\mathbf{s}_{1:t}) = \gamma_{t}(\mathbf{s}_{1:t}) / Z_t$$ with $$Z_t = \int \gamma_{t}(\mathbf{s}_{1:t}) \mathrm{d} \mathbf{s}_{1:t} $$
 * The Dirac delta mass for multiple elements is defined naturally as $$\delta_{\mathbf{x}_{1:t}^{n}}(\mathbf{x}_{1:t}) := \prod_{t=1}^{T}  \delta_{\mathbf{x}_{1}^{n}}(\mathbf{x}_1) \delta_{\mathbf{x}_{2}^{n}}(\mathbf{x}_2) \dots \delta_{\mathbf{x}_{t}^{n}}(\mathbf{x}_t) $$
+* While everything should be defined at some point, it is useful to keep in mind general principles such as whenever a symbol has a "hat" , that denotes an approximation, a "tilde" denotes an unnormalized quantity, and a $$\pi$$ a posterior.
 
 So, let's suppose then that we are trying to find a particle approximation for our target at iteration $$t$$: $$\gamma_{t}(\mathbf{s}_{1:t}) := p(\mathbf{s}_{1:t}, \mathbf{v}_{1:t})$$. We can use IS directly with a proposal distribution that also depends on $$\mathbf{s}_{1:t}$$ and find the  (unnormalized) importance weights: 
 
@@ -371,7 +372,7 @@ $$\begin{equation}\begin{aligned}
 \end{aligned}\end{equation}\tag{22}\label{eq22}$$$$
 
 
-If you are given a choice for the proposal $$\color{#FF8000}{q}_{t}(\mathbf{s}_{t} \mid \mathbf{s}_{1:t-1}) $$, then you have a concrete algorithm to sequentially approximate $$\left \{ p(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t}) \right \}_{t \geq 1}$$, with constant time per update (remembering that throughout the algorithm only uses unnormalized weights, and only when one wants to approximate the desired distribution one needs to normalize the weights). This algorithm is neat, but it can be shown that the variance of the resulting estimates increases as $$\mathcal{O}(t)$$. This is because the sequential algorithm just derived is a special case of IS, and we can easily show that this fact holds if we were simply using IS. 
+If you are given a choice for the proposal $$\color{#FF8000}{q}_{t}(\mathbf{s}_{t} \mid \mathbf{s}_{1:t-1}) $$, then you have a concrete algorithm to sequentially approximate $$\left \{ p(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t}) \right \}_{t \geq 1}$$, with constant time per update (remembering that throughout the algorithm only uses unnormalized weights, and only when one wants to approximate the desired distribution one needs to normalize the weights). This algorithm is neat, but it can be shown that the variance of the resulting estimates increases expontentially in $$t$$. This is because the sequential algorithm just derived is a special case of IS, and we can easily show that this fact holds if we were simply using IS. 
 To check this , consider the variance of $$\widehat{Z}/ Z_t $$ known as "relative variance": 
 
 $$\begin{equation}\begin{aligned}
@@ -385,10 +386,10 @@ $$\begin{equation}\begin{aligned}
 &= \frac{1}{N}\left (  \int  \frac{(\gamma_t(\mathbf{s}_{1:t}))^2}{Z_{t}^{2} q_t(\mathbf{s}_{1:t})}  \mathrm{d}\mathbf{s}_{1:t} - 1 \right ) = \frac{1}{N}\left (  \int  \frac{(\pi_t(\mathbf{s}_{1:t}))^2}{ q_t(\mathbf{s}_{1:t})}  \mathrm{d}\mathbf{s}_{1:t} - 1 \right )
 \end{aligned}\end{equation}\tag{23}\label{eq23}$$$$
 
-We now show that even for an extremely simple model, this expression is exponential in $$t$$. Consider a univariate state space model where the TFD at each timestep is a Gaussian. Then, the sequence of target distributions, and normalizing constant at time $$t$$ are:  
+We now show that even for an extremely simple model, this expression is exponential in $$t$$. Consider a univariate state space model where the TFD at each timestep is a Gaussian. Then, the sequence of normalized and unnormalized target distributions, and normalizing constant at time $$t$$ are:  
 
 $$
-\gamma_t(s_{1:t}) = \prod_{k=1}^{t} \exp left ( -\frac{1}{2} x_{k}^{2} \right ) \qquad Z_t = (2\pi)^{t/2}
+\gamma_t(s_{1:t}) = 
 $$
 
 Suppose we select a simple proposal distribution as a factorised Gaussian with unknown variance: 
