@@ -343,10 +343,10 @@ In other words, to obtain a sample from the full proposal at time $$t$$, we can 
 
 $$\begin{equation}\begin{aligned}
  \tilde{w}_{t}\left(\mathbf{s}_{1:t}\right) &=\frac{\gamma_{t}\left(\mathbf{s}_{1:t}\right)}{\color{#FF8000}{q}_{t}\left(\mathbf{s}_{1:t}\right)} \\ &=\frac{1}{\color{#FF8000}{q}_{t-1}\left(\mathbf{s}_{1:t-1}\right)} \frac{\gamma_{t-1}\left(\mathbf{s}_{1:t-1}\right)}{\gamma_{t-1}\left(\mathbf{s}_{1:t-1}\right)} \frac{\gamma_{t}\left(\mathbf{s}_{1:t}\right)}{\color{#FF8000}{q}_{t}\left(\mathbf{s}_{t} | \mathbf{s}_{1:t-1}\right)} \\ &=\frac{\gamma_{t-1}\left(\mathbf{s}_{1:t-1}\right)}{\color{#FF8000}{q}_{t-1}\left(\mathbf{s}_{1:t-1}\right)} \frac{\gamma_{t}\left(\mathbf{s}_{1:t}\right)}{\gamma_{t-1}\left(\mathbf{s}_{1:t-1}\right) \color{#FF8000}{q}_{t}\left(\mathbf{s}_{t} | \mathbf{s}_{1:t-1}\right)} \\
- &= \tilde{w}_{t-1}(\mathbf{s}_{1:t-1}) \cdot \frac{\gamma_{t}(\mathbf{s}_{1:t})}{\gamma_{t-1}(\mathbf{s}_{1:t-1}) \color{#FF8000}{q}_{t}(\mathbf{s}_{t}\mid \mathbf{s}_{1:t-1})} := \tilde{w}_{t-1}(\mathbf{s}_{1:t-1}) \cdot w_{t}(\mathbf{s}_{t-1}, \mathbf{s}_t)
+ &= \tilde{w}_{t-1}(\mathbf{s}_{1:t-1}) \cdot \frac{\gamma_{t}(\mathbf{s}_{1:t})}{\gamma_{t-1}(\mathbf{s}_{1:t-1}) \color{#FF8000}{q}_{t}(\mathbf{s}_{t}\mid \mathbf{s}_{1:t-1})} := \tilde{w}_{t-1}(\mathbf{s}_{1:t-1}) \cdot \varpi_{t}(\mathbf{s}_{t-1}, \mathbf{s}_t)
 \end{aligned}\end{equation}\tag{20}\label{eq20}$$
 
-Where we define the *incremental importance weight* $$w_{t}(\mathbf{s}_{t-1}, \mathbf{s}_t)$$. Therefore, we can approximate our desired distribution as:
+Where we define the *incremental importance weight* $$\varpi_{t}(\mathbf{s}_{t-1}, \mathbf{s}_t)$$. Therefore, we can approximate our desired distribution as:
 
 $$\begin{equation}\begin{aligned}
 p(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t}) \approx \sum_{n=1}^{N} w_{t}^{n} \delta_{\mathbf{s}_{1:t}}(\mathbf{s}_{1:t}^{n})
@@ -355,7 +355,7 @@ p(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t}) \approx \sum_{n=1}^{N} w_{t}^{n} \delt
 with the weights $$w_{t}^{n}$$ defined as the normalized weights found in \eqref{eq15}. As shown in the IS section, we can also approximate the normalizing constant:
 
 $$
-\widehat{Z}_t = \frac{1}{N} \sum_{n=1}^{N} \tilde{w}_{t}^{n} = \frac{1}{N} \sum_{n=1}^{N} \prod_{k=1}^{t} w_k(\mathbf(s)_{k-1}^{n}, \mathbf{s}_{k}^{n})
+\widehat{Z}_t = \frac{1}{N} \sum_{n=1}^{N} \tilde{w}_{t}^{n} = \frac{1}{N} \sum_{n=1}^{N} \prod_{k=1}^{t} \varpi_k(\mathbf{s}_{k-1}^{n}, \mathbf{s}_{k}^{n})
 $$
 
 This is the essence of SIS (Sequential Importance Sampling). Important note: this is a standard presentation you can find e.g. from Johansen et al [2]. However, you should note that for example, if we put this into context of state space models say, then the proposal can depend on measurements too. Crucially, although it would be natural to split the proposal as: $$ \color{#FF8000}{q}_{t}\left(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t}\right)= \color{#FF8000}{q}_{t-1}\left(\mathbf{s}_{1:t-1} \mid \mathbf{v}_{1:\color{red}{t-1}}\right) \color{#FF8000}{q}_{t}\left(\mathbf{s}_{t} \mid \mathbf{s}_{1:t-1}, \mathbf{v}_{1:\color{red}{t}}\right)$$ this is usually a *choice*, and we could make both terms dependent on the current measurements! We will come back to this when discussing the Auxiliary Particle Filter. 
