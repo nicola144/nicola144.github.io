@@ -14,7 +14,7 @@ title : "Sequential Monte Carlo and Improved Auxiliary Particle Filters"
 In this post, my aims are: 
 * Introduce Bayesian inference in state space models
 * Introduce approximate inference using importance sampling, in state space models
-* Finally, describe the Auxiliary Particle Filter, its intepretation and the recent Improved Auxiliary Particle Filter by Elvira et al [1]
+* Finally, describe the Auxiliary Particle Filter, its diverse intepretations and the recent Improved Auxiliary Particle Filter by Elvira et al [1]. I will illustrate the IAPF by reproducing the results of Elvira et al. [3]. 
 
 
 1. [Brief introduction to sequential inference](#introduction)
@@ -312,7 +312,7 @@ Let us now go back to the task of sequentially estimating a distribution of the 
 First I am going to explain necessary notation. Note that the treatment in this section is very general and not specific to any particular state space model (hence not to the first order Markov one described earlier).  
 
 * Let $$\gamma_{t}(\mathbf{s}_{1:t})$$ be the "target" distribution at time $$t$$ for states $$\mathbf{s}_{1:t}$$. Always keep track of all indices. For example, $$\gamma_{t}(\mathbf{s}_{1:t-1})$$ is a different object, namely $$\int \gamma_{t}(\mathbf{s}_{1:t}) \mathrm{d} \mathbf{s}_t $$. It is also different of course from $$\gamma_{t-1}(\mathbf{s}_{1:t-1})$$, which is simply the target at $$t-1$$. Importantly, note that the usual "target" is **the unnormalized version** of whatever our distribution of interest is ($$ p(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t})$$ or $$p(\mathbf{s}_{t} \mid \mathbf{v}_{1:t}) $$ The reason we can ignore normalizing constants is that since these algorithms are IS based, we can always normalize the weights.
-* The Dirac delta mass for multiple elements is defined naturally as $$\delta_{\mathbf{x}_{1:t}^{n}}(\mathbf{x}_{1:t}) := \prod_{t=1}^{T}  \delta_{\mathbf{x}_{1}^{n}}(\mathbf{x}) \delta_{\mathbf{x}_{2}^{n}}(\mathbf{x}) \dots \delta_{\mathbf{x}_{t}^{n}}(\mathbf{x}) $$
+* The Dirac delta mass for multiple elements is defined naturally as $$\delta_{\mathbf{x}_{1:t}^{n}}(\mathbf{x}_{1:t}) := \prod_{t=1}^{T}  \delta_{\mathbf{x}_{1}^{n}}(\mathbf{x}_1) \delta_{\mathbf{x}_{2}^{n}}(\mathbf{x}_2) \dots \delta_{\mathbf{x}_{t}^{n}}(\mathbf{x}_t) $$
 
 So, let's suppose then that we are trying to find a particle approximation for our target at iteration $$t$$: $$\gamma_{t}(\mathbf{s}_{1:t}) := p(\mathbf{s}_{1:t}, \mathbf{v}_{1:t})$$. We can use IS directly with a proposal distribution that also depends on $$\mathbf{s}_{1:t}$$ and find the  (unnormalized) importance weights: 
 
