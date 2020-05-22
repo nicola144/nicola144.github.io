@@ -240,7 +240,7 @@ $$\begin{equation}\begin{aligned}
 Where the ratio $$ \frac{p(\mathbf{x}_n, \mathcal{D})}{q(\mathbf{x}_n)} := \tilde{w}(\mathbf{x}_n)$$ plays the role of the (unnormalized) importance weight. The estimator $$\widehat{\mathcal{I}}_{SN}$$ can be shown to be biased. An important observation that is useful in particle filtering is that the normalizing constant estimate $$ Z \approx  \widehat{Z} \frac{1}{N} \sum_{n=1}^{N} \frac{p(\mathbf{x}_n , \mathcal{D})}{q(\mathbf{x}_n)} = \frac{1}{N} \sum_{n=1}^{N} \tilde{w}(\mathbf{x}_n) $$ is unbiased. Even more importantly, the approximate posterior is : 
 
 $$ 
-\pi(\mathbf{x}) \approx \sum_{n=1}^{N} w(\mathbf{x}_n)\delta_{\mathbf{x}_n}(\mathbf{x})
+\pi(\mathbf{x}) \approx \sum_{n=1}^{N} w(\mathbf{x}_n)\delta_{\mathbf{x}_n}(\mathbf{x}) \qquad w(\mathbf{x}_n) = \frac{\tilde{w}(\mathbf{x}_n)}{\sum_{k=1}^{N} \tilde{w}(\mathbf{x}_k)}
 $$
 
 Using normalized weights. If the normalizing constant was known exactly, then we could build a *non-normalized* IS estimator which is actually unbiased (with an almost equivalent derivation, omitted):  
@@ -466,6 +466,10 @@ $$
 $$ 
 = \tilde{w}_{t-1} p(\mathbf{v}_t \mid \mathbf{s}_{t-1})
 $$
+
+$$\begin{equation}\begin{aligned}
+d
+\end{aligned}\end{equation}\tag{23}\label{eq23}$$
 
 The two main difficulties that using this proposal presents are:
 1. Sampling from it can be hard  
