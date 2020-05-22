@@ -742,17 +742,17 @@ for i in range(len(x_prev)):
 	apf_proposal+= apf_weights[i] * 
 		       norm.pdf(x, loc=x_prev[i], scale=sigma_kernels)
 # IAPF 
-sum_kernels_at_likelihood = 0.
-sum_weighted_kernels_at_likelihood = 0.
+sum_kernels_at_center = 0.
+sum_weighted_kernels_at_center = 0.
 
 for i in range(len(x_prev)):
-	sum_kernels_at_likelihood+= norm.pdf(x_prev[i],
+	sum_kernels_at_center+= norm.pdf(x_prev[i],
 				    loc=lik_center, scale=sigma_kernels)
-	sum_weighted_kernels_at_likelihood+= 
+	sum_weighted_kernels_at_center+= 
 	w_prev[i] * norm.pdf(x_prev[i], loc=lik_center, scale=sigma_kernels)
 
-iapf_weights = (pred_lik * sum_weighted_kernels_at_likelihood) / 
-		sum_kernels_at_likelihood
+iapf_weights = (pred_lik * sum_weighted_kernels_at_center) / 
+		sum_kernels_at_center
 iapf_weights = iapf_weights / np.sum(iapf_weights)
 
 iapf_proposal = np.zeros((n,))
