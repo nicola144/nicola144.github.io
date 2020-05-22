@@ -402,15 +402,10 @@ Then, :
 $$\begin{equation}\begin{aligned}
 \mathbb{V}_q\left[ \frac{\widehat{Z}_t}{Z_t} \right] &= \frac{1}{N} \left [ \int   \frac{\left ( \prod_{k=1}^{t} \mathcal{N}(x_k \mid 0,1) \right)^2}{\prod_{k=1}^{t} \mathcal{N}(x_k \mid 0,\sigma^2)} \mathrm{d}x_{1:t} - 1\right] \qquad \text{directly} \\
 &= \frac{1}{N} \left [ \int   \frac{(2\pi)^{-n} \left (\prod_{k=1}^{n}  \exp \left\{ -\frac{1}{2}x_{k}^{2} \right\}\right ) \left (\prod_{k=1}^{n}  \exp \left\{ -\frac{1}{2}x_{k}^{2} \right\}\right )}{\prod_{k=1}^{n} (2\pi \sigma^2)^{-1/2} \exp \left\{ -\frac{1}{2\sigma^2} x_{k}^2 \right\}} \mathrm{d}x_{1:t} - 1\right] \\
-
 &= \frac{1}{N} \left [\frac{(2\pi)^{-n}}{(2\pi \sigma^2)^{-n/2}} \int   \frac{ \exp\left\{ -\sum_{k=1}^{t}x_{k}^2 \right\} }{\exp \left\{ -\frac{1}{2\sigma^2}\sum_{k=1}^{n}x_{k}^{2} \right\}} \mathrm{d}x_{1:t} - 1\right] \\
-
 &= \frac{1}{N} \left [\frac{(2\pi \sigma^2)^{n/2}}{(2\pi)^n} \int  \exp \left\{ -\sum_{k=1}^{t}x_{k}^2 + \frac{1}{2\sigma^2} \sum_{k=1}^{t}x_{k}^2 \right\} \mathrm{d}x_{1:t} - 1\right] \\
-
 &= \frac{1}{N} \left [\frac{(2\pi \sigma^2)^{n/2}}{(2\pi)^n} \int  \exp \left\{ x_{1:t}^{\top} x_{1:t} -\frac{1}{2}\left [ 2 - \frac{1}{\sigma^2} \right ]\right\} \mathrm{d}x_{1:t} - 1\right] \\
-
 &= \frac{1}{N} \left [\frac{(2\pi \sigma^2)^{n/2}}{(2\pi)^n} \cdot \left ( 2\pi \cdot \frac{\sigma^2}{2\sigma^2 -1 } \right)^{n/2} - 1\right] 
-
 \end{aligned}\end{equation}\tag{24}\label{eq24}$$
 
 This results in well known problems, the first of which is known under the names of *sample degeneracy* or *weight degeneracy*. Basically, if you actually run this after not-so-many iterations there will be one weight $$\approx 1$$ and all other will be zero, which equates to approximate the target with one sample. 
