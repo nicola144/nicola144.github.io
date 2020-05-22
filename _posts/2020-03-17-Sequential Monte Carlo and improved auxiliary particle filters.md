@@ -389,7 +389,7 @@ $$\begin{equation}\begin{aligned}
 We now show that even for an extremely simple model, this expression is exponential in $$t$$. Consider a univariate state space model where the TFD at each timestep is a Gaussian. Then, the sequence of normalized and unnormalized target distributions, and normalizing constant at time $$t$$ are:  
 
 $$
-\gamma_t(s_{1:t}) = 
+\gamma_t(s_{1:t}) = \prod_{k=1}^{t} \exp left ( -\frac{1}{2} x_{k}^{2} \right ) 
 $$
 
 Suppose we select a simple proposal distribution as a factorised Gaussian with unknown variance: 
