@@ -706,7 +706,8 @@ pred = np.zeros((n,))
 
 for i in range(len(w_prev)):
 	c=next(color)
-	current = w_prev[i] * norm.pdf(x, loc=x_prev[i], scale=sigma_kernels)
+	current = w_prev[i] * norm.pdf(x, loc=x_prev[i], 
+			scale=sigma_kernels)
 	pred+= current
 	ax[0].plot(x, current, c=c, label='Kernel '+str(i))
 
@@ -714,9 +715,11 @@ for i in range(len(w_prev)):
 ax[0].plot(x, norm.pdf(x, loc=lik_center, scale=sigma_lik), 'g--')
 
 # True posterior
-true_post_unnormalized = norm.pdf(x, loc=lik_center, scale=sigma_lik) * pred
+true_post_unnormalized = norm.pdf(x,
+			 loc=lik_center, scale=sigma_lik) * pred
 # Normalize posterior
-true_post = true_post_unnormalized / (simps(true_post_unnormalized, dx=x[1]-x[0]))
+true_post = true_post_unnormalized / 
+            (simps(true_post_unnormalized, dx=x[1]-x[0]))
 
 # BPF proposal 
 bpf_proposal = pred
@@ -725,7 +728,8 @@ bpf_proposal = pred
 pred_lik = []
 
 for i in range(len(x_prev)):
-	pred_lik.append(norm.pdf(x_prev[i], loc=lik_center, scale=sigma_lik))	
+	pred_lik.append(norm.pdf(x_prev[i],
+	loc=lik_center, scale=sigma_lik))	
 
 pred_lik = np.array(pred_lik)
 apf_weights = pred_lik * w_prev 
@@ -735,23 +739,27 @@ apf_weights = apf_weights/(np.sum(apf_weights))
 apf_proposal = np.zeros((n,))
 
 for i in range(len(x_prev)):
-	apf_proposal+= apf_weights[i] * norm.pdf(x, loc=x_prev[i], scale=sigma_kernels)
-
+	apf_proposal+= apf_weights[i] * 
+		       norm.pdf(x, loc=x_prev[i], scale=sigma_kernels)
 # IAPF 
 sum_kernels_at_likelihood = 0.
 sum_weighted_kernels_at_likelihood = 0.
 
 for i in range(len(x_prev)):
-	sum_kernels_at_likelihood+=  norm.pdf(x_prev[i], loc=lik_center, scale=sigma_kernels)
-	sum_weighted_kernels_at_likelihood+= w_prev[i] * norm.pdf(x_prev[i], loc=lik_center, scale=sigma_kernels)
+	sum_kernels_at_likelihood+= norm.pdf(x_prev[i],
+				    loc=lik_center, scale=sigma_kernels)
+	sum_weighted_kernels_at_likelihood+= 
+	w_prev[i] * norm.pdf(x_prev[i], loc=lik_center, scale=sigma_kernels)
 
-iapf_weights = (pred_lik * sum_weighted_kernels_at_likelihood) / sum_kernels_at_likelihood
+iapf_weights = (pred_lik * sum_weighted_kernels_at_likelihood) / 
+		sum_kernels_at_likelihood
 iapf_weights = iapf_weights / np.sum(iapf_weights)
 
 iapf_proposal = np.zeros((n,))
 
 for i in range(len(x_prev)):
-	iapf_proposal+= iapf_weights[i] * norm.pdf(x, loc=x_prev[i], scale=sigma_kernels)
+	iapf_proposal+= iapf_weights[i] * 
+			norm.pdf(x, loc=x_prev[i], scale=sigma_kernels)
 
 
 ax[1].plot(x,bpf_proposal, c='b', label='BPF proposal')
