@@ -373,8 +373,11 @@ $$\begin{equation}\begin{aligned}
 \end{aligned}\end{equation}\tag{22}\label{eq22}$$$$
 
 
-Where in the conditioning of the proposal we introduce dependence on all measurements (usually we only use the latest). If you are given a choice for the proposal $$\color{#FF8000}{q}_{t}(\mathbf{s}_{t} \mid \mathbf{s}_{1:t-1}, \mathbf{v}_{1:t}) $$, then you have a concrete algorithm to sequentially approximate $$\left \{ p(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t}) \right \}_{t \geq 1}$$, with constant time per update (remembering that throughout the algorithm only uses unnormalized weights, and only when one wants to approximate the desired distribution one needs to normalize the weights). This algorithm is neat, but it can be shown that the variance of the resulting estimates increases expontentially in $$t$$. This is because the sequential algorithm just derived is a special case of IS, and we can easily show that this fact holds if we were simply using IS. 
-To check this , consider the variance of $$\widehat{Z}/ Z_t $$ known as "relative variance": 
+Where in the conditioning of the proposal we introduce dependence on all measurements (usually we only use the latest). If you are given a choice for the proposal $$\color{#FF8000}{q}_{t}(\mathbf{s}_{t} \mid \mathbf{s}_{1:t-1}, \mathbf{v}_{1:t}) $$, then you have a concrete algorithm to sequentially approximate $$\left \{ p(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t}) \right \}_{t \geq 1}$$, with constant time per update (remembering that throughout the algorithm only uses unnormalized weights, and only when one wants to approximate the desired distribution one needs to normalize the weights). This algorithm is neat, but it can be shown that the variance of the resulting *estimates* increases expontentially in $$t$$.
+An important tangent is necessary at this point. In IS, we analysed the variance of estimators for integrals under the distribution of interest. In SIS, it makes more sense to focus on the variance of the importance weights, rather than the variance of some moments (integrals) under the TFD or SFD. This is because we don't know exactly which integrals we would be interested in, and it is easy to derive cases where the variance of some specific moment is low, but higher on any other. 
+
+Closed this brief tangent, the exponentially increasing is due to SIS being a special case of IS.
+To check this , consider the variance of $$\widehat{Z}/ Z_t $$ known as "relative variance" under simple IS: 
 
 $$\begin{equation}\begin{aligned}
 \mathbb{V}_q\left[ \frac{\widehat{Z}_t}{Z_t} \right] &=  \frac{\mathbb{V}_q[\widehat{Z}_t]}{Z_{t}^{2}} \qquad \text{since}~Z_t~ \text{a constant} \\ 
@@ -450,11 +453,12 @@ The resampling step can be intepreted as a clever choice of proposal. To underst
 
 Notice that the weight computation does not involve the previous weight, since resampling sets weights to a constant, and thus we can omit it when using proportionality.
 
-In our state space model, if we chose a proposal equal to the transition density, so $$ \color{#FF8000}{q}_{t}(\mathbf{s}_{t}\mid \mathbf{s}_{1:t-1}) = \color{blue}{f}(\mathbf{s}_{t}\mid \mathbf{s}_{t-1})$$ , then the weight update simplifies to: 
+In our state space model, if we chose a proposal equal to the transition density, so $$ \color{#FF8000}{q}_{t}(\mathbf{s}_{t}\mid \mathbf{s}_{1:t-1}, \mathbf{v}_{1:t}) = \color{blue}{f}(\mathbf{s}_{t}\mid \mathbf{s}_{t-1})$$ , then the weight update simplifies to: 
 
 $$\begin{equation}\begin{aligned}
-\varpi_t(\mathbf{s}_{t-1}, \mathbf{s}_{t}) &=  \frac{\color{blue}{f}(\mathbf{s}_t \mid \mathbf{s}_{t-1}) \color{green}{g}(\mathbf{v}_t \mid \mathbf{s}_t)}{q_t(\mathbf{s}_t \mid \mathbf{s}_{1:t-1}, \mathbf{v}_{1:t})} \\
-&= \frac{\cancel{f(\mathbf{s}_t \mid \mathbf{s}_{t-1})} g(\mathbf{v}_t \mid \mathbf{s}_t)}{\cancel{f(\mathbf{s}_t \mid \mathbf{s}_{t-1})}}
+\varpi_t(\mathbf{s}_{t-1}, \mathbf{s}_{t}) &=  \frac{\color{blue}{f}(\mathbf{s}_t \mid \mathbf{s}_{t-1}) \color{green}{g}(\mathbf{v}_t \mid \mathbf{s}_t)}{\color{#FF8000}{q}_t(\mathbf{s}_t \mid \mathbf{s}_{1:t-1}, \mathbf{v}_{1:t})} \\
+&= \frac{\cancel{\color{blue}{f}(\mathbf{s}_t \mid \mathbf{s}_{t-1})} \color{green}{g}(\mathbf{v}_t \mid \mathbf{s}_t)}{\cancel{\color{blue}{f}(\mathbf{s}_t \mid \mathbf{s}_{t-1})}} \\
+&= \color{green}{g}(\mathbf{v}_t \mid \mathbf{s}_t)
 \end{aligned}\end{equation}\tag{25}\label{eq25}$$
 
 This choice within the SMC general framework gives rise to the concrete algorithm named *Bootstrap Particle Filter* (BPF). Using the transition density can lead to poor approximations, especially if the dimension of the hidden states is large. 
@@ -467,28 +471,38 @@ Let us now discuss some details about $$ \widehat{\pi}_{t}$$ . This section can 
 *Fig. 3: Illustration of BPF for a one dimensional set of particles. Tikz figure with minor modifications from an original made by Víctor Elvira.*
 
 
+Unfortunately, weight degeneracy is not the end of the story. The resampling mechanism generates another important issue known as *path degeneracy*. This phenomenon is best understood with an illustration, shown below. Repeated resampling over many iterations causes particle diversity to be killed, as most of the particles at some point will collapse back to a single (or few) ancestor. 
 
 ![hhm]({{ '/assets/images/path-degg.svg' | relative_url }})
 {: style="width: 100%;" class="center"}
 *Fig. 4: Path degeneracy illustration in SMC/SIR/PF. Borrowed from Naesseth et al. [4]*
 
+There are ways to deal with path degeneracy, such as low-variance resampling, or simply only resampling when a certain measure of efficiency is satisfied (effective sample size), or adaptive resampling. We do not go into more detail here, as these are more advanced, and path degeneracy is still not fundamentally solved.
 
 ## Propagating particles by incorporating the current measurement <a name="apf"></a>
 
 Let's talk about one particularly popular variation on the BPF. I will put it into the context of a generic SMC algorithm (for state space models), as did for the BPF, and explain different intepretations. I will start with the interpretation given by Johansen et al [2].
 
-One of the motivations for APF is as follows. One can show that, if we had acces to the locally optimal proposal in SMC, then the weight update becomes an expression that does not involve the current state $$\mathbf{s}_t$$ at all. Notice that previously we have been performing propagation first, then weight update and resampling. Now if the weight update does not depend on the current state, then we could perform resampling before propagation. As Johansen et al [2] point out,  this yields a better approximation of the distribution as it provides a greater number of distinct particles to approximate the target. 
+One of the motivations for APF is as follows. One can show that, if we had acces to the locally optimal proposal in SMC, then the weight update becomes an expression that does not involve the current state $$\mathbf{s}_t$$ at all. In fact, we will show this in the next subsection. Notice that previously we have been performing propagation first, then weight update and resampling. Now, if the weight update does not depend on the current state, nothing would stop us at performing resampling before propagation. As Johansen et al [2] point out, this yields a better approximation of the distribution as it provides a greater number of distinct particles to approximate the target. 
 
 This interchange of propagation and resampling can be seen as a way of incorporating the effects of the current measurements $$\mathbf{v}_t$$ on the generation of states at time $$t$$, or of "filtering out" particles with low importance. 
 Because in general we don't have access to the optimal proposal and thus can't do this exactly, we can try to "mimic" it, and this is what APF attempts to do. 
 
-Before getting into APF however, let's actually inspect more explicitly what would happen if we used the locally optimal proposal in filtering. 
+Before getting into APF however, let's actually inspect what would happen if we used the locally optimal proposal in filtering. 
 
 ### The effect of using the locally optimal proposal <a name="optimalproposal"></a>
 
+In the context of the state space model described, the proposal: 
+
 $$ 
-\tilde{w}_{t} = \tilde{w}_{t-1}(\mathbf{s}_{1:t-1}) \cdot \frac{\color{blue}{f}(\mathbf{s}_{t}\mid \mathbf{s}_{t-1}) \color{green}{g}(\mathbf{v}_{t} \mid \mathbf{s}_{t})}{\frac{\color{blue}{f}(\mathbf{s}_{t} \mid \mathbf{s}_{t-1}) \color{green}{g}(\mathbf{v}_{t} \mid \mathbf{s}_t)  }{ p(\mathbf{v}_{t} \mid \mathbf{s}_{t-1})} }
+\color{#FF8000}{q}_{t}(\mathbf{s}_{t}\mid \mathbf{s}_{1:t-1}, \mathbf{v}_{1:t}) = p(\mathbf{s}_{t} \mid \mathbf{v}_t , \mathbf{s}_{t-1})
 $$
+
+Is often referred to as the "optimal" or "locally optimal" proposal. This is because it is the proposal that minimizes the variance of the weights (we have seen that this makes more sense than trying to minimize the variance of some moments under the posterior).
+
+$$\begin{equation}\begin{aligned}
+\tilde{w}_{t} = \tilde{w}_{t-1}(\mathbf{s}_{1:t-1}) \cdot \frac{\color{blue}{f}(\mathbf{s}_{t}\mid \mathbf{s}_{t-1}) \color{green}{g}(\mathbf{v}_{t} \mid \mathbf{s}_{t})}{\frac{\color{blue}{f}(\mathbf{s}_{t} \mid \mathbf{s}_{t-1}) \color{green}{g}(\mathbf{v}_{t} \mid \mathbf{s}_t)  }{ p(\mathbf{v}_{t} \mid \mathbf{s}_{t-1})} }
+\end{aligned}\end{equation}\tag{26}\label{eq26}$$
 
 
 $$ 
