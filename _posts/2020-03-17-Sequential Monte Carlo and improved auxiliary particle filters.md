@@ -492,26 +492,20 @@ Before getting into APF however, let's actually inspect what would happen if we 
 
 ### The effect of using the locally optimal proposal <a name="optimalproposal"></a>
 
-In the context of the state space model described, the proposal: 
+In the context of the state space model described, the following proposal is often referred to as the "optimal" or "locally optimal" proposal: 
 
 $$ 
 \color{#FF8000}{q}_{t}(\mathbf{s}_{t}\mid \mathbf{s}_{1:t-1}, \mathbf{v}_{1:t}) = p(\mathbf{s}_{t} \mid \mathbf{s}_{t-1}, \mathbf{v}_t) = \frac{p(\mathbf{v}_{t} \mid \mathbf{s}_{t}, \mathbf{s}_{t-1}) p(\mathbf{s}_{t} \mid \mathbf{s}_{t-1})}{p(\mathbf{v}_t \mid \mathbf{s}_{t-1})} = \frac{\color{green}{g}(\mathbf{v}_{t} \mid \mathbf{s}_{t}) \color{blue}{f}(\mathbf{s}_{t}\mid \mathbf{s}_{t-1})}{\int \color{green}{g}(\mathbf{v}_{t} \mid \mathbf{s}_{t}) \color{blue}{f}(\mathbf{s}_{t}\mid \mathbf{s}_{t-1}) \mathrm{d}\mathbf{s}_t}
 $$
 
-Is often referred to as the "optimal" or "locally optimal" proposal. This is because it is the proposal that minimizes the variance of the weights (we have seen that this makes more sense than trying to minimize the variance of some moments under the posterior). Inspecting 
+Applying Bayes' rule on $$ \mathbf{s}_t , \mathbf{v}_t$$ with $$\mathbf{s}_{t-1}$$ as "context". This name is due to the fact that it is the proposal that minimizes the variance of the weights (we have seen that this makes more sense than trying to minimize the variance of some moments under the posterior). Then, the weight update becomes: 
 
 $$\begin{equation}\begin{aligned}
-\tilde{w}_{t} = \tilde{w}_{t-1}(\mathbf{s}_{1:t-1}) \cdot \frac{\color{blue}{f}(\mathbf{s}_{t}\mid \mathbf{s}_{t-1}) \color{green}{g}(\mathbf{v}_{t} \mid \mathbf{s}_{t})}{\frac{\color{blue}{f}(\mathbf{s}_{t} \mid \mathbf{s}_{t-1}) \color{green}{g}(\mathbf{v}_{t} \mid \mathbf{s}_t)  }{ p(\mathbf{v}_{t} \mid \mathbf{s}_{t-1})} }
+\varpi_{t}(\mathbf{s}_{t-1}, \mathbf{s}_{t}) = \frac{\color{blue}{f}(\mathbf{s}_{t}\mid \mathbf{s}_{t-1}) \color{green}{g}(\mathbf{v}_{t} \mid \mathbf{s}_{t})}{\frac{\color{blue}{f}(\mathbf{s}_{t} \mid \mathbf{s}_{t-1}) \color{green}{g}(\mathbf{v}_{t} \mid \mathbf{s}_t)  }{ p(\mathbf{v}_{t} \mid \mathbf{s}_{t-1})} } \\
+&=  p(\mathbf{v}_t \mid \mathbf{s}_{t-1})
 \end{aligned}\end{equation}\tag{26}\label{eq26}$$
 
-
-$$ 
-= \tilde{w}_{t-1} p(\mathbf{v}_t \mid \mathbf{s}_{t-1})
-$$
-
-$$\begin{equation}\begin{aligned}
-d
-\end{aligned}\end{equation}\tag{23}\label{eq23}$$
+Since this expression does not depend on the current state $$\mathbf{s}_t$$, as it has been integrated out, intuitively the (conditional) variance of the weights at time $$t$$ is just $$0$$. This can be seen explicitly
 
 The two main difficulties that using this proposal presents are:
 1. Sampling from it can be hard  
