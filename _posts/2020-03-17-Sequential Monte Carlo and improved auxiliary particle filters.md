@@ -495,10 +495,10 @@ Before getting into APF however, let's actually inspect what would happen if we 
 In the context of the state space model described, the proposal: 
 
 $$ 
-\color{#FF8000}{q}_{t}(\mathbf{s}_{t}\mid \mathbf{s}_{1:t-1}, \mathbf{v}_{1:t}) = p(\mathbf{s}_{t} \mid \mathbf{v}_t , \mathbf{s}_{t-1})
+\color{#FF8000}{q}_{t}(\mathbf{s}_{t}\mid \mathbf{s}_{1:t-1}, \mathbf{v}_{1:t}) = p(\mathbf{s}_{t} \mid \mathbf{s}_{t-1}, \mathbf{v}_t) = \frac{p(\mathbf{v}_{t} \mid \mathbf{s}_{t}, \mathbf{s}_{t-1}) p(\mathbf{s}_{t} \mid \mathbf{s}_{t-1})}{p(\mathbf{v}_t \mid \mathbf{s}_{t-1})} = \frac{\color{green}{g}(\mathbf{v}_{t} \mid \mathbf{s}_{t}) \color{blue}{f}(\mathbf{s}_{t}\mid \mathbf{s}_{t-1})}{\int \color{green}{g}(\mathbf{v}_{t} \mid \mathbf{s}_{t}) \color{blue}{f}(\mathbf{s}_{t}\mid \mathbf{s}_{t-1}) \mathrm{d}\mathbf{s}_t}
 $$
 
-Is often referred to as the "optimal" or "locally optimal" proposal. This is because it is the proposal that minimizes the variance of the weights (we have seen that this makes more sense than trying to minimize the variance of some moments under the posterior).
+Is often referred to as the "optimal" or "locally optimal" proposal. This is because it is the proposal that minimizes the variance of the weights (we have seen that this makes more sense than trying to minimize the variance of some moments under the posterior). Inspecting 
 
 $$\begin{equation}\begin{aligned}
 \tilde{w}_{t} = \tilde{w}_{t-1}(\mathbf{s}_{1:t-1}) \cdot \frac{\color{blue}{f}(\mathbf{s}_{t}\mid \mathbf{s}_{t-1}) \color{green}{g}(\mathbf{v}_{t} \mid \mathbf{s}_{t})}{\frac{\color{blue}{f}(\mathbf{s}_{t} \mid \mathbf{s}_{t-1}) \color{green}{g}(\mathbf{v}_{t} \mid \mathbf{s}_t)  }{ p(\mathbf{v}_{t} \mid \mathbf{s}_{t-1})} }
