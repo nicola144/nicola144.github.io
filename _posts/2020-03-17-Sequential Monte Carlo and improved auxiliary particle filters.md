@@ -501,28 +501,28 @@ $$
 Applying Bayes' rule on $$ \mathbf{s}_t , \mathbf{v}_t$$ with $$\mathbf{s}_{t-1}$$ as "context". This name is due to the fact that it is the proposal that minimizes the variance of the weights (we have seen that this makes more sense than trying to minimize the variance of some moments under the posterior). Then, the weight update becomes: 
 
 $$\begin{equation}\begin{aligned}
-\varpi_{t}(\mathbf{s}_{t-1}, \mathbf{s}_{t}) = \frac{\color{blue}{f}(\mathbf{s}_{t}\mid \mathbf{s}_{t-1}) \color{green}{g}(\mathbf{v}_{t} \mid \mathbf{s}_{t})}{\frac{\color{blue}{f}(\mathbf{s}_{t} \mid \mathbf{s}_{t-1}) \color{green}{g}(\mathbf{v}_{t} \mid \mathbf{s}_t)  }{ p(\mathbf{v}_{t} \mid \mathbf{s}_{t-1})} } \\
+\varpi_{t}(\mathbf{s}_{t-1}, \mathbf{s}_{t}) &= \frac{\color{blue}{f}(\mathbf{s}_{t}\mid \mathbf{s}_{t-1}) \color{green}{g}(\mathbf{v}_{t} \mid \mathbf{s}_{t})}{\frac{\color{blue}{f}(\mathbf{s}_{t} \mid \mathbf{s}_{t-1}) \color{green}{g}(\mathbf{v}_{t} \mid \mathbf{s}_t)  }{ p(\mathbf{v}_{t} \mid \mathbf{s}_{t-1})} } \\
 &=  p(\mathbf{v}_t \mid \mathbf{s}_{t-1})
 \end{aligned}\end{equation}\tag{26}\label{eq26}$$
 
-Since this expression does not depend on the current state $$\mathbf{s}_t$$, as it has been integrated out, intuitively the (conditional) variance of the weights at time $$t$$ is just $$0$$. This can be seen explicitly
+Since this expression does not depend on the current state $$\mathbf{s}_t$$, which has been integrated out, intuitively the (conditional) variance of the weights under the proposal at time $$t$$ is just $$0$$. 
 
 The two main difficulties that using this proposal presents are:
-1. Sampling from it can be hard  
-2. Requires evaluation of $$ p(\mathbf{v}_t \mid \mathbf{s}_{t-1}) = \int \color{green}{g}(\mathbf{v}_t \mid \mathbf{s}_{t}) \color{blue}{f}(\mathbf{s}_t \mid \mathbf{s}_{t-1}) \mathrm{d} \mathbf{s}_t$$
+1. Sampling from it can be hard; 
+2. It requires evaluation of $$ p(\mathbf{v}_t \mid \mathbf{s}_{t-1}) = \int \color{green}{g}(\mathbf{v}_t \mid \mathbf{s}_{t}) \color{blue}{f}(\mathbf{s}_t \mid \mathbf{s}_{t-1}) \mathrm{d} \mathbf{s}_t$$ which is almost always an integral as difficult as the filtering problem itself.
 
 ### The Auxiliary Particle Filter <a name="apf2"></a>
 
-One interpretation of the APF is that of a standard SMC algorithm where the target that is propagated through each iteration is *not* the unnormalized filtering distribution, but rather $$\gamma_t(\mathbf{s}_{1:t}) = p(\mathbf{s}_{1:t}, \mathbf{v}_{1:\color{red}{t+1}}) $$. This is how it achieves the incorporation of the next measurements before propagation.  We will discuss a different derivation/intepretation of the APF in the next Section. 
+The APF can be interpretated as a standard SMC algorithm (that is, an instantiation of the "meta" algorithm we described previously) where the target $$\gamma$$ that is propagated through each iteration is *not* the unnormalized filtering distribution $$p(\mathbf{s}_{1:t}, \mathbf{v}_{1:t}) $$, but rather $$\gamma_t(\mathbf{s}_{1:t}) = p(\mathbf{s}_{1:t}, \mathbf{v}_{1:\color{red}{t+1}}) $$. This is how it achieves the incorporation of the next measurements before propagation.  
 
-The target, in the APF, therefore can be easily decomposed as:
+Under this interpretation, the target in the APF can be easily decomposed as:
 
 $$\begin{equation}\begin{aligned}
 \gamma_{t}(\mathbf{s}_{1:t}) := p(\mathbf{s}_{1:t} , \mathbf{v}_{\color{red}{t+1}}) &= \int p(\mathbf{s}_{1:t+1} , \mathbf{v}_{1:t+1}) \mathrm{d} \mathbf{s}_{t+1} \\
 &= \int p(\mathbf{s}_{1:t} , \mathbf{v}_{1:t}) \cdot {\color{blue}{f}}(\mathbf{s}_{t+1} \mid \mathbf{s}_{t}) \cdot {\color{green}{g}}(\mathbf{v}_{t+1} \mid \mathbf{s}_{t+1}) \mathrm{d} \mathbf{s}_{t+1} \\
 &=  p(\mathbf{s}_{1:t} , \mathbf{v}_{1:t}) \int {\color{blue}{f}}(\mathbf{s}_{t+1} \mid \mathbf{s}_{t}) \cdot {\color{green}{g}}(\mathbf{v}_{t+1} \mid \mathbf{s}_{t+1}) \mathrm{d} \mathbf{s}_{t+1} \\
 &=  p(\mathbf{s}_{1:t} , \mathbf{v}_{1:t}) \cdot \underbrace{p(\mathbf{v}_{t+1} \mid \mathbf{s}_{t})}_{"predictive~likelihood"} 
-\end{aligned}\end{equation}\tag{23}\label{eq23}$$
+\end{aligned}\end{equation}\tag{27}\label{eq27}$$
 
 Which we see is equivalent to the product between what would be the target in standard SMC times the so called "predictive likelihood" $$p(\mathbf{v}_{t+1} \mid \mathbf{s}_{t})$$. The weight update can be derived by making use of this: 
 
@@ -530,7 +530,7 @@ $$\begin{equation}\begin{aligned}
 \tilde{w} &= \tilde{w}_{t-1}(\mathbf{s}_{1:t-1}) \cdot \frac{\gamma_{t}(\mathbf{s}_{1:t})}{\gamma_{t-1}(\mathbf{s}_{1:t-1}) \color{#FF8000}{q}_{t}(\mathbf{s}_{t}\mid \mathbf{s}_{1:t-1})} \\
 &=  \tilde{w}_{t-1}(\mathbf{s}_{1:t-1}) \cdot  \frac{p(\mathbf{s}_{1:t}, \mathbf{v}_{1:t}) p(\mathbf{v}_{t+1} \mid \mathbf{s}_{t})}{p(\mathbf{s}_{1:t-1}, \mathbf{v}_{1:t-1}) p(\mathbf{v}_{t} \mid \mathbf{s}_{t-1}) \color{#FF8000}{q}_{t}(\mathbf{s}_{t} \mid \mathbf{s}_{1:t-1})} \\
 &= \tilde{w}_{t-1}(\mathbf{s}_{1:t-1}) \cdot \frac{\cancel{p(\mathbf{s}_{1:t-1}, \mathbf{v}_{1:t-1})} \color{blue}{f}(\mathbf{s}_{t} \mid \mathbf{s}_{t-1}) \color{green}{g}(\mathbf{v}_{t} \mid \mathbf{s}_{t}) p(\mathbf{v}_{t+1} \mid \mathbf{s}_{t})}{\cancel{p(\mathbf{s}_{1:t-1}, \mathbf{v}_{1:t-1})} p(\mathbf{v}_{t} \mid \mathbf{s}_{t-1}) \color{#FF8000}{q}_{t}(\mathbf{s}_{t} \mid \mathbf{s}_{1:t-1})} 
-\end{aligned}\end{equation}\tag{24}\label{eq24}$$
+\end{aligned}\end{equation}\tag{28}\label{eq28}$$
 
 
 Suppose we have been running the APF for $$1\dots t-1$$ iterations, and now we want a particle approximation of $$p(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t})$$. We can't compute the weights as in APF, because recall that it sequentially estimates something different to what we want, namely $$p(\mathbf{s}_{1:t-1} \mid \mathbf{v}_{1:t}) \cdot p(\mathbf{v}_{t} \mid \mathbf{s}_{t-1})$$. Thus, to compute the weights for our approximation, we have to use $$\gamma_t(\mathbf{s}_{1:t}) = p(\mathbf{s}_{1:t}, \mathbf{v}_{1:t})$$ and $$\gamma_{t-1}(\mathbf{s}_{1:t-1}) = p(\mathbf{s}_{1:t-1} , \mathbf{v}_{1:t}) \cdot p(\mathbf{v}_{t} \mid \mathbf{s}_{t-1})$$. Doing the whole derivation: 
@@ -555,9 +555,10 @@ $$\begin{equation}\begin{aligned}
 
 ## The Multiple Importance Sampling interpretation <a name="mis"></a>
 
-Recently in [3] a novel re-intepretation of classic particle filters such as BPF and APF was published. This introduces a framework in which these filters emerge as special cases, and explains their properties under a Multiple Importance Sampling (MIS) perspective. MIS is a subfield of IS that is concerned with the use of multiple propoasals to approximate integrals and distributions, rather than just one. 
+Recently in [3] a novel re-intepretation of classic particle filters such as BPF and APF was published. This introduces a framework in which these filters emerge as special cases, and explains their properties under a Multiple Importance Sampling (MIS) perspective. MIS is a subfield of IS that is concerned with the use of multiple propoasals to approximate integrals and distributions. 
 
-In this section, we drop the $$\gamma$$ notation since our target is always assumed to be $$p(\mathbf{s}_{t} \mid \mathbf{v}_{1:t})$$. Note that in order to sequentially estimate this distribution and derive the importance weights, we will make use of \eqref{eq8} rather than \eqref{eq7}, that is our numerator of the (unnormalized) weights will be $$p(\mathbf{s}_{t} \mid \mathbf{v}_{1:t-1}) \color{green}{g}(\mathbf{v}_{t} \mid \mathbf{s}_{t}) $$ and not $$p(\mathbf{s}_{1:t-1}, \mathbf{v}_{1:t-1}) \color{blue}{f}(\mathbf{s}_{t} \mid \mathbf{s}_{t-1}) \color{green}{g}(\mathbf{v}_{t} \mid \mathbf{s}_{t})$$. 
+In this section, we drop the $$\gamma$$ notation since our target is always assumed to be $$p(\mathbf{s}_{t} \mid \mathbf{v}_{1:t})$$. Importantly, note that under this perspective, algorithms are derived by using the SFD and not the TFD as previously. 
+
 Moreover, for the APF it assumed the common approximation to the predictive likelihood described earlier $$g(\mathbf{v}_{t} \mid \boldsymbol{\mu}_{t})$$, where $$ \boldsymbol{\mu}_{t} := \mathbb{E}_{\color{blue}{f}(\mathbf{s}_{t} \mid \mathbf{s}_{t-1})} [ \mathbf{s}_t ] $$. Finally, the proposal is selected to be the transition density. 
 
 <div id="example1">
