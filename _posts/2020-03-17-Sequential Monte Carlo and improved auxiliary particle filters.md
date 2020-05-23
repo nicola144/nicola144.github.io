@@ -527,9 +527,9 @@ $$\begin{equation}\begin{aligned}
 Which we see is equivalent to the product between what would be the target in standard SMC times the so called "predictive likelihood" $$p(\mathbf{v}_{t+1} \mid \mathbf{s}_{t})$$. The weight update can be derived by making use of this: 
 
 $$\begin{equation}\begin{aligned}
-\tilde{w} &= \tilde{w}_{t-1}(\mathbf{s}_{1:t-1}) \cdot \frac{\gamma_{t}(\mathbf{s}_{1:t})}{\gamma_{t-1}(\mathbf{s}_{1:t-1}) \color{#FF8000}{q}_{t}(\mathbf{s}_{t}\mid \mathbf{s}_{1:t-1})} \\
-&=  \tilde{w}_{t-1}(\mathbf{s}_{1:t-1}) \cdot  \frac{p(\mathbf{s}_{1:t}, \mathbf{v}_{1:t}) p(\mathbf{v}_{t+1} \mid \mathbf{s}_{t})}{p(\mathbf{s}_{1:t-1}, \mathbf{v}_{1:t-1}) p(\mathbf{v}_{t} \mid \mathbf{s}_{t-1}) \color{#FF8000}{q}_{t}(\mathbf{s}_{t} \mid \mathbf{s}_{1:t-1})} \\
-&= \tilde{w}_{t-1}(\mathbf{s}_{1:t-1}) \cdot \frac{\cancel{p(\mathbf{s}_{1:t-1}, \mathbf{v}_{1:t-1})} \color{blue}{f}(\mathbf{s}_{t} \mid \mathbf{s}_{t-1}) \color{green}{g}(\mathbf{v}_{t} \mid \mathbf{s}_{t}) p(\mathbf{v}_{t+1} \mid \mathbf{s}_{t})}{\cancel{p(\mathbf{s}_{1:t-1}, \mathbf{v}_{1:t-1})} p(\mathbf{v}_{t} \mid \mathbf{s}_{t-1}) \color{#FF8000}{q}_{t}(\mathbf{s}_{t} \mid \mathbf{s}_{1:t-1})} 
+\varpi_t(\mathbf{s}_{t-1}, \mathbf{s}_t) &=  \frac{\gamma_{t}(\mathbf{s}_{1:t})}{\gamma_{t-1}(\mathbf{s}_{1:t-1}) \color{#FF8000}{q}_{t}(\mathbf{s}_{t}\mid \mathbf{s}_{1:t-1})} \\
+&=    \frac{p(\mathbf{s}_{1:t}, \mathbf{v}_{1:t}) p(\mathbf{v}_{t+1} \mid \mathbf{s}_{t})}{p(\mathbf{s}_{1:t-1}, \mathbf{v}_{1:t-1}) p(\mathbf{v}_{t} \mid \mathbf{s}_{t-1}) \color{#FF8000}{q}_{t}(\mathbf{s}_{t} \mid \mathbf{s}_{1:t-1})} \\
+&=  \frac{\cancel{p(\mathbf{s}_{1:t-1}, \mathbf{v}_{1:t-1})} \color{blue}{f}(\mathbf{s}_{t} \mid \mathbf{s}_{t-1}) \color{green}{g}(\mathbf{v}_{t} \mid \mathbf{s}_{t}) p(\mathbf{v}_{t+1} \mid \mathbf{s}_{t})}{\cancel{p(\mathbf{s}_{1:t-1}, \mathbf{v}_{1:t-1})} p(\mathbf{v}_{t} \mid \mathbf{s}_{t-1}) \color{#FF8000}{q}_{t}(\mathbf{s}_{t} \mid \mathbf{s}_{1:t-1})} 
 \end{aligned}\end{equation}\tag{28}\label{eq28}$$
 
 
@@ -538,10 +538,10 @@ Suppose we have been running the APF for $$1\dots t-1$$ iterations, and now we w
 
 
 $$\begin{equation}\begin{aligned}
-\tilde{w}_t &= \tilde{w}_{t-1}(\mathbf{s}_{1:t-1}) \cdot  \frac{p(\mathbf{s}_{1:t}, \mathbf{v}_{1:t})}{ p(\mathbf{s}_{1:t-1}, \mathbf{v}_{1:t-1}) p(\mathbf{v}_{t} \mid \mathbf{s}_{t-1}) \color{#FF8000}{q}_{t}(\mathbf{s}_{t} \mid \mathbf{v}_{t}, \mathbf{s}_{t-1})}  \\
-&=  \tilde{w}_{t-1}(\mathbf{s}_{1:t-1}) \cdot \frac{\cancel{p(\mathbf{s}_{1:t-1}, \mathbf{v}_{1:t-1})}f(\mathbf{s}_{t}\mid \mathbf{s}_{t-1}) g(\mathbf{v}_{t} \mid \mathbf{s}_{t})}{\cancel{p(\mathbf{s}_{1:t-1}, \mathbf{v}_{1:t-1})} p(\mathbf{v}_{t} \mid \mathbf{s}_{t-1}) \color{#FF8000}{q}_{t}(\mathbf{s}_{t} \mid \mathbf{v}_{t}, \mathbf{s}_{t-1})} \\
-&= \tilde{w}_{t-1}(\mathbf{s}_{1:t-1}) \cdot \frac{f(\mathbf{s}_{t}\mid \mathbf{s}_{t-1}) g(\mathbf{v}_{t} \mid \mathbf{s}_{t})}{p(\mathbf{v}_{t} \mid \mathbf{s}_{t-1}) \color{#FF8000}{q}_{t}(\mathbf{s}_{t} \mid \mathbf{v}_{t}, \mathbf{s}_{t-1})}
-\end{aligned}\end{equation}\tag{25}\label{eq25}$$ 
+\varpi_t(\mathbf{s}_{t-1}, \mathbf{s}_t) &=  \frac{p(\mathbf{s}_{1:t}, \mathbf{v}_{1:t})}{ p(\mathbf{s}_{1:t-1}, \mathbf{v}_{1:t-1}) p(\mathbf{v}_{t} \mid \mathbf{s}_{t-1}) \color{#FF8000}{q}_{t}(\mathbf{s}_{t} \mid \mathbf{v}_{t}, \mathbf{s}_{t-1})}  \\
+&=  \frac{\cancel{p(\mathbf{s}_{1:t-1}, \mathbf{v}_{1:t-1})}f(\mathbf{s}_{t}\mid \mathbf{s}_{t-1}) g(\mathbf{v}_{t} \mid \mathbf{s}_{t})}{\cancel{p(\mathbf{s}_{1:t-1}, \mathbf{v}_{1:t-1})} p(\mathbf{v}_{t} \mid \mathbf{s}_{t-1}) \color{#FF8000}{q}_{t}(\mathbf{s}_{t} \mid \mathbf{v}_{t}, \mathbf{s}_{t-1})} \\
+&=  \frac{f(\mathbf{s}_{t}\mid \mathbf{s}_{t-1}) g(\mathbf{v}_{t} \mid \mathbf{s}_{t})}{p(\mathbf{v}_{t} \mid \mathbf{s}_{t-1}) \color{#FF8000}{q}_{t}(\mathbf{s}_{t} \mid \mathbf{v}_{t}, \mathbf{s}_{t-1})}
+\end{aligned}\end{equation}\tag{29}\label{eq29}$$ 
 
 
 Note that in practice the predictive likelihood involves an intractable integral, so we have to approximate it with $$\hat{p}(\mathbf{v}_{t} \mid \mathbf{s}_{t-1}) $$. However, in the ideal case, selecting $$\color{#FF8000}{q}_{t}(\mathbf{s}_{t} \mid \mathbf{s}_{1:t-1}) =  p(\mathbf{s}_{t} \mid \mathbf{v}_{t}, \mathbf{s}_{t-1})$$ and $$\hat{p}(\mathbf{v}_{t} \mid \mathbf{s}_{t-1}) = p(\mathbf{v}_{t} \mid \mathbf{s}_{t-1})$$ leads to the so called "perfect adaptation" . 
@@ -551,7 +551,7 @@ Setting the approximation to the predictive likelihood to $$\hat{p}(\mathbf{v}_{
 $$\begin{equation}\begin{aligned}
 \tilde{w} &= \tilde{w}_{t-1}(\mathbf{s}_{1:t-1}) \cdot \frac{f(\mathbf{s}_{t}\mid \mathbf{s}_{t-1}) \color{green}{g}(\mathbf{v}_{t} \mid \mathbf{s}_{t})}{\hat{p}(\mathbf{v}_{t} \mid \mathbf{s}_{t-1}) \color{#FF8000}{q}_{t}(\mathbf{s}_{t} \mid \mathbf{v}_{t}, \mathbf{s}_{t-1})} \\
 &= \tilde{w}_{t-1}(\mathbf{s}_{1:t-1}) \cdot \frac{\cancel{f(\mathbf{s}_{t}\mid \mathbf{s}_{t-1})} \color{green}{g}(\mathbf{v}_{t} \mid \mathbf{s}_{t})}{\color{green}{g}(\mathbf{v}_{t} \mid \boldsymbol{\mu}_{t}) \cancel{f(\mathbf{s}_{t}\mid \mathbf{s}_{t-1})}}
-\end{aligned}\end{equation}\tag{26}\label{eq26}$$ 
+\end{aligned}\end{equation}\tag{30}\label{eq30}$$ 
 
 ## The Multiple Importance Sampling interpretation <a name="mis"></a>
 
