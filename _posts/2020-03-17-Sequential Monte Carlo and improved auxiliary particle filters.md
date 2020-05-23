@@ -404,11 +404,11 @@ $$
 
 Then, :
 $$\begin{equation}\begin{aligned}
-\mathbb{V}_q\left[ \frac{\widehat{Z}_t}{Z_t} \right] &= \frac{1}{N} \left [ \int   \frac{\left ( \prod_{k=1}^{t} \mathcal{N}(s_k \mid 0,1) \right)^2}{\prod_{k=1}^{t} \mathcal{N}(s_k \mid 0,\sigma^2)} \mathrm{d}x_{1:t} - 1\right] \qquad \text{directly} \\
-&= \frac{1}{N} \left [ \int   \frac{(2\pi)^{-t} \left (\prod_{k=1}^{t}  \exp \left\{ -\frac{1}{2}s_{k}^{2} \right\}\right ) \left (\prod_{k=1}^{t}  \exp \left\{ -\frac{1}{2}s_{k}^{2} \right\}\right )}{\prod_{k=1}^{t} (2\pi \sigma^2)^{-1/2} \exp \left\{ -\frac{1}{2\sigma^2} s_{k}^2 \right\}} \mathrm{d}x_{1:t} - 1\right] \\
-&= \frac{1}{N} \left [\frac{(2\pi)^{-t}}{(2\pi \sigma^2)^{-t/2}} \int   \frac{ \exp\left\{ -\sum_{k=1}^{t}s_{k}^2 \right\} }{\exp \left\{ -\frac{1}{2\sigma^2}\sum_{k=1}^{t}s_{k}^{2} \right\}} \mathrm{d}x_{1:t} - 1\right] \\
-&= \frac{1}{N} \left [\frac{(2\pi \sigma^2)^{t/2}}{(2\pi)^t} \int  \exp \left\{ -\sum_{k=1}^{t}s_{k}^2 + \frac{1}{2\sigma^2} \sum_{k=1}^{t}s_{k}^2 \right\} \mathrm{d}x_{1:t} - 1\right] \\
-&= \frac{1}{N} \left [\frac{(2\pi \sigma^2)^{t/2}}{(2\pi)^t} \int  \exp \left\{ \left ( -\frac{1}{2}\left [ 2 - \frac{1}{\sigma^2} \right ] \right ) x_{1:t}^{\top} x_{1:t}  \right\} \mathrm{d}x_{1:t} - 1\right] \qquad \text{as}~ x_{1:t}^{\top}x_{1:t} = \sum_{k=1}^{t} s_{k}^{2} \\
+\mathbb{V}_q\left[ \frac{\widehat{Z}_t}{Z_t} \right] &= \frac{1}{N} \left [ \int   \frac{\left ( \prod_{k=1}^{t} \mathcal{N}(s_k \mid 0,1) \right)^2}{\prod_{k=1}^{t} \mathcal{N}(s_k \mid 0,\sigma^2)} \mathrm{d}s_{1:t} - 1\right] \qquad \text{directly} \\
+&= \frac{1}{N} \left [ \int   \frac{(2\pi)^{-t} \left (\prod_{k=1}^{t}  \exp \left\{ -\frac{1}{2}s_{k}^{2} \right\}\right ) \left (\prod_{k=1}^{t}  \exp \left\{ -\frac{1}{2}s_{k}^{2} \right\}\right )}{\prod_{k=1}^{t} (2\pi \sigma^2)^{-1/2} \exp \left\{ -\frac{1}{2\sigma^2} s_{k}^2 \right\}} \mathrm{d}s_{1:t} - 1\right] \\
+&= \frac{1}{N} \left [\frac{(2\pi)^{-t}}{(2\pi \sigma^2)^{-t/2}} \int   \frac{ \exp\left\{ -\sum_{k=1}^{t}s_{k}^2 \right\} }{\exp \left\{ -\frac{1}{2\sigma^2}\sum_{k=1}^{t}s_{k}^{2} \right\}} \mathrm{d}s_{1:t} - 1\right] \\
+&= \frac{1}{N} \left [\frac{(2\pi \sigma^2)^{t/2}}{(2\pi)^t} \int  \exp \left\{ -\sum_{k=1}^{t}s_{k}^2 + \frac{1}{2\sigma^2} \sum_{k=1}^{t}s_{k}^2 \right\} \mathrm{d}s_{1:t} - 1\right] \\
+&= \frac{1}{N} \left [\frac{(2\pi \sigma^2)^{t/2}}{(2\pi)^t} \int  \exp \left\{ \left ( -\frac{1}{2}\left [ 2 - \frac{1}{\sigma^2} \right ] \right ) s_{1:t}^{\top} s_{1:t}  \right\} \mathrm{d}s_{1:t} - 1\right] \qquad \text{as}~ s_{1:t}^{\top}s_{1:t} = \sum_{k=1}^{t} s_{k}^{2} \\
 &= \frac{1}{N} \left [\frac{(2\pi \sigma^2)^{t/2}}{(2\pi)^t} \cdot \left ( 2\pi \cdot \frac{\sigma^2}{2\sigma^2 -1 } \right)^{t/2} - 1\right] \qquad \text{using}~ \left [ 2 - \frac{1}{\sigma^2} \right ]^{-1} = \left [\frac{\sigma^2}{2\sigma^2 -1} \right ] \\
 &= \frac{1}{N} \left [\frac{\cancel{(2\pi)^{t/2}} \sigma^t }{\cancel{(2\pi)^t}} \cdot  \cancel{(2\pi)^{t/2}} \left ( \cdot \frac{\sigma^2}{2\sigma^2 -1 } \right)^{t/2} - 1\right] \\
 &= \frac{1}{N} \left [(\sigma^2)^{t/2} \cdot   \left ( \frac{\sigma^2}{2\sigma^2 -1 } \right)^{t/2} - 1\right] \\
