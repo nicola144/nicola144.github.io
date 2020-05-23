@@ -395,7 +395,7 @@ $$
 Or in other words $$\pi_t(s_{1:t}) = \prod_{k=1}^{t} \mathcal{N}(s_k \mid 0, 1) = \mathcal{N}(s_{1:t} \mid \boldsymbol{0}, \mathbf{I})$$. Suppose we select a simple proposal distribution as a factorised Gaussian with unknown variance: 
 
 $$
-q_t(s_{1:t}) = \prod_{k=1}^{t} q_{k}(s_k) = \prod_{k}^{t} \mathcal(N)(s_k \mid 0, \sigma^2) = \mathcal{N}(s_{1:t} \mid \boldsymbol{0}, \sigma^2 \mathbf{I})
+q_t(s_{1:t}) = \prod_{k=1}^{t} q_{k}(s_k) = \prod_{k}^{t} \mathcal{N}(s_k \mid 0, \sigma^2) = \mathcal{N}(s_{1:t} \mid \boldsymbol{0}, \sigma^2 \mathbf{I})
 $$
 
 Then, :
@@ -411,7 +411,9 @@ $$\begin{equation}\begin{aligned}
 &= \frac{1}{N} \left [\left ( \frac{\sigma^4}{2\sigma^2 -1 } \right)^{t/2} - 1\right]
 \end{aligned}\end{equation}\tag{24}\label{eq24}$$
 
-This results in well known problems, the first of which is known under the names of *sample degeneracy* or *weight degeneracy*. Basically, if you actually run this after not-so-many iterations there will be one weight $$\approx 1$$ and all other will be zero, which equates to approximate the target with one sample. 
+For example, if $$\sigma^2 = 1.2$$, then $$N \cdot \mathbb{V}_q\left[ \frac{\widehat{Z}_t}{Z_t} \right] \approx (1.103)^{t/2}$$, which for sequence length $$t=1000$$ equals $$1.9 \cdot 10^{21} $$. In this case, to have a small relative variance, say $$ 0.01$$, we would need $$N \approx 2 \cdot 10^{23}$$ which is obviously infeasible.
+
+The exponentially increasing variance has other negative consequences, the first of which is known under the names of *sample degeneracy* or *weight degeneracy*. Basically, if you actually run this after not-so-many iterations there will be one weight $$\approx 1$$ and all other will be zero, which equates to approximate the target with one sample. 
 
 ![hhm]({{ '/assets/images/sample-deg.svg' | relative_url }})
 {: style="width: 100%;" class="center"}
