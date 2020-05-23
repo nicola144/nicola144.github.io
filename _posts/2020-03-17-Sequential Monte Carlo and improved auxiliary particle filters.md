@@ -389,22 +389,22 @@ $$\begin{equation}\begin{aligned}
 We now show that even for an extremely simple model, this expression is exponential in $$t$$. This example is taken from Johansen et al. [2]. Consider a univariate state space model where the TFD at each timestep is a Gaussian. Then, the sequence of normalized and unnormalized target distributions, and normalizing constant at time $$t$$ are:  
 
 $$
-\gamma_t(s_{1:t}) = \prod_{k=1}^{t} \exp \left ( -\frac{1}{2} x_{k}^{2}  \right ) \qquad Z_t = (2\pi)^{t/2}
+\gamma_t(s_{1:t}) = \prod_{k=1}^{t} \exp \left ( -\frac{1}{2} s_{k}^{2}  \right ) \qquad Z_t = (2\pi)^{t/2}
 $$
 
-Or in other words $$\pi_t(s_{1:t}) = \prod_{k=1}^{t} \mathcal{N}(x_k \mid 0, 1) = \mathcal{N}(s_{1:t} \mid \boldsymbol{0}, \mathbf{I})$$. Suppose we select a simple proposal distribution as a factorised Gaussian with unknown variance: 
+Or in other words $$\pi_t(s_{1:t}) = \prod_{k=1}^{t} \mathcal{N}(s_k \mid 0, 1) = \mathcal{N}(s_{1:t} \mid \boldsymbol{0}, \mathbf{I})$$. Suppose we select a simple proposal distribution as a factorised Gaussian with unknown variance: 
 
 $$
-q_t(s_{1:t}) = \prod_{k=1}^{t} q_{k}(x_k) = \prod_{k}^{t} \mathcal(N)(x_k \mid 0, \sigma^2) = \mathcal{N}(s_{1:t} \mid \boldsymbol{0}, \sigma^2 \mathbf{I})
+q_t(s_{1:t}) = \prod_{k=1}^{t} q_{k}(s_k) = \prod_{k}^{t} \mathcal(N)(s_k \mid 0, \sigma^2) = \mathcal{N}(s_{1:t} \mid \boldsymbol{0}, \sigma^2 \mathbf{I})
 $$
 
 Then, :
 $$\begin{equation}\begin{aligned}
-\mathbb{V}_q\left[ \frac{\widehat{Z}_t}{Z_t} \right] &= \frac{1}{N} \left [ \int   \frac{\left ( \prod_{k=1}^{t} \mathcal{N}(x_k \mid 0,1) \right)^2}{\prod_{k=1}^{t} \mathcal{N}(x_k \mid 0,\sigma^2)} \mathrm{d}x_{1:t} - 1\right] \qquad \text{directly} \\
-&= \frac{1}{N} \left [ \int   \frac{(2\pi)^{-t} \left (\prod_{k=1}^{t}  \exp \left\{ -\frac{1}{2}x_{k}^{2} \right\}\right ) \left (\prod_{k=1}^{t}  \exp \left\{ -\frac{1}{2}x_{k}^{2} \right\}\right )}{\prod_{k=1}^{t} (2\pi \sigma^2)^{-1/2} \exp \left\{ -\frac{1}{2\sigma^2} x_{k}^2 \right\}} \mathrm{d}x_{1:t} - 1\right] \\
-&= \frac{1}{N} \left [\frac{(2\pi)^{-t}}{(2\pi \sigma^2)^{-t/2}} \int   \frac{ \exp\left\{ -\sum_{k=1}^{t}x_{k}^2 \right\} }{\exp \left\{ -\frac{1}{2\sigma^2}\sum_{k=1}^{t}x_{k}^{2} \right\}} \mathrm{d}x_{1:t} - 1\right] \\
-&= \frac{1}{N} \left [\frac{(2\pi \sigma^2)^{t/2}}{(2\pi)^t} \int  \exp \left\{ -\sum_{k=1}^{t}x_{k}^2 + \frac{1}{2\sigma^2} \sum_{k=1}^{t}x_{k}^2 \right\} \mathrm{d}x_{1:t} - 1\right] \\
-&= \frac{1}{N} \left [\frac{(2\pi \sigma^2)^{t/2}}{(2\pi)^t} \int  \exp \left\{ x_{1:t}^{\top} x_{1:t} \left ( -\frac{1}{2}\left [ 2 - \frac{1}{\sigma^2} \right ] \right ) \right\} \mathrm{d}x_{1:t} - 1\right] \qquad \text{as}~ x_{1:t}^{\top}x_{1:t} = \sum_{k=1}^{t} x_{k}^{2} \\
+\mathbb{V}_q\left[ \frac{\widehat{Z}_t}{Z_t} \right] &= \frac{1}{N} \left [ \int   \frac{\left ( \prod_{k=1}^{t} \mathcal{N}(s_k \mid 0,1) \right)^2}{\prod_{k=1}^{t} \mathcal{N}(s_k \mid 0,\sigma^2)} \mathrm{d}x_{1:t} - 1\right] \qquad \text{directly} \\
+&= \frac{1}{N} \left [ \int   \frac{(2\pi)^{-t} \left (\prod_{k=1}^{t}  \exp \left\{ -\frac{1}{2}s_{k}^{2} \right\}\right ) \left (\prod_{k=1}^{t}  \exp \left\{ -\frac{1}{2}s_{k}^{2} \right\}\right )}{\prod_{k=1}^{t} (2\pi \sigma^2)^{-1/2} \exp \left\{ -\frac{1}{2\sigma^2} s_{k}^2 \right\}} \mathrm{d}x_{1:t} - 1\right] \\
+&= \frac{1}{N} \left [\frac{(2\pi)^{-t}}{(2\pi \sigma^2)^{-t/2}} \int   \frac{ \exp\left\{ -\sum_{k=1}^{t}s_{k}^2 \right\} }{\exp \left\{ -\frac{1}{2\sigma^2}\sum_{k=1}^{t}s_{k}^{2} \right\}} \mathrm{d}x_{1:t} - 1\right] \\
+&= \frac{1}{N} \left [\frac{(2\pi \sigma^2)^{t/2}}{(2\pi)^t} \int  \exp \left\{ -\sum_{k=1}^{t}s_{k}^2 + \frac{1}{2\sigma^2} \sum_{k=1}^{t}s_{k}^2 \right\} \mathrm{d}x_{1:t} - 1\right] \\
+&= \frac{1}{N} \left [\frac{(2\pi \sigma^2)^{t/2}}{(2\pi)^t} \int  \exp \left\{ x_{1:t}^{\top} x_{1:t} \left ( -\frac{1}{2}\left [ 2 - \frac{1}{\sigma^2} \right ] \right ) \right\} \mathrm{d}x_{1:t} - 1\right] \qquad \text{as}~ x_{1:t}^{\top}x_{1:t} = \sum_{k=1}^{t} s_{k}^{2} \\
 &= \frac{1}{N} \left [\frac{(2\pi \sigma^2)^{t/2}}{(2\pi)^t} \cdot \left ( 2\pi \cdot \frac{\sigma^2}{2\sigma^2 -1 } \right)^{t/2} - 1\right] \qquad \text{using}~ \left [ 2 - \frac{1}{\sigma^2} \right ]^{-1} = \left [\frac{\sigma^2}{2\sigma^2 -1} \right ] \\
 &= \frac{1}{N} \left [\frac{\cancel{(2\pi)^{t/2}} \sigma^t }{\cancel{(2\pi)^t}} \cdot  \cancel{(2\pi)^{t/2}} \left ( \cdot \frac{\sigma^2}{2\sigma^2 -1 } \right)^{t/2} - 1\right] \\
 &= \frac{1}{N} \left [(\sigma^2)^{t/2} \cdot   \left ( \frac{\sigma^2}{2\sigma^2 -1 } \right)^{t/2} - 1\right] \\
