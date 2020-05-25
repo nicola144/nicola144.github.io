@@ -13,7 +13,7 @@ title : "Sequential Monte Carlo and Improved Auxiliary Particle Filters"
 
 In this post, my aims are: 
 * Introduce Bayesian inference in state space models
-* Introduce approximate inference using importance sampling, in state space models. I will try to present and compare different ways of deriving the algorithms that I found in the literature. I also show some explicit derivations that are often omitted from the literature. These are easy, but this post is meant to be merge being easy to read and not leaving stones unturned.   
+* Introduce approximate inference using importance sampling, in state space models. I will try to present and compare different ways of deriving the algorithms that I found in the literature.
 * Finally, describe the Auxiliary Particle Filter, its diverse intepretations and the recent Improved Auxiliary Particle Filter by Elvira et al [1]. I will illustrate the IAPF by reproducing the results of Elvira et al. [3]. 
 
 The somewhat comprehensive "tutorial" and introduction to the topic arose from my feeling that the only content online that covers particle filters is either very theoretical material , or programming-oriented tutorials that completely lack motivation for how and why the algorithms are constructed as they are.
