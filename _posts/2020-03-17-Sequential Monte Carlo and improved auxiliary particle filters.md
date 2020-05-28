@@ -30,8 +30,10 @@ The somewhat comprehensive "tutorial" and introduction to the topic arose from m
 3. [Propagating particles by incoporating the current measurement](#apf)
     1. [The effect of using the locally optimal proposal](#optimalproposal)
     2. [The Auxiliary Particle Filter](#apf2)
-        1. [A first intepretation: a standard SMC algorithm with a different](#firstapf)
-4. [The Multiple Importance Sampling Interpretation](#mis)
+        1. [A first intepretation: a standard SMC algorithm with a different $$\gamma$$](#firstapf)
+        2. [The original intepretation: IS in augmented space](#secondapf)
+4. [Inference in marginal space: $$M^2$$ Particle Filtering](#marginalpf)
+5. [The Multiple Importance Sampling Interpretation of PF](#mis)
     1. [The Improved Auxiliary Particle Filter](#iapf)
 
 
@@ -557,7 +559,7 @@ $$\begin{equation}\begin{aligned}
 
 #### The original intepretation: IS in augmented space <a name="secondapf"></a>
 
-## Inference in marginal space <a name="marginalpf"></a>
+## Inference in marginal space: $$M^2$$ Particle Filtering <a name="marginalpf"></a>
 
 ## The Multiple Importance Sampling interpretation of particle filtering <a name="mis"></a>
 
