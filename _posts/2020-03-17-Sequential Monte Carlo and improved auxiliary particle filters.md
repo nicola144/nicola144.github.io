@@ -13,7 +13,7 @@ title : "Sequential Monte Carlo and Improved Auxiliary Particle Filters"
 
 In this post, my aims are: 
 * Introduce Bayesian inference in state space models
-* Introduce approximate inference using importance sampling, in state space models. I will try to present and compare different ways of deriving the algorithms that I found in the literature.
+* Introduce approximate inference using importance sampling, in state space models. I will try to present and compare different ways of deriving the algorithms that I found in the literature, trying to unify them in a way that I have not seen explicitly elsewhere.
 * Finally, describe the Auxiliary Particle Filter, its diverse intepretations and the recent Improved Auxiliary Particle Filter by Elvira et al [1]. I will illustrate the IAPF by reproducing the results of Elvira et al. [3]. 
 
 The somewhat comprehensive "tutorial" and introduction to the topic arose from my feeling that the only content online that covers particle filters is either very theoretical material , or programming-oriented tutorials that completely lack motivation for how and why the algorithms are constructed as they are.
@@ -30,6 +30,7 @@ The somewhat comprehensive "tutorial" and introduction to the topic arose from m
 3. [Propagating particles by incoporating the current measurement](#apf)
     1. [The effect of using the locally optimal proposal](#optimalproposal)
     2. [The Auxiliary Particle Filter](#apf2)
+        1. [A first intepretation: a standard SMC algorithm with a different](#firstapf)
 4. [The Multiple Importance Sampling Interpretation](#mis)
     1. [The Improved Auxiliary Particle Filter](#iapf)
 
@@ -513,6 +514,7 @@ The two main difficulties that using this proposal presents are:
 
 ### The Auxiliary Particle Filter <a name="apf2"></a>
 
+#### A first intepretation: a standard SMC algorithm with a different $$\gamma$$ <a name="firstapf"></a>
 The APF can be interpretated as a standard SMC algorithm (that is, an instantiation of the "meta" algorithm we described previously) where the target $$\gamma$$ that is propagated through each iteration is *not* the unnormalized filtering distribution $$p(\mathbf{s}_{1:t}, \mathbf{v}_{1:t}) $$, but rather $$\gamma_t(\mathbf{s}_{1:t}) = p(\mathbf{s}_{1:t}, \mathbf{v}_{1:\color{red}{t+1}}) $$. This is how it achieves the incorporation of the next measurements before propagation.  
 
 Under this interpretation, the target in the APF can be easily decomposed as:
@@ -553,7 +555,11 @@ $$\begin{equation}\begin{aligned}
 &= \tilde{w}_{t-1}(\mathbf{s}_{1:t-1}) \cdot \frac{\cancel{f(\mathbf{s}_{t}\mid \mathbf{s}_{t-1})} \color{green}{g}(\mathbf{v}_{t} \mid \mathbf{s}_{t})}{\color{green}{g}(\mathbf{v}_{t} \mid \boldsymbol{\mu}_{t}) \cancel{f(\mathbf{s}_{t}\mid \mathbf{s}_{t-1})}}
 \end{aligned}\end{equation}\tag{30}\label{eq30}$$ 
 
-## The Multiple Importance Sampling interpretation <a name="mis"></a>
+#### The original intepretation: IS in augmented space <a name="secondapf"></a>
+
+## Inference in marginal space <a name="marginalpf"></a>
+
+## The Multiple Importance Sampling interpretation of particle filtering <a name="mis"></a>
 
 Recently in [3] a novel re-intepretation of classic particle filters such as BPF and APF was published. This introduces a framework in which these filters emerge as special cases, and explains their properties under a Multiple Importance Sampling (MIS) perspective. MIS is a subfield of IS that is concerned with the use of multiple propoasals to approximate integrals and distributions. 
 
