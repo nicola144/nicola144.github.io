@@ -687,9 +687,7 @@ w_{t}^{m} & \color{green}{g}(\mathbf{v}_t \mid \mathbf{s}_{t}^{m}) & \frac{\colo
 $$
 
 
-![iapf]({{ '/assets/images/iapf.svg' | relative_url }})
-
-
+![iapf]({{ '/assets/images/iapf2.svg' | relative_url }})
 
 
 
