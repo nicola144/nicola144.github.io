@@ -599,7 +599,7 @@ At time $t \geq 2$, with particle/weight set $\left \{ \mathbf{s}_{t-1}^{m}, w_{
 <li> <b> Propagation </b> : Sample $\mathbf{s}_{t}^{m} \sim {\color{blue}f}(\mathbf{s}_t \mid \mathbf{r}_{t-1}^{m}) $ or equivalently $\mathbf{s}_{t}^{m} \sim {\color{blue}f}(\mathbf{s}_t \mid \mathbf{s}_{t-1}^{r^{m}}) $ for $m = 1, \dots, M$ </li>
 
 <li> <b> Weight update </b> : Compute weights:
-    $\tilde{w}_{t} =  \frac{{\color{green}g}(\mathbf{v}_t \mid \mathbf{s}_{t}^{m})}{{\color{green}g}(\mathbf{v}_{t} \mid \boldsymbol{\mu}_{t}^{r^{m}} )}$ (as in eq. 30, without the multiplicative update since we always resample) </li> 
+    $\tilde{w}_{t} =  \frac{g(\mathbf{v}_t \mid \mathbf{s}_{t}^{m})}{g(\mathbf{v}_{t} \mid \boldsymbol{\mu}_{t}^{r^{m}} )}$ (as in eq. 30, without the multiplicative update since we always resample) </li> 
     
 </ol>
 
