@@ -599,7 +599,7 @@ At time $t \geq 2$, with particle/weight set $\left \{ \mathbf{s}_{t-1}^{m}, w_{
 <li> <b> Propagation </b> : Sample $\mathbf{s}_{t}^{m} \sim {\color{blue}f}(\mathbf{s}_t \mid \mathbf{r}_{t-1}^{m}) $ or equivalently $\mathbf{s}_{t}^{m} \sim {\color{blue}f}(\mathbf{s}_t \mid \mathbf{s}_{t-1}^{r^{m}}) $ for $m = 1, \dots, M$ </li>
 
 <li> <b> Weight update </b> : Compute weights:
-    $\tilde{w}_{t} =  \frac{\color{green}{g}(\mathbf{v}_t \mid \mathbf{s}_{t}^{m})}{\color{green}{g}(\mathbf{v}_{t} \mid \boldsymbol{\mu}_{t}^{r^{m}} )}$ </li> 
+    $\tilde{w}_{t} =  \frac{{\color{green}g}(\mathbf{v}_t \mid \mathbf{s}_{t}^{m})}{{\color{green}g}(\mathbf{v}_{t} \mid \boldsymbol{\mu}_{t}^{r^{m}} )}$ (as in eq. 30, without the multiplicative update since we always resample) </li> 
     
 </ol>
 
@@ -673,11 +673,10 @@ The next issue to be discussed is the choice of mixture coefficients in the prop
 Notice that by setting the proposal to the (approximate) predictive distribution, $$\color{#FF8000}{\Psi}_t(\mathbf{s}_t) := p(\mathbf{s}_{t} \mid \mathbf{v}_{1:t-1}) \approx \sum_{i=1}^{M} w_{t-1}^{i} \color{blue}{f}(\mathbf{s}_t \mid \mathbf{s}_{t-1}^{i})  $$ , i.e. setting $$ \color{#FF8000}{\lambda}_{t}^{m} = w_{t-1}^{m} $$ then we are trying to match the right term of the numerator. This results in low discrepancy between denominator and numerator, *if* we had observations that are little informative, and recovers the BPF. However, if the likelihood is high then this is clearly a bad choice. This can be seen by plugging the likelihood into the sum that composes the predictive distribution (even if it does not depend on the sum):  $$\sum_{\color{red}{i}=1}^{M} \color{green}{g}(\mathbf{v}_{t} \mid \mathbf{s}_{t}^{m}) w_{t-1}^{\color{red}{i}} \color{blue}{f}(\mathbf{s}_{t}^{m} \mid \mathbf{s}_{t-1}^{\color{red}{i}}) $$ . Some kernels could be severely amplified with respect to others, thereby making the numerator very different to the proposal. The APF tries to improve on BPF *by trying to match the whole numerator with the proposal, and not just part of it*. It does so with a different choice of $$ \color{#FF8000}{\lambda}_{t}^{m} $$. The general idea is that to achieve what we want, kernels need to "communicate" in some way. Indeed, consider an edge case where all kernels have the same center. In this case, the APF $$\lambda$$ will amplify each transition kernel equally; consider what happens at the center of these kernels: APF amplifies kernel $$i$$ ignoring the fact that all of the other kernels $$j \neq i$$ will sample a lot from that part of the space too. The kernels are not communicating with each other. The IAPF achieves so by rescaling the predictive likelihood, evaluated at the center of the kernel, by a factor that depends on all other kernels:
 
 $$\begin{equation}\begin{aligned}
-\text{IAPF}~ \lambda^m =  \color{green}{g}(\mathbf{v}_t \mid \mathbf{s}_{t}^{m}) \cdot \frac{\sum_{\color{red}{i}=1}^{M} w_{t-1}^{\color{red}{i}} \color{blue}{f}( \mathbf{s}_{t}^{m} \mid \mathbf{s}_{t-1}^{\color{red}{i}}) }{   \sum_{\color{red}{i}=1}^{M} \color{#FF8000}{\lambda}_{t}^{\color{red}{i}} \color{blue}{f}(\mathbf{s}_{t}^{m} \mid \mathbf{s}_{t-1}^{\color{red}{i}})}
-
+\text{IAPF}~ \lambda_{t}^{m} =  \color{green}{g}(\mathbf{v}_{t} \mid \boldsymbol{\mu}_{t}^{m})\cdot \frac{\sum_{\color{red}{i}=1}^{M} w_{t-1}^{\color{red}{i}} \color{blue}{f}(\boldsymbol{\mu}_{t}^{m} \mid \mathbf{s}_{t-1}^{\color{red}{i}})}{ \sum_{\color{red}{i}=1}^{M} \color{blue}{f}(\boldsymbol{\mu}_{t}^{m} \mid \mathbf{s}_{t-1}^{\color{red}{i}} )} 
 \end{aligned}\end{equation}\tag{32}\label{eq32}$$ 
 
-
+Using this choice of $$\lambda_t$$ in the MIS meta-algorithm, *and* not performing the last approximation in \eqref{eq31}
 
 ## The Improved Auxiliary Particle Filter <a name="iapf"></a>
 
