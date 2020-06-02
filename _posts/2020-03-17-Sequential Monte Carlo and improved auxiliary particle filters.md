@@ -359,7 +359,10 @@ $$\begin{equation}\begin{aligned}
 p(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t}) \approx \sum_{n=1}^{N} w_{t}^{n} \delta_{\mathbf{s}_{1:t}}(\mathbf{s}_{1:t}^{n})
 \end{aligned}\end{equation}\tag{21}\label{eq21}$$
 
-with the weights $$w_{t}^{n}$$ defined as the normalized weights found in \eqref{eq15}. As shown in the IS section, we can also approximate the normalizing constant:
+with the weights $$w_{t}^{n}$$ defined as the normalized weights found in \eqref{eq15}. 
+It is very important to notice that in the key equation defining SMC algorithms \eqref{eq20} one is performing IS in the *joint* space $$\mathbf{s}_{1:t}$$. In other words, we are performing inference using the TFD targeting $$p(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t})$$, not the SFD, because we can just estimate integrals wrt $$p(\mathbf{s}_{t} \mid \mathbf{v}_{1:t})$$ by discarding samples. This will turn out to be relevant in later sections.
+
+As shown in the IS section, we can approximate the normalizing constant as:
 
 $$
 \widehat{Z}_t = \frac{1}{N} \sum_{n=1}^{N} \tilde{w}_{t}^{n} = \frac{1}{N} \sum_{n=1}^{N} \prod_{k=1}^{t} \varpi_k(\mathbf{s}_{k-1}^{n}, \mathbf{s}_{k}^{n})
@@ -517,6 +520,8 @@ The two main difficulties that using this proposal presents are:
 ### The Auxiliary Particle Filter <a name="apf2"></a>
 
 #### A first intepretation: a standard SMC algorithm with a different $$\gamma$$ <a name="firstapf"></a>
+In general, the APF can be thought of as a class of methods, within SMC, that notices that it would make sense, before propagating the particles, to immediately utilize $$\mathbf{v}_t$$, and get rid of unlikely particles. This echoes attempting to use the optimal proposal, since it is of the form $$p(\mathbf{s}_t \mid \mathbf{s}_{t-1}, \mathbf{v}_t)$$.
+
 The APF can be interpretated as a standard SMC algorithm (that is, an instantiation of the "meta" algorithm we described previously) where the target $$\gamma$$ that is propagated through each iteration is *not* the unnormalized filtering distribution $$p(\mathbf{s}_{1:t}, \mathbf{v}_{1:t}) $$, but rather $$\gamma_t(\mathbf{s}_{1:t}) = p(\mathbf{s}_{1:t}, \mathbf{v}_{1:\color{red}{t+1}}) $$. This is how it achieves the incorporation of the next measurements before propagation.  
 
 Under this interpretation, the target in the APF can be easily decomposed as:
@@ -548,7 +553,7 @@ $$\begin{equation}\begin{aligned}
 \end{aligned}\end{equation}\tag{29}\label{eq29}$$ 
 
 
-Note that in practice the predictive likelihood involves an intractable integral, so we have to approximate it with $$\hat{p}(\mathbf{v}_{t} \mid \mathbf{s}_{t-1}) $$. However, in the ideal case, selecting $$\color{#FF8000}{q}_{t}(\mathbf{s}_{t} \mid \mathbf{s}_{1:t-1}) =  p(\mathbf{s}_{t} \mid \mathbf{v}_{t}, \mathbf{s}_{t-1})$$ and $$\hat{p}(\mathbf{v}_{t} \mid \mathbf{s}_{t-1}) = p(\mathbf{v}_{t} \mid \mathbf{s}_{t-1})$$ leads to the so called "perfect adaptation" . 
+Please keep in mind that here we are talking about the importance weight used to estimate $$\gamma_t$$, while for all other previous targets we used \eqref{eq28}. This intepretation sees the previous targets $$\gamma_1,\dots,\gamma_{t-1}$$ as some sort of "bridging" densities of aid in the sequential propagation of the particles. Note that in practice the predictive likelihood involves an intractable integral, so we have to approximate it with $$\hat{p}(\mathbf{v}_{t} \mid \mathbf{s}_{t-1}) $$. However, in the ideal case, selecting $$\color{#FF8000}{q}_{t}(\mathbf{s}_{t} \mid \mathbf{s}_{1:t-1}) =  p(\mathbf{s}_{t} \mid \mathbf{v}_{t}, \mathbf{s}_{t-1})$$ and $$\hat{p}(\mathbf{v}_{t} \mid \mathbf{s}_{t-1}) = p(\mathbf{v}_{t} \mid \mathbf{s}_{t-1})$$ leads to the so called "perfect adaptation" . 
 
 Setting the approximation to the predictive likelihood to $$\hat{p}(\mathbf{v}_{t} \mid \mathbf{s}_{t-1}) = \color{green}{g}(\mathbf{v}_{t} \mid \boldsymbol{\mu}(\mathbf{s}_{t})) $$ where $$ \boldsymbol{\mu}(\mathbf{s}_{t})$$ is some likely value is common. For example , if we choose as approximation to the predictive likelihood : $$\hat{p}(\mathbf{v}_{t} \mid \mathbf{s}_{t-1}) = \color{green}{g}(\mathbf{v}_{t} \mid \boldsymbol{\mu}_{t}) $$  where $$\boldsymbol{\mu}_{t}$$ is the mean of $$ f(\mathbf{s}_{t} \mid \mathbf{s}_{t-1}) $$ *and* we also choose $$ \color{#FF8000}{q}_{t}(\mathbf{s}_{t} \mid \mathbf{v}_{t}, \mathbf{s}_{t-1}) = f(\mathbf{s}_{t} \mid \mathbf{s}_{t-1})$$ , then we recover as special case the popular version of the APF weights: 
 
@@ -565,9 +570,7 @@ In its original formulation, the APF is motivated as performing importance sampl
 
 ## The Multiple Importance Sampling interpretation of particle filtering <a name="mis"></a>
 
-Recently in [3] a novel re-intepretation of classic particle filters such as BPF and APF was published. This introduces a framework in which these filters emerge as special cases, and explains their properties under a Multiple Importance Sampling (MIS) perspective. MIS is a subfield of IS that is concerned with the use of multiple propoasals to approximate integrals and distributions. 
-
-In this section, we drop the $$\gamma$$ notation since our target is always assumed to be $$p(\mathbf{s}_{t} \mid \mathbf{v}_{1:t})$$. Importantly, note that under this perspective, algorithms are derived by using the SFD and not the TFD as previously. 
+Recently in [3] a novel re-intepretation of classic particle filters such as BPF and APF was published. This introduces a framework in which these filters emerge as special cases, and explains their properties under a Multiple Importance Sampling (MIS) perspective. MIS is a subfield of IS that is concerned with the use of multiple propoasals to approximate integrals and distributions. While this is similar to the Marginal Partice Filter, it more explicitly highlights the importance of the overlap of transition kernels and how this can be used to design a better filter.
 
 Moreover, for the APF it assumed the common approximation to the predictive likelihood described earlier $$g(\mathbf{v}_{t} \mid \boldsymbol{\mu}_{t})$$, where $$ \boldsymbol{\mu}_{t} := \mathbb{E}_{\color{blue}{f}(\mathbf{s}_{t} \mid \mathbf{s}_{t-1})} [ \mathbf{s}_t ] $$. Finally, the proposal is selected to be the transition density. 
 
@@ -589,24 +592,20 @@ At time $t \geq 2$, with particle/weight set $\left \{ \mathbf{s}_{t-1}^{m}, w_{
   </ul> 
 </li>
   
-<li> <b> Delayed (multinomial) resampling step </b> : Sample with replacement from the previous particle set with probabilities $\lambda_{t}^{m}$ to obtain $\left \{ \mathbf{r}_{t-1}^{m} \right \}_{m=1}^{M} $ as well as associated means $\left \{  ^{r \hspace{-1pt}}\boldsymbol{\mu}_{t}^{m} \right \}_{m=1}^{M} $. Here however, instead of considering this generic resampling with a new particle set, let's be more specific. Notice that if this step uses multinomial resampling, what we just said is equivalent to: 
-  <ul>
-    <li> Selecting resampled <i> indices </i> $ r^{m}, ~~ m= 1 \dots M$ with probability mass function given by $\Pr(r^{m} = j) = \lambda_{t}^{j}$ for $j \in \left \{ 1 \dots M \right \}$. Having this representation with resampled indices from the previous particle set instead of using a new particle set will be useful. </li>
-  </ul>
+<li> <b> Delayed (multinomial) resampling step </b> : 
+   Selecting resampled <i> indices </i> $ r^{m}, ~~ m= 1 \dots M$ with probability mass function given by $\Pr(r^{m} = j) = \lambda_{t}^{j}$ for $j \in \left \{ 1 \dots M \right \}$. Having this representation with resampled indices from the previous particle set instead of using a new particle set will be useful. 
  </li>
     
 <li> <b> Propagation </b> : Sample $\mathbf{s}_{t}^{m} \sim {\color{blue}f}(\mathbf{s}_t \mid \mathbf{r}_{t-1}^{m}) $ or equivalently $\mathbf{s}_{t}^{m} \sim {\color{blue}f}(\mathbf{s}_t \mid \mathbf{s}_{t-1}^{r^{m}}) $ for $m = 1, \dots, M$ </li>
 
 <li> <b> Weight update </b> : Compute weights:
-    $\tilde{w}_{t} =  \frac{g(\mathbf{v}_t \mid \mathbf{s}_{t}^{m})}{g(\mathbf{v}_{t} \mid \boldsymbol{\mu}_{t}^{r^{m}} )}$ </li> 
+    $\tilde{w}_{t} =  \frac{\color{green}{g}(\mathbf{v}_t \mid \mathbf{s}_{t}^{m})}{\color{green}{g}(\mathbf{v}_{t} \mid \boldsymbol{\mu}_{t}^{r^{m}} )}$ </li> 
     
 </ol>
 
 </div>
 
 <br>
-
-It was not immediate for me to check that indeed this algorithm does exactly the same thing as if we used Algorithm 2 with the assumptions above.
 
 We will frame this algorithm as a special case under the MIS intepretation of particle filtering. Recall that resampling (and propagating the resulting particles through a proposal) is equivalent to sampling from a mixture. In MIS, often the proposal is thought of as a weighted mixture of individual proposal. In this framework, explicit resampling + propagation is thus replaced with sampling from a single mixture proposal. We present here the MIS intepretation of BPF and APF, describing it below: 
 
@@ -653,7 +652,7 @@ w_{t}^{m} &\propto \frac{p(\mathbf{s}_{t}^{m} \mid \mathbf{v}_{1:t})}{\color{#FF
 &= \frac{\color{green}{g}(\mathbf{v}_{t} \mid \mathbf{s}_{t}^{m}) \sum_{\color{red}{i}=1}^{M} w_{t-1}^{\color{red}{i}} \color{blue}{f}(\mathbf{s}_{t}^{m} \mid \mathbf{s}_{t-1}^{\color{red}{i}})}{\sum_{\color{red}{i}=1}^{M} \color{#FF8000}{\lambda}_{t}^{i} \color{blue}{f}(\mathbf{s}_{t}^{m} \mid \mathbf{s}_{t-1}^{\color{red}{i}})} \\
 &\approx \frac{\color{green}{g}(\mathbf{v}_{t} \mid \mathbf{s}_{t}^{m}) w_{t-1}^{m}}{\color{#FF8000}{\lambda}_{t}^{m}}
 
-\end{aligned}\end{equation}\tag{27}\label{eq27}$$ 
+\end{aligned}\end{equation}\tag{31}\label{eq31}$$ 
 
 ___
 
