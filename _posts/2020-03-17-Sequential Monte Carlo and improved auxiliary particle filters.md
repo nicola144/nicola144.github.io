@@ -211,7 +211,7 @@ $$
 Where $$  \delta_{\mathbf{x}}(\mathbf{x}_{n})$$ is the Dirac delta mass evaluated at point $$\mathbf{x}_{n}$$. This is a function that is $$\infty$$ at its evaluation point and $$0$$ everywhere else, and satisfies:
 
 $$
-\mathbb{E}_{p(\mathbf{x})}[f(\mathbf{x})]  =  \int  p(\mathbf{x})  \frac{1}{N}\sum_{n=1}^{N} \delta_{\mathbf{x}}(\mathbf{x}_{n}) \mathrm{d}\mathbf{x} =   \frac{1}{N} \sum_{n=1}^{N} \underbrace{\int \delta_{\mathbf{x}}(\mathbf{x}_{n}) p(\mathbf{x}) \mathrm{d}\mathbf{x}}_{p} = \frac{1}{N} \sum_{n=1}^{N} p(\mathbf{x}_n)
+\mathbb{E}_{p(\mathbf{x})}[f(\mathbf{x})]  \approx \int  f(\mathbf{x})  \frac{1}{N}\sum_{n=1}^{N} \delta_{\mathbf{x}}(\mathbf{x}_{n}) \mathrm{d}\mathbf{x} =   \frac{1}{N} \sum_{n=1}^{N} \int \delta_{\mathbf{x}}(\mathbf{x}_{n}) f(\mathbf{x}) \mathrm{d}\mathbf{x} = \frac{1}{N} \sum_{n=1}^{N} f(\mathbf{x}_n)
 $$
 
 This should be interpreted as an approximation to the underlying distribution and not of the density function. 
