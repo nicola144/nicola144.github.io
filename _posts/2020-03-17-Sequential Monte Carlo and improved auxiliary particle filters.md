@@ -208,7 +208,13 @@ $$
 p(\mathbf{x}) \approx \frac{1}{N}\sum_{n=1}^{N} \delta_{\mathbf{x}}(\mathbf{x}_{n})
 $$
 
-Where $$  \delta_{\mathbf{x}}(\mathbf{x}_{n})$$ is the Dirac delta mass evaluated at point $$\mathbf{x}_{n}$$. This should be interpreted as an approximation to the underlying distribution and not of the density function. 
+Where $$  \delta_{\mathbf{x}}(\mathbf{x}_{n})$$ is the Dirac delta mass evaluated at point $$\mathbf{x}_{n}$$. This is a function that is $$\infty$$ at its evaluation point and $$0$$ everywhere else, and satisfies:
+
+$$
+\mathbb{E}_{p(\mathbf{x})}[f(\mathbf{x})]  =  \int  p(\mathbf{x})  \frac{1}{N}\sum_{n=1}^{N} \delta_{\mathbf{x}}(\mathbf{x}_{n}) \mathrm{d}\mathbf{x} =   \frac{1}{N} \sum_{n=1}^{N} \underbrace{\int \delta_{\mathbf{x}}(\mathbf{x}_{n}) p(\mathbf{x}) \mathrm{d}\mathbf{x}}_{p} = \frac{1}{N} \sum_{n=1}^{N} p(\mathbf{x}_n)
+$$
+
+This should be interpreted as an approximation to the underlying distribution and not of the density function. 
 Often it is not possible to sample from the distribution of interest. Therefore we can use importance sampling, which is a technique based on the simple observation that we can sample from another, known distribution and assign a weight to the samples to represent their "importance" under the real target:
 
 $$\begin{equation}\begin{aligned}
@@ -676,23 +682,22 @@ $$\begin{equation}\begin{aligned}
 \text{IAPF}~ \lambda_{t}^{m} \propto  \color{green}{g}(\mathbf{v}_{t} \mid \boldsymbol{\mu}_{t}^{m})\cdot \frac{\sum_{\color{red}{i}=1}^{M} w_{t-1}^{\color{red}{i}} \color{blue}{f}(\boldsymbol{\mu}_{t}^{m} \mid \mathbf{s}_{t-1}^{\color{red}{i}})}{ \sum_{\color{red}{i}=1}^{M} \color{blue}{f}(\boldsymbol{\mu}_{t}^{m} \mid \mathbf{s}_{t-1}^{\color{red}{i}} )} 
 \end{aligned}\end{equation}\tag{32}\label{eq32}$$ 
 
-Using this choice of $$\lambda_t$$ in the MIS meta-algorithm, *and* not performing the last approximation in \eqref{eq31} gives the *Improved Auxiliary Particle Filter*
+Using this choice of $$\lambda_t$$ in the MIS meta-algorithm, *and* not performing the last approximation in \eqref{eq31} gives the *Improved Auxiliary Particle Filter*.
 
 ## The Improved Auxiliary Particle Filter <a name="iapf"></a>
 
-The preweights of the IAPF, as we would have hoped, generalize the APF preweights in a natural way: when the kernels do not have significant overalap:
+The preweights of the IAPF, as we would have hoped, generalize the APF preweights in a natural way: when the kernels do not have significant overlap, we have:
 
 $$\begin{equation}\begin{aligned}
  \lambda_{t}^{m} &\propto  \color{green}{g}(\mathbf{v}_{t} \mid \boldsymbol{\mu}_{t}^{m})\cdot \frac{\sum_{\color{red}{i}=1}^{M} w_{t-1}^{\color{red}{i}} \color{blue}{f}(\boldsymbol{\mu}_{t}^{m} \mid \mathbf{s}_{t-1}^{\color{red}{i}})}{ \sum_{\color{red}{i}=1}^{M} \color{blue}{f}(\boldsymbol{\mu}_{t}^{m} \mid \mathbf{s}_{t-1}^{\color{red}{i}} )}  \\
-&\approx \color{green}{g}(\mathbf{v}_{t} \mid \boldsymbol{\mu}_{t}^{m})\cdot \frac{w_{t-1}^{m} \color{blue}{f}(\boldsymbol{\mu}_{t}^{m} \mid \mathbf{s}_{t-1}^{m})}{ \color{blue}{f}(\boldsymbol{\mu}_{t}^{m} \mid \mathbf{s}_{t-1}^{m} )}
+&\approx \color{green}{g}(\mathbf{v}_{t} \mid \boldsymbol{\mu}_{t}^{m})\cdot \frac{w_{t-1}^{m} \cancel{\color{blue}{f}(\boldsymbol{\mu}_{t}^{m} \mid \mathbf{s}_{t-1}^{m})}}{ \cancel{\color{blue}{f}(\boldsymbol{\mu}_{t}^{m} \mid \mathbf{s}_{t-1}^{m} )}} \\
+&= \color{green}{g}(\mathbf{v}_{t} \mid \boldsymbol{\mu}_{t}^{m})\cdot w_{t-1}^{m}
 \end{aligned}\end{equation}\tag{33}\label{eq33}$$ 
 
 where the approximation comes from the assumption that $$ \color{blue}{f}(\mathbf{\mu}_{t}^{m} \mid \mathbf{s}_{t-1}^{j}) \approx 0 $$ for $$ j \neq m$$. 
 
 In summary, we have shown how the APF can be seen as a special case of the IAPF when kernels have negligible overlap. This assumption introduces simplifications both in the preweight $$\lambda_t$$, used to propagate the particles in areas with high likelihood, and in the importance weight that is used to build the empirical distribution of the target at $$t$$. 
-Below, we used the same parameters as Elvira et al. [2] to reproduce the figure in the paper. It shows an example where the kernels have non-negligible overlap, and therefore the IAPF proposal matches the true posterior distribution better than the APF. Notice also that because of the informative likelihood, the BPF performs very poorly.
-
-
+Below, we used the same parameters as Elvira et al. [2] to reproduce the figure in the paper. It shows an example where the kernels have non-negligible overlap, and therefore the IAPF proposal matches the true posterior distribution better than the APF. Notice also that because of the informative likelihood, the BPF performs very poorly. A summary of the different choices of (unnormalized) preweights and importance weights for the different algorithms is also shown below.
 
 $$
 \begin{array}{c|lcr}
