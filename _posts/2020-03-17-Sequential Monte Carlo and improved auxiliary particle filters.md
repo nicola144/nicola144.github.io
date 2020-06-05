@@ -588,14 +588,16 @@ $$
 recalling the expression for the optimal proposal $$ p(\mathbf{s}_t \mid \mathbf{s}_{t-1}, \mathbf{v}_t) $$. I think this simple rearragement is interesting: firstly, now all the terms depend on the previous states $$\mathbf{s}_{t-1}^{m}$$; secondly, it perfectly shows the conditions that we want to satisfy for a good proposal (more on this soon). Now that we have the target, in other words the numerator of the importance weight, we are free to choose any proposal distribution we want. Recall that we are not in the setting of the autoregressive proposal of \eqref{eq18}, \eqref{eq20}; the proposal now is simply a function of $$\mathbf{s}_t$$. It makes sense to choose a proposal that has the same structure as the numerator (as we are trying to match it), that is:
 
 $$
-\color{#FF8000}{q}_{t}(\mathbf{s}_{t} \mid \mathbf{v}_{t}, \mathbf{s}_{t-1}) = \sum_{n=1}^{N} w_{t-1}^{n} \color{#FF8000}{q}_{t}(\mathbf{s}_t \mid \mathbf{v}_t, \mathbf{s}_{t-1}^{n})
+\color{#FF8000}{q}_{t}(\mathbf{s}_{t} \mid \mathbf{v}_{1:t}, \mathbf{s}_{t-1}) = \color{#FF8000}{q}_{t}(\mathbf{s}_{t} \mid \mathbf{v}_{t}, \mathbf{s}_{t-1}) = \sum_{n=1}^{N} w_{t-1}^{n} \color{#FF8000}{q}_{t}(\mathbf{s}_t \mid \mathbf{v}_t, \mathbf{s}_{t-1}^{n})
 $$
 
 i.e. a mixture proposal, so that the unnormalized importance weight is computed as:
 
 $$
-\widetilde{w} = \frac{ \color{green}{g}(\mathbf{v}_t \mid \mathbf{s}_t ) \sum_{n=1}^{N} w_{t-1}^{n} \color{blue}{f}(\mathbf{s}_t \mid \mathbf{s}_{t-1}^{m})}{ \sum_{n=1}^{N} w_{t-1}^{n} \color{#FF8000}{q}_{t}(\mathbf{s}_t \mid \mathbf{v}_t, \mathbf{s}_{t-1}^{n})}
+\widetilde{w}_{t} = \frac{ \color{green}{g}(\mathbf{v}_t \mid \mathbf{s}_t ) \sum_{n=1}^{N} w_{t-1}^{n} \color{blue}{f}(\mathbf{s}_t \mid \mathbf{s}_{t-1}^{m})}{ \sum_{n=1}^{N} w_{t-1}^{n} \color{#FF8000}{q}_{t}(\mathbf{s}_t \mid \mathbf{v}_t, \mathbf{s}_{t-1}^{n})}
 $$
+
+This equation resembles the form of \eqref{eq22} (standard importance weight for state space models): we can see this new importance weight as obtained from \eqref{eq22} by marginalizing previous states. This is quite neat I think. Of course, since $$\widetilde{w}_t$$ is a function of $$\mathbf{s}_t$$, we now have to compute these sums for all particles, which gives the cost of $$\mathcal{O}(N^2)$$. Something else that can immediately be seen is that this expression, in a sense, is just more general than \eqref{eq22}, which can be recovered simply replacing the sums with a single term. This is the basic idea behind the Multiple Importance Sampling interpretation of PFs, which is more or less the same as marginal particle filtering, but where certain things are presented more explicit.
 
 ## The Multiple Importance Sampling interpretation of particle filtering <a name="mis"></a>
 
@@ -685,7 +687,7 @@ w_{t}^{m} &\propto \frac{p(\mathbf{s}_{t}^{m} \mid \mathbf{v}_{1:t})}{\color{#FF
 
 ___
 
-We will show how the algorithm, under certain approximations, leads to BPF and APF respectively with two different choices of $$\lambda$$'s. We can also show how these choices are somewhat crude approximations: this will lead to the Improved Auxiliary Particle Filter.   
+We will show how the algorithm, under certain approximations, leads to BPF and APF respectively with two different choices of $$\color{#FF8000}{\lambda}_t$$'s. We can also show how these choices are somewhat crude approximations: this will lead to the Improved Auxiliary Particle Filter.   
 
 Let's start with the first of the three main stages, namely *proposal adaptation*. 
 In this stage, weights akin to the APF "preweights" are computed in order to build the MIS proposal, which is a mixture (in this case of transition densities or *kernels*, but this is a choice really). We saw in the Marginal Particle Filter why it makes sense to have a mixture proposal: the numerator of $$p(\mathbf{s}_t \mid \mathbf{v}_{1:t}) $$ is also a mixture, and moreover it makes sense to make it a mixture of the same kernels. So, we would like numerator and denominator to be close. A crucial fact is that both are a function of the latent state $$\mathbf{s}_t$$ , and we would like these two functions to be close in as wide a range of $$\mathbf{s}_t$$'s as possible. Of course, we don't know the value of the true $$\mathbf{s}_t$$.
