@@ -639,7 +639,7 @@ Moreover, for the APF it assumed the common approximation to the predictive like
 
 <div id="example1">
 
-<i> <b> Algorithm 3: APF </b> </i> <br> 
+<i> <b> Algorithm 2: APF </b> </i> <br> 
 
 At time $t=1$: draw M i.i.d. samples from the prior proposal $ p(\mathbf{s}_1) $ <br>
 
