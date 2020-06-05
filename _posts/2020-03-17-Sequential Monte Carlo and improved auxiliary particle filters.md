@@ -525,7 +525,7 @@ The two main difficulties that using this proposal presents are:
 ### The Auxiliary Particle Filter <a name="apf2"></a>
 
 #### A first intepretation: a standard SMC algorithm with a different $$\gamma$$ <a name="firstapf"></a>
-In general, the APF can be thought of as a class of methods, within SMC, that notices that it would make sense, before propagating the particles, to immediately utilize $$\mathbf{v}_t$$, and get rid of unlikely particles. This echoes attempting to use the optimal proposal, since it is of the form $$p(\mathbf{s}_t \mid \mathbf{s}_{t-1}, \mathbf{v}_t)$$.
+In general, the APF can be thought of as a class of methods, within SMC, that notices that it would make sense, before propagating the particles, to immediately utilize $$\mathbf{v}_t$$, and get rid of unlikely particles. This echoes attempting to use the optimal proposal, since it is of the form $$p(\mathbf{s}_t \mid \mathbf{s}_{t-1}, \mathbf{v}_t)$$. Because of this "look ahead", APF tends to perform much better than the BPF when the likelihood is particularly informative.
 
 The APF can be interpretated as a standard SMC algorithm (that is, an instantiation of the "meta" algorithm we described previously) where the target $$\gamma$$ that is propagated through each iteration is *not* the unnormalized filtering distribution $$p(\mathbf{s}_{1:t}, \mathbf{v}_{1:t}) $$, but rather $$\gamma_t(\mathbf{s}_{1:t}) = p(\mathbf{s}_{1:t}, \mathbf{v}_{1:\color{red}{t+1}}) $$. This is how it achieves the incorporation of the next measurements before propagation.  
 
@@ -620,6 +620,11 @@ $$
 
 so that the importance weight is given by: 
 
+$$
+\frac{p(n, \mathbf{s}_t \mid \mathbf{v}_{1:t})}{q(n, \mathbf{s}_t \mid \mathbf{v}_{1:t})} \propto \frac{\color{green}{g}(\mathbf{v}_t \mid \mathbf{s}_t )  w_{t-1}^{n} \color{blue}{f}(\mathbf{s}_t \mid \mathbf{s}_{t-1}^{n}) }{\lambda_{t}^{n} q(\mathbf{s}_t \mid \mathbf{s}_{t-1}^{n}, \mathbf{v}_t)}
+$$
+
+It is now easy to see that if the proposal were equal to the transition density, and the preweight was $$w_{t-1}^{n} p(\mathbf{v}_t \mid \boldsymbol{\mu}_{t}^{n}) $$, we would recover exactly the importance weight for APF derived in \eqref{eq30} with a different intepretation.
 
 
 ## The Multiple Importance Sampling interpretation of particle filtering <a name="mis"></a>
