@@ -567,7 +567,7 @@ $$\begin{equation}\begin{aligned}
 &=  \frac{\cancel{f(\mathbf{s}_{t}\mid \mathbf{s}_{t-1})} \color{green}{g}(\mathbf{v}_{t} \mid \mathbf{s}_{t})}{\color{green}{g}(\mathbf{v}_{t} \mid \boldsymbol{\mu}_{t}) \cancel{f(\mathbf{s}_{t}\mid \mathbf{s}_{t-1})}}
 \end{aligned}\end{equation}\tag{30}\label{eq30}$$ 
 
-## The original intepretation of APF and Marginal Particle Filters <a name="marginalpf"></a>
+#### The original intepretation of APF and Marginal Particle Filters <a name="marginalpf"></a>
 Up until now, we have derived concrete instatiations of particle filtering algorithms by performing importance sampling in the joint space (or trajectory space) (see \eqref{eq18}, \eqref{eq20}). In other words, we could also see this as "using" the TFD in \eqref{eq9}, rather than the SFD \eqref{eq10}: we motivated this initially by the fact that we can get an estimate of $$p(\mathbf{s}_t \mid \mathbf{v}_{1:t})$$ from an estimate of $$p(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t})$$ by ignoring previous samples. However, if we were only ever interested in $$p(\mathbf{s}_t \mid \mathbf{v}_{1:t})$$, this approach isn't the best : the target distribution grows in dimension at each step, and this is partly why we need to perform resampling to reduce variance. In Marginal PFs, we perform importance sampling in the marginal space, that is with target distribution $$ p(\mathbf{s}_t \mid \mathbf{v}_{1:t})$$; computing importance weights in this way, however, increases the computational cost of the algorithm from $$\mathcal{O}(N)$$ to $$\mathcal{O}(N^2)$$. This is because of the different importance weight computation. Since now we are using SFD, the target distribution is proportional to: 
 
 $$
