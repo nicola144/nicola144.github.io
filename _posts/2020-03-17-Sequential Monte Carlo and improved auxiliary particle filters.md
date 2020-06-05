@@ -443,7 +443,7 @@ This is where Sequential Monte Carlo (SMC) or Sequential Importance Resampling (
 The resampling step can be intepreted as a clever choice of proposal. To understand this, one needs to know that sampling from a mixture can be achieved via multinomial resampling with weights equal to the mixture weights. Consider the first iteration of SIS. We have sampled particles from a proposal $$\left \{ \mathbf{s}_{1}^{n} \right \}_{n=1}^{N} \sim \color{#FF8000}{q}_{1}(\mathbf{s}_{1})$$ and calculated corresponding weights. An approximation to the (normalized) target, as we have already shown, is $$ \pi_1(\mathbf{s}_1) \approx \widehat{\pi}_{1} = \sum_{n=1}^{N} w_{1}^{n} \delta_{\mathbf{s}_{1}^{n}} (\mathbf{s}_1) $$. Now, instead of "propagating" particles to the next iteration by sampling them from $$ \color{#FF8000}{q}_{2}(\mathbf{s}_{2} \mid \mathbf{s}_1) $$, we use the information gathered in the previous iteration, compressed in $$\widehat{\pi}_{1}$$, and sample the trajectory $$\mathbf{s}_{1}, \mathbf{s}_2 $$ from $$ \widehat{\pi}_{t} \cdot \color{#FF8000}{q}_{1}(\mathbf{s}_{2} \mid \mathbf{s}_1) $$ instead. This is the same as resampling the particles at $$t=1$$, and sampling the new particles from the proposal evaluated at the resampled particles.
 
 <div id="example1">
-  <i> <b> Algorithm 1: Sequential Monte Carlo / Sequential Importance Resampling </b> </i> <br>
+  <i> <b> (Meta) Algorithm 1: Sequential Monte Carlo / Sequential Importance Resampling </b> </i> <br>
 
 
   At time $t=1$: 
@@ -582,9 +582,9 @@ Moreover, for the APF it assumed the common approximation to the predictive like
 
 <div id="example1">
 
-<i> <b> Algorithm 3: APF (again) </b> </i> <br> 
+<i> <b> Algorithm 3: APF </b> </i> <br> 
 
-At time $t=1$: draw M i.i.d. samples from the prior proposal $ p(\mathbf{s}_1) $
+At time $t=1$: draw M i.i.d. samples from the prior proposal $ p(\mathbf{s}_1) $ <br>
 
 At time $t \geq 2$, with particle/weight set $\left \{ \mathbf{s}_{t-1}^{m}, w_{t-1}^{m} \right \}_{m=1}^{M} $:
 
