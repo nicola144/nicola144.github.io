@@ -568,21 +568,17 @@ $$\begin{equation}\begin{aligned}
 &=  \frac{\cancel{f(\mathbf{s}_{t}\mid \mathbf{s}_{t-1})} \color{green}{g}(\mathbf{v}_{t} \mid \mathbf{s}_{t})}{\color{green}{g}(\mathbf{v}_{t} \mid \boldsymbol{\mu}_{t}) \cancel{f(\mathbf{s}_{t}\mid \mathbf{s}_{t-1})}}
 \end{aligned}\end{equation}\tag{30}\label{eq30}$$ 
 
-#### The original intepretation: IS in augmented space <a name="secondapf"></a>
-The intepretation we just covered has the advantage that it makes it particularly clear that the performance of the APF is strongly dependent on the approximation to the predictive likelihood *and* the approximation to the locally optimal proposal. 
-In its original formulation, the APF is motivated as performing importance sampling in an augmented space
-
-## Inference in marginal space: $$N^2$$ Particle Filtering <a name="marginalpf"></a>
+## Inference in marginal space: $$N^2$$ Particle Filtering, and the original intepretation of APF <a name="marginalpf"></a>
 Up until now, we have derived concrete instatiations of particle filtering algorithms by performing importance sampling in the joint space (or trajectory space) (see \eqref{eq18}, \eqref{eq20}). In other words, we could also see this as "using" the TFD in \eqref{eq9}, rather than the SFD \eqref{eq10}: we motivated this initially by the fact that we can get an estimate of $$p(\mathbf{s}_t \mid \mathbf{v}_{1:t})$$ from an estimate of $$p(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t})$$ by ignoring previous samples. However, if we were only ever interested in $$p(\mathbf{s}_t \mid \mathbf{v}_{1:t})$$, this approach isn't the best : the target distribution grows in dimension at each step, and this is partly why we need to perform resampling to reduce variance. In Marginal PFs, we perform importance sampling in the marginal space, that is with target distribution $$ p(\mathbf{s}_t \mid \mathbf{v}_{1:t})$$; computing importance weights in this way, however, increases the computational cost of the algorithm from $$\mathcal{O}(N)$$ to $$\mathcal{O}(N^2)$$. This is because of the different importance weight computation. Since now we are using SFD, the target distribution is proportional to: 
 
 $$
-p(\mathbf{s}_t \mid \mathbf{v}_{1:t}) \propto \color{green}{g}(\mathbf{v}_t \mid \mathbf{s}_t ) p(\mathbf{s}_t \mid \mathbf{v}_{1:t-1}) = \color{green}{g}(\mathbf{v}_t \mid \mathbf{s}_t ) \int \color{blue}{f}(\mathbf{s}_t \mid \mathbf{s}_{t-1}) p(\mathbf{s}_{t-1} \mid \mathbf{v}_{1:t-1}) \mathrm{d} \mathbf{s}_{t-1} \approx \color{green}{g}(\mathbf{v}_t \mid \mathbf{s}_t ) \sum_{n=1}^{N} w_{t-1}^{n} \color{blue}{f}(\mathbf{s}_t \mid \mathbf{s}_{t-1}^{m})  
+p(\mathbf{s}_t \mid \mathbf{v}_{1:t}) \propto \color{green}{g}(\mathbf{v}_t \mid \mathbf{s}_t ) p(\mathbf{s}_t \mid \mathbf{v}_{1:t-1}) = \color{green}{g}(\mathbf{v}_t \mid \mathbf{s}_t ) \int \color{blue}{f}(\mathbf{s}_t \mid \mathbf{s}_{t-1}) p(\mathbf{s}_{t-1} \mid \mathbf{v}_{1:t-1}) \mathrm{d} \mathbf{s}_{t-1} \approx \color{green}{g}(\mathbf{v}_t \mid \mathbf{s}_t ) \sum_{n=1}^{N} w_{t-1}^{n} \color{blue}{f}(\mathbf{s}_t \mid \mathbf{s}_{t-1}^{n})  
 $$
 
 where crucially we use the particle approximation of the filtering distribution at time $$t-1$$: $$p(\mathbf{s}_{t-1} \mid \mathbf{v}_{1:t-1}) \approx \sum_{n=1}^{N} w_{t-1}^{m} \delta_{\mathbf{s}_{t-1}}(\mathbf{s}_{t-1}^{n})$$. Now, notice that the target can be rewritten as: 
 
 $$
-\color{green}{g}(\mathbf{v}_t \mid \mathbf{s}_t ) \sum_{n=1}^{N} w_{t-1}^{n} \color{blue}{f}(\mathbf{s}_t \mid \mathbf{s}_{t-1}^{m}) = \sum_{n=1}^{N} w_{t-1}^{n} p(\mathbf{v}_t \mid \mathbf{s}_{t-1}^{n}) p(\mathbf{s}_{t} \mid \mathbf{s}_{t-1}^{n}, \mathbf{v}_t)
+\color{green}{g}(\mathbf{v}_t \mid \mathbf{s}_t ) \sum_{n=1}^{N} w_{t-1}^{n} \color{blue}{f}(\mathbf{s}_t \mid \mathbf{s}_{t-1}^{n}) = \sum_{n=1}^{N} w_{t-1}^{n} p(\mathbf{v}_t \mid \mathbf{s}_{t-1}^{n}) p(\mathbf{s}_{t} \mid \mathbf{s}_{t-1}^{n}, \mathbf{v}_t)
 $$
 
 recalling the expression for the optimal proposal $$ p(\mathbf{s}_t \mid \mathbf{s}_{t-1}, \mathbf{v}_t) $$. I think this simple rearragement is interesting: firstly, now all the terms depend on the previous states $$\mathbf{s}_{t-1}^{m}$$; secondly, it perfectly shows the conditions that we want to satisfy for a good proposal (more on this soon). Now that we have the target, in other words the numerator of the importance weight, we are free to choose any proposal distribution we want. Recall that we are not in the setting of the autoregressive proposal of \eqref{eq18}, \eqref{eq20}; the proposal now is simply a function of $$\mathbf{s}_t$$. It makes sense to choose a proposal that has the same structure as the numerator (as we are trying to match it), that is:
@@ -594,10 +590,14 @@ $$
 i.e. a mixture proposal, so that the unnormalized importance weight is computed as:
 
 $$
-\widetilde{w}_{t} = \frac{ \color{green}{g}(\mathbf{v}_t \mid \mathbf{s}_t ) \sum_{n=1}^{N} w_{t-1}^{n} \color{blue}{f}(\mathbf{s}_t \mid \mathbf{s}_{t-1}^{m})}{ \sum_{n=1}^{N} w_{t-1}^{n} \color{#FF8000}{q}_{t}(\mathbf{s}_t \mid \mathbf{v}_t, \mathbf{s}_{t-1}^{n})}
+\widetilde{w}_{t} = \frac{ \color{green}{g}(\mathbf{v}_t \mid \mathbf{s}_t ) \sum_{n=1}^{N} w_{t-1}^{n} \color{blue}{f}(\mathbf{s}_t \mid \mathbf{s}_{t-1}^{n})}{ \sum_{n=1}^{N} w_{t-1}^{n} \color{#FF8000}{q}_{t}(\mathbf{s}_t \mid \mathbf{v}_t, \mathbf{s}_{t-1}^{n})}
 $$
 
-This equation resembles the form of \eqref{eq22} (standard importance weight for state space models): we can see this new importance weight as obtained from \eqref{eq22} by marginalizing previous states. This is quite neat I think. Of course, since $$\widetilde{w}_t$$ is a function of $$\mathbf{s}_t$$, we now have to compute these sums for all particles, which gives the cost of $$\mathcal{O}(N^2)$$. Something else that can immediately be seen is that this expression, in a sense, is just more general than \eqref{eq22}, which can be recovered simply replacing the sums with a single term. This is the basic idea behind the Multiple Importance Sampling interpretation of PFs, which is more or less the same as marginal particle filtering, but where certain things are presented more explicit.
+This equation resembles the form of \eqref{eq22} (standard importance weight for state space models): we can see this new importance weight as obtained from \eqref{eq22} by marginalizing previous states. This is quite neat I think. 
+The question is, what should $$ \color{#FF8000}{q}_{t}(\mathbf{s}_t \mid \mathbf{v}_t, \mathbf{s}_{t-1}^{n})$$ be ? 
+We have seen that the mixture in the denominator needs to approximate both the predictive likelihood $$ p(\mathbf{v}_t \mid \mathbf{s}_{t-1}^{n}) $$ and the optimal proposal $$p(\mathbf{s}_{t} \mid \mathbf{s}_{t-1}^{n}, \mathbf{v}_t)$$ (both expressions that cannot be evaluated exactly) *for all* $$n$$. Recall that $$p(\mathbf{s}_{t} \mid \mathbf{s}_{t-1}^{n}, \mathbf{v}_t) \propto  \color{green}{g}(\mathbf{v}_{t} \mid \mathbf{s}_t) \color{blue}{f}(\mathbf{s}_t \mid \mathbf{s}_{t-1}^{n})$$. We can then attempt this in different ways: for example, we could just set $$\color{#FF8000}{q}_{t}(\mathbf{s}_t \mid \mathbf{v}_t, \mathbf{s}_{t-1}^{n})$$ to be the transition kernels $$\color{blue}{f}(\mathbf{s}_t \mid \mathbf{s}_{t-1}^{n})$$ . In this case , we would need to multiply $$w_{t-1}^{n}$$ by some other term in order to match the predictive likelihood term in the numerator, as well as the likelihood $$\color{green}{g}(\mathbf{v}_{t} \mid \mathbf{s}_t)$$ . In this case, all the work goes into the choice of what to multiply $$w_{t-1}^{n}$$ and $$ \color{blue}{f}(\mathbf{s}_t \mid \mathbf{s}_{t-1}^{n})$$ within the sum (this is basically the preweight $$\lambda_t$$). Alternatively, we could choose $$\lambda 
+
+Of course, since $$\widetilde{w}_t$$ is a function of $$\mathbf{s}_t$$, we now have to compute these sums for all particles, which gives the cost of $$\mathcal{O}(N^2)$$. Something else that can immediately be seen is that this expression, in a sense, is just more general than \eqref{eq22}, which can be recovered simply replacing the sums with a single term. This is the basic idea behind the Multiple Importance Sampling interpretation of PFs, which is more or less the same as marginal particle filtering, but where certain things are presented more explicit.
 
 ## The Multiple Importance Sampling interpretation of particle filtering <a name="mis"></a>
 
