@@ -594,9 +594,33 @@ $$
 
 This equation resembles the form of \eqref{eq22} (standard importance weight for state space models): we can see this new importance weight as obtained from \eqref{eq22} by marginalizing previous states. This is quite neat I think. 
 The question is, what should $$ \color{#FF8000}{q}_{t}(\mathbf{s}_t \mid \mathbf{v}_t, \mathbf{s}_{t-1}^{n})$$ be ? 
-We have seen that the mixture in the denominator needs to approximate both the predictive likelihood $$ p(\mathbf{v}_t \mid \mathbf{s}_{t-1}^{n}) $$ and the optimal proposal $$p(\mathbf{s}_{t} \mid \mathbf{s}_{t-1}^{n}, \mathbf{v}_t)$$ (both expressions that cannot be evaluated exactly) *for all* $$n$$. Recall that $$p(\mathbf{s}_{t} \mid \mathbf{s}_{t-1}^{n}, \mathbf{v}_t) \propto  \color{green}{g}(\mathbf{v}_{t} \mid \mathbf{s}_t) \color{blue}{f}(\mathbf{s}_t \mid \mathbf{s}_{t-1}^{n})$$. We can then attempt this in different ways: for example, we could just set $$\color{#FF8000}{q}_{t}(\mathbf{s}_t \mid \mathbf{v}_t, \mathbf{s}_{t-1}^{n})$$ to be the transition kernels $$\color{blue}{f}(\mathbf{s}_t \mid \mathbf{s}_{t-1}^{n})$$ . In this case , we would need to multiply $$w_{t-1}^{n}$$ by some other term in order to match the predictive likelihood term in the numerator, as well as the likelihood $$\color{green}{g}(\mathbf{v}_{t} \mid \mathbf{s}_t)$$ . In this case, all the work goes into the choice of what to multiply $$w_{t-1}^{n}$$ and $$ \color{blue}{f}(\mathbf{s}_t \mid \mathbf{s}_{t-1}^{n})$$ within the sum (this is basically the preweight $$\lambda_t$$). Alternatively, we could choose $$\lambda 
+We have seen that the mixture in the denominator needs to approximate both the predictive likelihood $$ p(\mathbf{v}_t \mid \mathbf{s}_{t-1}^{n}) $$ and the optimal proposal $$p(\mathbf{s}_{t} \mid \mathbf{s}_{t-1}^{n}, \mathbf{v}_t)$$ (both expressions that cannot be evaluated exactly) *for all* $$n$$. Recall that $$p(\mathbf{s}_{t} \mid \mathbf{s}_{t-1}^{n}, \mathbf{v}_t) \propto  \color{green}{g}(\mathbf{v}_{t} \mid \mathbf{s}_t) \color{blue}{f}(\mathbf{s}_t \mid \mathbf{s}_{t-1}^{n})$$. We can then attempt this in different ways: for example, we could just set $$\color{#FF8000}{q}_{t}(\mathbf{s}_t \mid \mathbf{v}_t, \mathbf{s}_{t-1}^{n})$$ to be the transition kernels $$\color{blue}{f}(\mathbf{s}_t \mid \mathbf{s}_{t-1}^{n})$$ . In this case , we would need to multiply $$w_{t-1}^{n}$$ by some other term in order to match the predictive likelihood term in the numerator, as well as the likelihood $$\color{green}{g}(\mathbf{v}_{t} \mid \mathbf{s}_t)$$ . In this case, all the work goes into the choice of what to multiply $$w_{t-1}^{n}$$ and $$ \color{blue}{f}(\mathbf{s}_t \mid \mathbf{s}_{t-1}^{n})$$ within the sum. 
 
 Of course, since $$\widetilde{w}_t$$ is a function of $$\mathbf{s}_t$$, we now have to compute these sums for all particles, which gives the cost of $$\mathcal{O}(N^2)$$. Something else that can immediately be seen is that this expression, in a sense, is just more general than \eqref{eq22}, which can be recovered simply replacing the sums with a single term. This is the basic idea behind the Multiple Importance Sampling interpretation of PFs, which is more or less the same as marginal particle filtering, but where certain things are presented more explicit.
+
+I think it is quite natural to introduce how APF was originally motivated after having explained MPFs and especially the discussion on the two differrent expressions for the numerator of the unnormalized SFD $$p(\mathbf{s}_t \mid \mathbf{v}_{1:t})$$. In the original paper [11], Pitt and Shepard look at the numerator of the SFD and consider as target distribution the following joint:
+
+$$
+p(n, \mathbf{s}_t \mid \mathbf{v}_{1:t} ) \propto \color{green}{g}(\mathbf{v}_t \mid \mathbf{s}_t )  w_{t-1}^{n} \color{blue}{f}(\mathbf{s}_t \mid \mathbf{s}_{t-1}^{n}) = w_{t-1}^{n} p(\mathbf{v}_t \mid \mathbf{s}_{t-1}^{n}) p(\mathbf{s}_{t} \mid \mathbf{s}_{t-1}^{n}, \mathbf{v}_t) 
+$$
+
+where $$n$$ is an *index of the full mixture*, and is an auxiliary variable which is where the name of the algorithm actually comes from. Little *concrete* interpretation is provided for this choice in the paper, but we will see in the next section how this is casted as an implicit assumption. From this joint, the marginal of the index is: 
+
+$$
+p(n \mid \mathbf{v}_{1:t}) \propto w_{t-1}^{n} p(\mathbf{v}_{t} \mid \mathbf{s}_{t-1}^{n})
+$$
+
+As we know the predictive likelihood defines an intractable integral: a common approximation we have seen is $$p(\mathbf{v}_t \mid \boldsymbol{\mu}_{t}^{n})$$.  Then, define the probability of the index to be the "simulation weight" or "preweight" : $$ \lambda_{t}^{n}  \propto w_{t-1}^{n} p(\mathbf{v}_t \mid \boldsymbol{\mu}_{t}^{n}) $$. 
+
+Using this, we construct a proposal with the same form of the target, which is now $$p(n, \mathbf{s}_t \mid \mathbf{v}_{1:t} )$$:
+
+$$
+q(n, \mathbf{s}_t \mid \mathbf{v}_{1:t}) = q(n \mid \mathbf{v}_{1:t}) q(\mathbf{s}_t \mid \mathbf{v}_{1:t}) = \lambda_{t}^{n} q(\mathbf{s}_t \mid \mathbf{s}_{t-1}^{n}, \mathbf{v}_t)
+$$
+
+so that the importance weight is given by: 
+
+
 
 ## The Multiple Importance Sampling interpretation of particle filtering <a name="mis"></a>
 
@@ -758,6 +782,8 @@ $$\require{bbox}$$
 9. Arulampalam, M.S., Maskell, S., Gordon, N. and Clapp, T., 2002. A tutorial on particle filters for online nonlinear/non-Gaussian Bayesian tracking. IEEE Transactions on signal processing, 50(2), pp.174-188.
 10. Särkkä, S., 2013. Bayesian filtering and smoothing (Vol. 3). Cambridge University Press.
 11. Li, T., Bolic, M. and Djuric, P.M., 2015. Resampling methods for particle filtering: classification, implementation, and strategies. IEEE Signal processing magazine, 32(3), pp.70-86.
+12. Pitt, M.K. and Shephard, N., 1999. Filtering via simulation: Auxiliary particle filters. Journal of the American statistical association, 94(446), pp.590-599.
+
 
 
 
