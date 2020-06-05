@@ -579,7 +579,23 @@ $$
 p(\mathbf{s}_t \mid \mathbf{v}_{1:t}) \propto \color{green}{g}(\mathbf{v}_t \mid \mathbf{s}_t ) p(\mathbf{s}_t \mid \mathbf{v}_{1:t-1}) = \color{green}{g}(\mathbf{v}_t \mid \mathbf{s}_t ) \int \color{blue}{f}(\mathbf{s}_t \mid \mathbf{s}_{t-1}) p(\mathbf{s}_{t-1} \mid \mathbf{v}_{1:t-1}) \mathrm{d} \mathbf{s}_{t-1} \approx \color{green}{g}(\mathbf{v}_t \mid \mathbf{s}_t ) \sum_{n=1}^{N} w_{t-1}^{n} \color{blue}{f}(\mathbf{s}_t \mid \mathbf{s}_{t-1}^{m})  
 $$
 
-where crucially we use the particle approximation of the filtering distribution at time $$t-1$$: $$p(\mathbf{s}_{t-1} \mid \mathbf{v}_{1:t-1})
+where crucially we use the particle approximation of the filtering distribution at time $$t-1$$: $$p(\mathbf{s}_{t-1} \mid \mathbf{v}_{1:t-1}) \approx \sum_{n=1}^{N} w_{t-1}^{m} \delta_{\mathbf{s}_{t-1}}(\mathbf{s}_{t-1}^{n})$$. Now, notice that the target can be rewritten as: 
+
+$$
+\color{green}{g}(\mathbf{v}_t \mid \mathbf{s}_t ) \sum_{n=1}^{N} w_{t-1}^{n} \color{blue}{f}(\mathbf{s}_t \mid \mathbf{s}_{t-1}^{m}) = \sum_{n=1}^{N} w_{t-1}^{n} p(\mathbf{v}_t \mid \mathbf{s}_{t-1}^{n}) p(\mathbf{s}_{t} \mid \mathbf{s}_{t-1}^{n}, \mahtbf{v)_{t})
+$$
+
+recalling the expression for the optimal proposal $$ p(\mathbf{s}_t \mid \mathbf{s}_{t-1}, \mathbf{v}_t) $$. I think this simple rearragement is interesting: firstly, now all the terms depend on the previous states $$\mathbf{s}_{t-1}^{m}$$; secondly, it perfectly shows the conditions that we want to satisfy for a good proposal (more on this soon). Now that we have the target, in other words the numerator of the importance weight, we are free to choose any proposal distribution we want. Recall that we are not in the setting of the autoregressive proposal of \eqref{\eq18}, \eqref{eq20}; the proposal now is simply a function of $$\mathbf{s}_t$$. It makes sense to choose a proposal that has the same structure as the numerator (as we are trying to match it), that is:
+
+$$
+\color{#FF8000}{q}_{t}(\mathbf{s}_{t} \mid \mathbf{v}_{t}, \mathbf{s}_{t-1}) = \sum_{n=1}^{N} w_{t-1}^{n} \color{#FF8000}{q}_{t}(\mathbf{s}_t \mid \mathbf{v}_t, \mathbf{s}_{t-1}^{n})
+$$
+
+i.e. a mixture proposal, so that the unnormalized importance weight is computed as:
+
+$$
+\widetilde{w} = \frac{ \color{green}{g}(\mathbf{v}_t \mid \mathbf{s}_t ) \sum_{n=1}^{N} w_{t-1}^{n} \color{blue}{f}(\mathbf{s}_t \mid \mathbf{s}_{t-1}^{m})}{ \sum_{n=1}^{N} w_{t-1}^{n} \color{#FF8000}{q}_{t}(\mathbf{s}_t \mid \mathbf{v}_t, \mathbf{s}_{t-1}^{n})}
+$$
 
 ## The Multiple Importance Sampling interpretation of particle filtering <a name="mis"></a>
 
@@ -734,11 +750,12 @@ $$\require{bbox}$$
 2. Doucet, A. and Johansen, A.M., 2009. A tutorial on particle filtering and smoothing: Fifteen years later. Handbook of nonlinear filtering, 12(656-704), p.3.
 3. Elvira, V., Martino, L., Bugallo, M.F. and Djuric, P.M., 2019. Elucidating the Auxiliary Particle Filter via Multiple Importance Sampling [Lecture Notes]. IEEE Signal Processing Magazine, 36(6), pp.145-152.
 4. Naesseth, C.A., Lindsten, F. and Schön, T.B., 2019. Elements of Sequential Monte Carlo. Foundations and Trends® in Machine Learning, 12(3), pp.307-392.
-5. Doucet, A., 1998. On sequential simulation-based methods for Bayesian filtering.
-6. Doucet, A., Godsill, S. and Andrieu, C., 2000. On sequential Monte Carlo sampling methods for Bayesian filtering. Statistics and computing, 10(3), pp.197-208.
-7. Godsill, S., 2019, May. Particle filtering: the first 25 years and beyond. In ICASSP 2019-2019 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP) (pp. 7760-7764). IEEE.
-8. Arulampalam, M.S., Maskell, S., Gordon, N. and Clapp, T., 2002. A tutorial on particle filters for online nonlinear/non-Gaussian Bayesian tracking. IEEE Transactions on signal processing, 50(2), pp.174-188.
-5. Särkkä, S., 2013. Bayesian filtering and smoothing (Vol. 3). Cambridge University Press.
+5. Mike Klaas, Nando de Freitas, and Arnaud Doucet. Toward practical N2 Monte Carlo: the marginal particle filter.  In Proceedings of the Twenty-First Conference Annual Conference on Uncertainty in Artificial Intelligence (UAI-05), pages 308–315, Arlington, Virginia, 2005. AUAI Press.
+6. Doucet, A., 1998. On sequential simulation-based methods for Bayesian filtering.
+7. Doucet, A., Godsill, S. and Andrieu, C., 2000. On sequential Monte Carlo sampling methods for Bayesian filtering. Statistics and computing, 10(3), pp.197-208.
+8. Godsill, S., 2019, May. Particle filtering: the first 25 years and beyond. In ICASSP 2019-2019 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP) (pp. 7760-7764). IEEE.
+9. Arulampalam, M.S., Maskell, S., Gordon, N. and Clapp, T., 2002. A tutorial on particle filters for online nonlinear/non-Gaussian Bayesian tracking. IEEE Transactions on signal processing, 50(2), pp.174-188.
+10. Särkkä, S., 2013. Bayesian filtering and smoothing (Vol. 3). Cambridge University Press.
 
 
 
