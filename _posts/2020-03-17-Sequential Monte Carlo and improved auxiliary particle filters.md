@@ -610,7 +610,7 @@ $$
 p(n \mid \mathbf{v}_{1:t}) \propto w_{t-1}^{n} p(\mathbf{v}_{t} \mid \mathbf{s}_{t-1}^{n})
 $$
 
-As we know the predictive likelihood defines an intractable integral: a common approximation we have seen is $$p(\mathbf{v}_t \mid \boldsymbol{\mu}_{t}^{n})$$.  Then, define the probability of the index to be the "simulation weight" or "preweight" : $$ \lambda_{t}^{n}  \propto w_{t-1}^{n} p(\mathbf{v}_t \mid \boldsymbol{\mu}_{t}^{n}) $$. 
+As we know the predictive likelihood defines an intractable integral: a common approximation we have seen is $$\color{green}{g}(\mathbf{v}_t \mid \boldsymbol{\mu}_{t}^{n})$$.  Then, define the probability of the index to be the "simulation weight" or "preweight" : $$ \lambda_{t}^{n}  \propto w_{t-1}^{n} \color{green}{g}(\mathbf{v}_t \mid \boldsymbol{\mu}_{t}^{n}) $$. 
 
 Using this, we construct a proposal with the same form of the target, which is now $$p(n, \mathbf{s}_t \mid \mathbf{v}_{1:t} )$$:
 
