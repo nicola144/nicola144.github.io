@@ -582,7 +582,7 @@ $$
 where crucially we use the particle approximation of the filtering distribution at time $$t-1$$: $$p(\mathbf{s}_{t-1} \mid \mathbf{v}_{1:t-1}) \approx \sum_{n=1}^{N} w_{t-1}^{m} \delta_{\mathbf{s}_{t-1}}(\mathbf{s}_{t-1}^{n})$$. Now, notice that the target can be rewritten as: 
 
 $$
-\color{green}{g}(\mathbf{v}_t \mid \mathbf{s}_t ) \sum_{n=1}^{N} w_{t-1}^{n} \color{blue}{f}(\mathbf{s}_t \mid \mathbf{s}_{t-1}^{m}) = \sum_{n=1}^{N] w_{t-1}^{n} p(\mathbf{v}_t \mid \mathbf{s}_{t-1}^{n}) p(\mathbf{s}_{t} \mid \mathbf{s}_{t-1}^{n}, \mathbf{v}_t)
+\color{green}{g}(\mathbf{v}_t \mid \mathbf{s}_t ) \sum_{n=1}^{N} w_{t-1}^{n} \color{blue}{f}(\mathbf{s}_t \mid \mathbf{s}_{t-1}^{m}) = \sum_{n=1}^{N} w_{t-1}^{n} p(\mathbf{v}_t \mid \mathbf{s}_{t-1}^{n}) p(\mathbf{s}_{t} \mid \mathbf{s}_{t-1}^{n}, \mathbf{v}_t)
 $$
 
 recalling the expression for the optimal proposal $$ p(\mathbf{s}_t \mid \mathbf{s}_{t-1}, \mathbf{v}_t) $$. I think this simple rearragement is interesting: firstly, now all the terms depend on the previous states $$\mathbf{s}_{t-1}^{m}$$; secondly, it perfectly shows the conditions that we want to satisfy for a good proposal (more on this soon). Now that we have the target, in other words the numerator of the importance weight, we are free to choose any proposal distribution we want. Recall that we are not in the setting of the autoregressive proposal of \eqref{eq18}, \eqref{eq20}; the proposal now is simply a function of $$\mathbf{s}_t$$. It makes sense to choose a proposal that has the same structure as the numerator (as we are trying to match it), that is:
