@@ -488,7 +488,7 @@ Unfortunately, weight degeneracy is not the end of the story. The resampling mec
 {: style="width: 100%;" class="center"}
 *Fig. 4: Path degeneracy illustration in SMC/SIR/PF. Borrowed from Naesseth et al. [4]*
 
-There are ways to deal with path degeneracy, such as low-variance resampling, or simply only resampling when a certain measure of efficiency is satisfied (effective sample size), or adaptive resampling. We do not go into more detail here, as these are more advanced, and path degeneracy is still not fundamentally solved.
+There are ways to deal with path degeneracy, such as low-variance resampling, or simply only resampling when a certain measure of efficiency is satisfied (effective sample size), or adaptive resampling. We do not go into more detail here, as these are more advanced, and path degeneracy is still not fundamentally solved. For a survey of resampling strategies, see [11].
 
 ## Propagating particles by incorporating the current measurement <a name="apf"></a>
 
@@ -757,7 +757,7 @@ $$\require{bbox}$$
 8. Godsill, S., 2019, May. Particle filtering: the first 25 years and beyond. In ICASSP 2019-2019 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP) (pp. 7760-7764). IEEE.
 9. Arulampalam, M.S., Maskell, S., Gordon, N. and Clapp, T., 2002. A tutorial on particle filters for online nonlinear/non-Gaussian Bayesian tracking. IEEE Transactions on signal processing, 50(2), pp.174-188.
 10. Särkkä, S., 2013. Bayesian filtering and smoothing (Vol. 3). Cambridge University Press.
-
+11. Li, T., Bolic, M. and Djuric, P.M., 2015. Resampling methods for particle filtering: classification, implementation, and strategies. IEEE Signal processing magazine, 32(3), pp.70-86.
 
 
 
