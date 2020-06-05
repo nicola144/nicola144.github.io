@@ -624,7 +624,9 @@ $$
 w_{t}^{n} = \frac{p(n, \mathbf{s}_t \mid \mathbf{v}_{1:t})}{q(n, \mathbf{s}_t \mid \mathbf{v}_{1:t})} \propto \frac{\color{green}{g}(\mathbf{v}_t \mid \mathbf{s}_t )  w_{t-1}^{n} \color{blue}{f}(\mathbf{s}_t \mid \mathbf{s}_{t-1}^{n}) }{\lambda_{t}^{n} q(\mathbf{s}_t \mid \mathbf{s}_{t-1}^{n}, \mathbf{v}_t)}
 $$
 
-It is now easy to see that if the proposal were equal to the transition density, and the preweight was $$w_{t-1}^{n} \color{green}{g}(\mathbf{v}_t \mid \boldsymbol{\mu}_{t}^{n}) $$, we would recover exactly the importance weight for APF derived in \eqref{eq30} with a different intepretation. It is also easy to see, now that we have talked about marginal particle filters, how we could get a marginalized version of the APF: simply marginalize over the indexes $$n$$ in the last equation, for both numerator and denominator, effectively performing inference for $$p(\mathbf{s}_t \mid \mathbf{v}_{1:t}) $$. I believe the authors of APF wanted to keep the $$\mathcal{O}(N)$$ complexity of standard particle filtering, and this is why they did not do this last "marginalization" step. 
+This interpretation makes it very clear that in the implementation, *first we sample an index* $$n$$ with probability $$\lambda_{t}^{n}$$, *and then* we sample the particle from the corresponding transition density at particle $$n$$. 
+
+It is now also easy to see that if the proposal were equal to the transition density, and the preweight was $$w_{t-1}^{n} \color{green}{g}(\mathbf{v}_t \mid \boldsymbol{\mu}_{t}^{n}) $$, we would recover exactly the importance weight for APF derived in \eqref{eq30} with a different intepretation. It is also easy to see, now that we have talked about marginal particle filters, how we could get a marginalized version of the APF: simply marginalize over the indexes $$n$$ in the last equation, for both numerator and denominator, effectively performing inference for $$p(\mathbf{s}_t \mid \mathbf{v}_{1:t}) $$. I believe the authors of APF wanted to keep the $$\mathcal{O}(N)$$ complexity of standard particle filtering, and this is why they did not do this last "marginalization" step. 
 
 The topic explored in the next section is intimately connected with marginal filters, as previously hinted. 
 
@@ -765,7 +767,7 @@ $$
 
 
 ![iapf]({{ '/assets/images/iapf2.svg' | relative_url }})
-
+*Fig. 5: Notice how the IAPF proposal best matches the posterior in this example. The kernels are plotted scaled by their importance weight; proposals and the true posterior integrate to 1.*
 
 
 
