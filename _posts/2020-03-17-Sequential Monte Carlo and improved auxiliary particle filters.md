@@ -338,7 +338,7 @@ $$\begin{equation}\begin{aligned}
  p(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t}) \approx \sum_{n=1}^{N} w_{t}^{n} \delta_{\mathbf{s}_{1:t}}(\mathbf{s}_{1:t}^{n}) \qquad \mathbf{s}_{1:t}^{n} \sim \color{#FF8000}{q}_{t}(\mathbf{s}_{1:t})
 \end{aligned}\end{equation}\tag{19}\label{eq19}$$
 
-where $$w_{t}^{n}$$ are the normalized weights, and we are using $$N$$ sample *trajectories* for our proposal. If we were only interested in $$p(\mathbf{s}_t \mid \mathbf{v}_{1:t}) $$, we can simply discard previous samples: this is because  $$p(\mathbf{s}_t \mid \mathbf{v}_{1:t}) $$ is just a marginal of $$p(\mathbf{s}_{1:t}, \mathbf{v}_{1:t}) $$. Therefore, we can approximate the filtering distribution:
+where $$w_{t}^{n}$$ are the normalized weights, and we are using $$N$$ sample *trajectories* for our proposal. If we were only interested in $$p(\mathbf{s}_t \mid \mathbf{v}_{1:t}) $$, we can simply discard previous samples: this is because  $$p(\mathbf{s}_t \mid \mathbf{v}_{1:t}) $$ is just a marginal of $$p(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t}) $$. Therefore, we can approximate the filtering distribution:
 
 $$ 
 p(\mathbf{s}_t \mid \mathbf{v}_{1:t}) \approx \sum_{n=1}^{N} w_{t}^{n} \delta_{\mathbf{s}_{t}^{n}}(\mathbf{s}_t)
