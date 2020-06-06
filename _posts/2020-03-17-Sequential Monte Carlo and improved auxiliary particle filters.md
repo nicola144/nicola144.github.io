@@ -93,6 +93,7 @@ There are several tasks that we can perform on the state space model described a
 - The notation $$\mathbf{v}_{1:t}$$ means a collection of vectors $$ \left \{ \mathbf{v}_1, \mathbf{v}_2, \dots, \mathbf{v}_t \right \}$$
 - Therefore, $$ p\left ( \mathbf{v}_{1:t} \right )$$ is a joint distribution: $$p\left ( \mathbf{v}_1, \mathbf{v}_2, \dots, \mathbf{v}_t \right ) $$
 - Integrating $$ \int p(\mathbf{x}_{1:t}) \mathrm{d}\mathbf{x}_{i:j}$$ means $$ \underbrace{\int \dots \int}_{j-i+1} p(\mathbf{x}_{1:t}) \mathrm{d}\mathbf{x}_{i} \mathrm{d}\mathbf{x}_{i+1} \dots \mathrm{d}\mathbf{x}_{j} $$
+- The symbol $$:=$$ denotes a definition.
 
 In this post, I am only concerned with filtering, and will always assume that any parameters of <span style="color:blue">transition</span> or <span style="color:green">observation</span> densities are known in advance. There are classes of algorithms that learn the parameters and perform inference at the same time, such as Particle Markov Chain Monte Carlo or SMC2. 
 
@@ -615,7 +616,7 @@ $$
 p(n \mid \mathbf{v}_{1:t}) \propto w_{t-1}^{n} p(\mathbf{v}_{t} \mid \mathbf{s}_{t-1}^{n})
 $$
 
-As we know the predictive likelihood defines an intractable integral: a common approximation we have seen is $$\color{green}{g}(\mathbf{v}_t \mid \boldsymbol{\mu}_{t}^{n})$$.  Then, define the probability of the index to be the "simulation weight" or "preweight" : $$ \lambda_{t}^{n}  \propto w_{t-1}^{n} \color{green}{g}(\mathbf{v}_t \mid \boldsymbol{\mu}_{t}^{n}) $$. 
+As we know the predictive likelihood defines an intractable integral: a common approximation we have seen is $$\color{green}{g}(\mathbf{v}_t \mid \boldsymbol{\mu}_{t}^{n})$$.  Then, define the probability of the index to be the "simulation weight" or "preweight" : $$p(n \mid \mathbf{v}_{1:t}):= \lambda_{t}^{n}  \propto w_{t-1}^{n} \color{green}{g}(\mathbf{v}_t \mid \boldsymbol{\mu}_{t}^{n}) $$. 
 
 Using this, we construct a proposal with the same form of the target, which is now $$p(n, \mathbf{s}_t \mid \mathbf{v}_{1:t} )$$:
 
