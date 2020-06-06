@@ -579,13 +579,13 @@ $$
 p(\mathbf{s}_t \mid \mathbf{v}_{1:t}) \propto \color{green}{g}(\mathbf{v}_t \mid \mathbf{s}_t ) p(\mathbf{s}_t \mid \mathbf{v}_{1:t-1}) = \color{green}{g}(\mathbf{v}_t \mid \mathbf{s}_t ) \int \color{blue}{f}(\mathbf{s}_t \mid \mathbf{s}_{t-1}) p(\mathbf{s}_{t-1} \mid \mathbf{v}_{1:t-1}) \mathrm{d} \mathbf{s}_{t-1} \approx \color{green}{g}(\mathbf{v}_t \mid \mathbf{s}_t ) \sum_{n=1}^{N} w_{t-1}^{n} \color{blue}{f}(\mathbf{s}_t \mid \mathbf{s}_{t-1}^{n})  
 $$
 
-where crucially we use the particle approximation of the filtering distribution at time $$t-1$$: $$p(\mathbf{s}_{t-1} \mid \mathbf{v}_{1:t-1}) \approx \sum_{n=1}^{N} w_{t-1}^{m} \delta_{\mathbf{s}_{t-1}}(\mathbf{s}_{t-1}^{n})$$. Now, notice that the target can be rewritten as: 
+where crucially we use the particle approximation of the filtering distribution at time $$t-1$$: $$p(\mathbf{s}_{t-1} \mid \mathbf{v}_{1:t-1}) \approx \sum_{n=1}^{N} w_{t-1}^{n} \delta_{\mathbf{s}_{t-1}}(\mathbf{s}_{t-1}^{n})$$. Now, notice that the target can be rewritten as: 
 
 $$
 \color{green}{g}(\mathbf{v}_t \mid \mathbf{s}_t ) \sum_{n=1}^{N} w_{t-1}^{n} \color{blue}{f}(\mathbf{s}_t \mid \mathbf{s}_{t-1}^{n}) = \sum_{n=1}^{N} w_{t-1}^{n} p(\mathbf{v}_t \mid \mathbf{s}_{t-1}^{n}) p(\mathbf{s}_{t} \mid \mathbf{s}_{t-1}^{n}, \mathbf{v}_t)
 $$
 
-recalling the expression for the optimal proposal $$ p(\mathbf{s}_t \mid \mathbf{s}_{t-1}, \mathbf{v}_t) $$. I think this simple rearragement is interesting: firstly, now all the terms depend on the previous states $$\mathbf{s}_{t-1}^{m}$$; secondly, it perfectly shows the conditions that we want to satisfy for a good proposal (more on this soon). Now that we have the target, in other words the numerator of the importance weight, we are free to choose any proposal distribution we want. Recall that we are not in the setting of the autoregressive proposal of \eqref{eq18}, \eqref{eq20}; the proposal now is simply a function of $$\mathbf{s}_t$$. It makes sense to choose a proposal that has the same structure as the numerator (as we are trying to match it), that is:
+recalling the expression for the optimal proposal $$ p(\mathbf{s}_t \mid \mathbf{s}_{t-1}, \mathbf{v}_t) $$. I think this simple rearragement is interesting: firstly, now all the terms depend on the previous states $$\mathbf{s}_{t-1}^{n}$$; secondly, it perfectly shows the conditions that we want to satisfy for a good proposal (more on this soon). Now that we have the target, in other words the numerator of the importance weight, we are free to choose any proposal distribution we want. Recall that we are not in the setting of the autoregressive proposal of \eqref{eq18}, \eqref{eq20}; the proposal now is simply a function of $$\mathbf{s}_t$$. It makes sense to choose a proposal that has the same structure as the numerator (as we are trying to match it), that is:
 
 $$
 \color{#FF8000}{q}_{t}(\mathbf{s}_{t} \mid \mathbf{v}_{1:t}, \mathbf{s}_{t-1}) = \color{#FF8000}{q}_{t}(\mathbf{s}_{t} \mid \mathbf{v}_{t}, \mathbf{s}_{t-1}) = \sum_{n=1}^{N} w_{t-1}^{n} \color{#FF8000}{q}_{t}(\mathbf{s}_t \mid \mathbf{v}_t, \mathbf{s}_{t-1}^{n})
