@@ -517,6 +517,10 @@ $$\begin{equation}\begin{aligned}
 \end{aligned}\end{equation}\tag{26}\label{eq26}$$
 
 Since this expression does not depend on the current state $$\mathbf{s}_t$$, which has been integrated out, intuitively the (conditional) variance of the weights under the proposal at time $$t$$ is just $$0$$. 
+To see this more explicitly:
+$$
+\mathbb{V}_{q} \left[ \frac{g(\mathbf{v}_t \mid \mathbf{s}_t)f(\mathbf{s}_t \mid \mathbf{s}_{t-1})}{q_t(\mathbf{s}_t \mid \mathbf{s}_{1:t}, \mathbf{v}_{1:t})} \right] = \mathbb{E}_q \left[ \frac{g(\mathbf{v}_t \mid \mathbf{s}_t)^2f(\mathbf{s}_t \mid \mathbf{s}_{t-1})^2}{q_t(\mathbf{s}_t \mid \mathbf{s}_{1:t}, \mathbf{v}_{1:t})^2} \right] - \left ( \mathbb{E}_q \left[  \frac{g(\mathbf{v}_t \mid \mathbf{s}_t)f(\mathbf{s}_t \mid \mathbf{s}_{t-1})}{q_t(\mathbf{s}_t \mid \mathbf{s}_{1:t}, \mathbf{v}_{1:t})} \right] \right )^2 = \int \frac{g(\mathbf{v}_t \mid \mathbf{s}_t)^2f(\mathbf{s}_t \mid \mathbf{s}_{t-1})^2}{q_t(\mathbf{s}_t \mid \mathbf{s}_{1:t}, \mathbf{v}_{1:t})} \mathrm{d}\mathbf{s}_t  - p(\mathbf{v}_t \mid \mathbf{s}_{t-1})^2
+$$
 
 The two main difficulties that using this proposal presents are:
 1. Sampling from it can be hard; 
