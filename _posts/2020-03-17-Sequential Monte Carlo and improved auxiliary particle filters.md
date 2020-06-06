@@ -772,7 +772,7 @@ $$
 
 
 ![iapf]({{ '/assets/images/iapf2.svg' | relative_url }})
-*Fig. 5: Notice how the IAPF proposal best matches the posterior in this example. The kernels are plotted scaled by their importance weight; proposals and the true posterior integrate to 1.*
+*Fig. 5: Notice how the IAPF proposal best matches the posterior in this example. This is because the kernels have significant overlap, which is ignored by the preweights of APF. The kernels are plotted scaled by their importance weight; proposals and the true posterior integrate to 1.*
 
 
 
