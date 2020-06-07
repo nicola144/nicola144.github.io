@@ -783,7 +783,7 @@ $$
 
 
 ![iapf]({{ '/assets/images/iapf2.svg' | relative_url }})
-*Fig. 5: Notice how the IAPF proposal best matches the posterior in this example. This is because the kernels have significant overlap, which is ignored by the preweights of APF. The kernels are plotted scaled by their importance weight; proposals and the true posterior integrate to 1. One quantitative measure to determine which proposal is better is the chi-squared distance to the true posterior, since this is an unbiased estimator of the asymptotic variance of equation 23*
+*Fig. 5: Notice how the IAPF proposal best matches the posterior in this example. This is because the kernels have significant overlap, which is ignored by the preweights of APF. The kernels are plotted scaled by their importance weight; proposals and the true posterior integrate to 1. One quantitative measure to determine which proposal is better is the chi-squared distance to the true posterior, since it is proportional to the asymptotic variance of equation 23*
 
 
 
