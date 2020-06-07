@@ -326,6 +326,7 @@ Firstly, I am going to explain necessary notation. Note that the treatment in th
 * Then, let $$\pi(\mathbf{s}_{1:t})$$ be the normalized version of the target $$\gamma_{t}(\mathbf{s}_{1:t})$$, i.e. : $$ \pi(\mathbf{s}_{1:t}) = \gamma_{t}(\mathbf{s}_{1:t}) / Z_t$$ with $$Z_t = \int \gamma_{t}(\mathbf{s}_{1:t}) \mathrm{d} \mathbf{s}_{1:t} $$
 * The Dirac delta mass for multiple elements is defined naturally as $$\delta_{\mathbf{x}_{1:t}^{n}}(\mathbf{x}_{1:t}) := \prod_{t=1}^{T}  \delta_{\mathbf{x}_{1}^{n}}(\mathbf{x}_1) \delta_{\mathbf{x}_{2}^{n}}(\mathbf{x}_2) \dots \delta_{\mathbf{x}_{t}^{n}}(\mathbf{x}_t) $$
 * While everything should be defined at some point, it is useful to keep in mind general principles such as whenever a symbol has a "hat" , that denotes an approximation, a "tilde" denotes an unnormalized quantity, and a $$\pi$$ a posterior.
+* Useful to keep in mind: sometimes I will juggle between an importance weight $$w^n$$ that is specific to particle $$n$$ and what shoul really be called an importance weight *function* , that is the importance weight as a function of the state $$w_t = w_t(\mathbf{\mathbf{s}_t)$$. I will probably just call both "importance weight".
 
 So, let's suppose then that we are trying to find a particle approximation for our target at iteration $$t$$: $$\gamma_{t}(\mathbf{s}_{1:t}) := p(\mathbf{s}_{1:t}, \mathbf{v}_{1:t})$$. We can use IS directly with a proposal distribution that also depends on $$\mathbf{s}_{1:t}$$ and find the  (unnormalized) importance weights: 
 
@@ -624,15 +625,20 @@ $$
 q(n, \mathbf{s}_t \mid \mathbf{v}_{1:t}) = q(n \mid \mathbf{v}_{1:t}) q(\mathbf{s}_t \mid \mathbf{v}_{1:t}) = \lambda_{t}^{n} q(\mathbf{s}_t \mid \mathbf{s}_{t-1}^{n}, \mathbf{v}_t)
 $$
 
-so that the importance weight is given by: 
+so that the importance weight (function) is given by: 
 
 $$
-w_{t}^{n} = \frac{p(n, \mathbf{s}_t \mid \mathbf{v}_{1:t})}{q(n, \mathbf{s}_t \mid \mathbf{v}_{1:t})} \propto \frac{\color{green}{g}(\mathbf{v}_t \mid \mathbf{s}_t )  w_{t-1}^{n} \color{blue}{f}(\mathbf{s}_t \mid \mathbf{s}_{t-1}^{n}) }{\lambda_{t}^{n} q(\mathbf{s}_t \mid \mathbf{s}_{t-1}^{n}, \mathbf{v}_t)}
+w_{t}(\mathbf{s}_{t},n) = \frac{p(n, \mathbf{s}_t \mid \mathbf{v}_{1:t})}{q(n, \mathbf{s}_t \mid \mathbf{v}_{1:t})} \propto \frac{\color{green}{g}(\mathbf{v}_t \mid \mathbf{s}_t )  w_{t-1}^{n} \color{blue}{f}(\mathbf{s}_t \mid \mathbf{s}_{t-1}^{n}) }{\lambda_{t}^{n} q(\mathbf{s}_t \mid \mathbf{s}_{t-1}^{n}, \mathbf{v}_t)}
 $$
 
-This interpretation makes it very clear that in the implementation, *first we sample an index* $$n$$ with probability $$\lambda_{t}^{n}$$, *and then* we sample the particle from the corresponding transition density at particle $$n$$ (this is essentially what is known as ancestor sampling) . 
+Where I just emphasized the dependency of the weight on the hidden state $$\mathbf{s}_t$$ *and* the index $$n$$. This interpretation makes it very clear that in the implementation, *first we sample an index* $$n$$ with probability $$\lambda_{t}^{n}$$, *and then* we sample the particle from the corresponding transition density at particle $$n$$ (this is essentially what is known as ancestor sampling) . 
 
-It is now also easy to see that if the proposal were equal to the transition density, and the preweight was $$w_{t-1}^{n} \color{green}{g}(\mathbf{v}_t \mid \boldsymbol{\mu}_{t}^{n}) $$, we would recover exactly the importance weight for APF derived in \eqref{eq30} with a different intepretation. It is also easy to see, now that we have talked about marginal particle filters, how we could get a marginalized version of the APF: simply marginalize over the indexes $$n$$ in the last equation, for both numerator and denominator, effectively performing inference for $$p(\mathbf{s}_t \mid \mathbf{v}_{1:t}) $$. I believe the authors of APF wanted to keep the $$\mathcal{O}(N)$$ complexity of standard particle filtering, and this is why they did not do this last "marginalization" step. 
+It is now also easy to see that if the proposal were equal to the transition density, and the preweight was $$w_{t-1}^{n} \color{green}{g}(\mathbf{v}_t \mid \boldsymbol{\mu}_{t}^{n}) $$, we would recover exactly the importance weight for APF derived in \eqref{eq30} with a different intepretation. It is also easy to see, now that we have talked about marginal particle filters, how we could get a marginalized version of the APF: simply marginalize over the indexes $$n$$ in the last equation, for both numerator and denominator, effectively performing inference for $$p(\mathbf{s}_t \mid \mathbf{v}_{1:t}) $$.
+This would turn the previous result into:
+$$
+
+$$
+I believe the authors of APF wanted to keep the $$\mathcal{O}(N)$$ complexity of standard particle filtering, and this is why they did not do this last "marginalization" step. 
 
 The topic explored in the next section is intimately connected with marginal filters, as previously hinted. 
 
