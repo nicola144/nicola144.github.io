@@ -450,14 +450,14 @@ The resampling step can be intepreted as a clever choice of proposal. To underst
   At time $t=1$: 
   <ol>
     <li> <b>Propagation</b> : sample from proposal $\mathbf{s}_{1}^{n} \sim {\color{#FF8000}q}_{1}(\mathbf{s}_1)$ </li>
-    <li> <b>Update</b>: compute weights as $w_{1}^{n} \propto \varpi_{1}^{n}(\mathbf{s}_{0}, \mathbf{s}_{1})$  </li>
+    <li> <b>Update</b>: compute weights as $w_{1}^{n} \propto \varpi_{1}^{n}(\mathbf{s}_{0}, \mathbf{s}_{1}^{n})$  </li>
     <li> <b>Resample</b>: $\left \{ \mathbf{s}_{1}^{n} , w_{1}^{n} \right \}_{n=1}^{N} $ to obtain $ \left \{ \mathbf{r}_{1}^{n}, 1/N \right \}_{n=1}^{N} $ </li>
   </ol>
 
   At time $t \geq 2$:
   <ol>
     <li> <b>Propagation</b> : sample from proposal $\mathbf{s}_{t}^{n} \sim {\color{#FF8000}q}_{t}(\mathbf{s}_{t} \mid \mathbf{r}_{1:t-1}^{n})$ and set $ \mathbf{s}_{1:t}^{n} \leftarrow (\mathbf{r}_{1:t-1}^{n}, \mathbf{s}_{t}^{n})$ </li>
-    <li> <b>Update</b>: compute weights as $w_{t}^{n} \propto \varpi_{t}^{n}(\mathbf{s}_{t-1}, \mathbf{s}_{t})$ </li>
+    <li> <b>Update</b>: compute weights as $w_{t}^{n} \propto \varpi_{t}^{n}(\mathbf{s}_{t-1}^{n}, \mathbf{s}_{t})$ </li>
     <li> <b>Resample</b>: $\left \{ \mathbf{s}_{1:t}^{n} , w_{t}^{n} \right \}_{n=1}^{N} $ to obtain $ \left \{ \mathbf{r}_{1:t}^{n}, 1/N \right \}_{n=1}^{N} $  </li>
  </ol>
 </div>
