@@ -640,7 +640,7 @@ $$
 w_{t}(\mathbf{s}_t) = \frac{\sum_{n=1}^{N} p(n,\mathbf{s}_t \mid \mathbf{v}_{1:t})}{\sum_{n=1}^{N}q_t(n,\mathbf{s}_t \mid \mathbf{v}_{1:t})} = \frac{\color{green}{g}(\mathbf{v}_t \mid \mathbf{s}_t) \sum_{n=1}^{N} \color{blue}{f}(\mathbf{s}_t \mid \mathbf{s}_{t-1}^{n})}{\sum_{n=1}^{N} \lambda_{t}^{n} q_t(\mathbf{s}_t \mid \mathbf{v}_{1:t}) }
 $$
 
-I believe the authors of APF wanted to keep the $$\mathcal{O}(N)$$ complexity of standard particle filtering, and this is why they did not do this last "marginalization" step. 
+This gives rise to what the authors of [5] call "Auxiliary Marginal Particle Filter". I believe the authors of APF wanted to keep the $$\mathcal{O}(N)$$ complexity of standard particle filtering, and this is why they did not do this last "marginalization" step. 
 
 The topic explored in the next section is intimately connected with marginal filters, as previously hinted. 
 
