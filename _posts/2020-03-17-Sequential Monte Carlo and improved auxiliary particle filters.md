@@ -635,6 +635,7 @@ Where I just emphasized the dependency of the weight on the hidden state $$\math
 
 It is now also easy to see that if the proposal were equal to the transition density, and the preweight was $$w_{t-1}^{n} \color{green}{g}(\mathbf{v}_t \mid \boldsymbol{\mu}_{t}^{n}) $$, we would recover exactly the importance weight for APF derived in \eqref{eq30} with a different intepretation. It is also easy to see, now that we have talked about marginal particle filters, how we could get a marginalized version of the APF: simply marginalize over the indexes $$n$$ in the last equation, for both numerator and denominator, effectively performing inference for $$p(\mathbf{s}_t \mid \mathbf{v}_{1:t}) $$.
 This would turn the previous result into:
+
 $$
 w_{t}(\mathbf{s}_t) = \frac{\sum_{n=1}^{N} p(n,\mathbf{s}_t \mid \mathbf{v}_{1:t})}{\sum_{n=1}^{N}q_t(n,\mathbf{s}_t \mid \mathbf{v}_{1:t})} = \frac{\color{green}{g}(\mathbf{v}_t \mid \mathbf{s}_t) \sum_{n=1}^{N} \color{blue}{f}(\mathbf{s}_t \mid \mathbf{s}_{t-1}^{n})}{\sum_{n=1}^{N} \lambda_{t}^{n} q_t(\mathbf{s}_t \mid \mathbf{v}_{1:t}) }
 $$
