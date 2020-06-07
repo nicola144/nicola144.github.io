@@ -360,7 +360,7 @@ $$\begin{equation}\begin{aligned}
  &= \tilde{w}_{t-1}(\mathbf{s}_{1:t-1}) \cdot \frac{\gamma_{t}(\mathbf{s}_{1:t})}{\gamma_{t-1}(\mathbf{s}_{1:t-1}) \color{#FF8000}{q}_{t}(\mathbf{s}_{t}\mid \mathbf{s}_{1:t-1})} := \tilde{w}_{t-1}(\mathbf{s}_{1:t-1}) \cdot \varpi_{t}(\mathbf{s}_{t-1}, \mathbf{s}_t)
 \end{aligned}\end{equation}\tag{20}\label{eq20}$$
 
-Where we define the *incremental importance weight* $$\varpi_{t}(\mathbf{s}_{t-1}, \mathbf{s}_t)$$. Therefore, we can approximate our desired distribution as:
+Where we define the *incremental importance weight* $$\varpi_{t}(\mathbf{s}_{t-1}, \mathbf{s}_t)$$. It is a function of only current and previous states because, as we will see soon, $$\gamma_t$$ decomposes recursively and the $$\gamma_{t-1}$$ terms cancel, leaving only terms that depend on $$\mathbf{s}_t,\mathbf{s}_{t-1}$$. Therefore, we can approximate our desired distribution as:
 
 $$\begin{equation}\begin{aligned}
 p(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t}) \approx \sum_{n=1}^{N} w_{t}^{n} \delta_{\mathbf{s}_{1:t}}(\mathbf{s}_{1:t}^{n})
