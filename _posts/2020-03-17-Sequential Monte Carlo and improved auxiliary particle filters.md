@@ -464,7 +464,7 @@ The resampling step can be intepreted as a clever choice of proposal. To underst
 
 <br>
 
-Notice that the weight computation does not involve the previous weight, since resampling sets weights to a constant, and thus we can omit it when using proportionality.
+Where I use $$\mathbf{r}$$ to emphasize that a particle has been resampled. Notice that the weight computation does not involve the previous weight, since resampling sets weights to a constant, and thus we can omit it when using proportionality.
 
 In our state space model, if we chose a proposal equal to the transition density, so $$ \color{#FF8000}{q}_{t}(\mathbf{s}_{t}\mid \mathbf{s}_{1:t-1}, \mathbf{v}_{1:t}) = \color{blue}{f}(\mathbf{s}_{t}\mid \mathbf{s}_{t-1})$$ , then the weight update simplifies to: 
 
