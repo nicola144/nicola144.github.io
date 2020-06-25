@@ -528,7 +528,7 @@ $$
 Where indeed if plugging in the optimal proposal for $$\color{#FF8000}{q}_t$$ gives 0.
 
 The two main difficulties that using this proposal presents are:
-1. Sampling from it is just as hard as sampling from $$p(\mathbf{s}_t \mid \mathbf{v}_{1:t})$$
+1. Sampling from it is just as hard as sampling from $$p(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t})$$
 2. It requires evaluation of $$ p(\mathbf{v}_t \mid \mathbf{s}_{t-1}) = \int \color{green}{g}(\mathbf{v}_t \mid \mathbf{s}_{t}) \color{blue}{f}(\mathbf{s}_t \mid \mathbf{s}_{t-1}) \mathrm{d} \mathbf{s}_t$$ which is almost always an integral as difficult as the filtering problem itself.
 
 ### The Auxiliary Particle Filter <a name="apf2"></a>
