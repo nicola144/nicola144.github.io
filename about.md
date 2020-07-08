@@ -9,6 +9,7 @@ I am broadly interested in Bayesian inference, applied (or not) to Machine Learn
 - [The book of why, Judea Pearl & Dana McKenzie](https://www.amazon.co.uk/Book-Why-Science-Cause-Effect/dp/0141982411/ref=sr_1_1?dchild=1&keywords=the+book+of+why+judea&qid=1589542460&sr=8-1)
 - [Meditations, Marcus Aurelius](https://www.amazon.co.uk/Meditations-Penguin-Classics-Marcus-Aurelius/dp/0140449337/ref=sr_1_1?crid=RRDPU6IPJQ5N&dchild=1&keywords=meditations+marcus+aurelius&qid=1589542523&sprefix=meditations+%2Caps%2C154&sr=8-1)
 - [Sustainable energy - without the hot air, David McKay](http://www.withouthotair.com/)
+- [The Art of Statistics: Learning from Data, David Spiegelhalter](https://www.amazon.co.uk/Learning-Data-Statistics-Pelican-Books/dp/0241258766/ref=tmm_pap_swatch_0?_encoding=UTF8&qid=&sr=)
 
 
 # Cool random stuff
