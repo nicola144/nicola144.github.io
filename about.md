@@ -2,7 +2,7 @@
 
 I am a Master's student in the [School of Informatics at the University of Edinburgh](https://www.ed.ac.uk/informatics).
 As undergrad, I studied Computer Science at the [University of Warwick](https://warwick.ac.uk/fac/sci/dcs/). 
-I am broadly interested in Bayesian inference, applied (or not) to Machine Learning. 
+I am broadly interested in the intersection between Bayesian inference & Machine Learning; particularly scalable approximate inference for Gaussian processes and modern "deep" probabilistic models. 
 
 
 # Great books 
