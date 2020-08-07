@@ -372,7 +372,7 @@ It is very important to notice that in the key equation defining SMC algorithms 
 As shown in the IS section, we can approximate the normalizing constant as:
 
 $$
-\widehat{Z}_t = \frac{1}{N} \sum_{n=1}^{N} \tilde{w}_{t}^{n} = \frac{1}{N} \sum_{n=1}^{N} \prod_{k=1}^{t} \varpi_k(\mathbf{s}_{k-1}^{n}, \mathbf{s}_{k}^{n})
+Z = p(\bm{v}_{1:t}) \approx \widehat{Z}_t = \frac{1}{N} \sum_{n=1}^{N} \tilde{w}_{t}^{n} = \frac{1}{N} \sum_{n=1}^{N} \prod_{k=1}^{t} \varpi_k(\mathbf{s}_{k-1}^{n}, \mathbf{s}_{k}^{n})
 $$
 
 This is the essence of SIS (Sequential Importance Sampling). Important note: this is a standard presentation you can find e.g. from Doucet et al [2]. However, you should note that for example, if we put this into context of state space models say, then the proposal can depend on measurements too. Crucially, although it would be natural to split the proposal as: $$ \color{#FF8000}{q}_{t}\left(\mathbf{s}_{1:t} \mid \mathbf{v}_{1:t}\right)= \color{#FF8000}{q}_{t-1}\left(\mathbf{s}_{1:t-1} \mid \mathbf{v}_{1:\color{red}{t-1}}\right) \color{#FF8000}{q}_{t}\left(\mathbf{s}_{t} \mid \mathbf{s}_{1:t-1}, \mathbf{v}_{1:\color{red}{t}}\right)$$ this is usually a *choice*, and we could make both terms dependent on the current measurements! We will come back to this when discussing the Auxiliary Particle Filter. 
