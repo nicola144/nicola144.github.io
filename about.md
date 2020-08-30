@@ -1,6 +1,6 @@
 ## About
 
-I am a Master's student in the [School of Informatics at the University of Edinburgh](https://www.ed.ac.uk/informatics).
+I am a Research Assistant at the [Alan Turing Institute]( https://www.turing.ac.uk/), working within the [Warwick Machine Learning Group](https://wmlg.io/). Previously, I was a Master's student in the [School of Informatics at the University of Edinburgh](https://www.ed.ac.uk/informatics).
 As undergrad, I studied Computer Science at the [University of Warwick](https://warwick.ac.uk/fac/sci/dcs/). 
 I am broadly interested in the intersection between Bayesian inference & Machine Learning; particularly in scalable approximate inference for Gaussian processes and for modern "deep" probabilistic models. 
 
