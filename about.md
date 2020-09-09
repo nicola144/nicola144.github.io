@@ -10,6 +10,7 @@ I am broadly interested in the intersection between [Bayesian Inference](https:/
 - [Meditations, Marcus Aurelius](https://www.amazon.co.uk/Meditations-Penguin-Classics-Marcus-Aurelius/dp/0140449337/ref=sr_1_1?crid=RRDPU6IPJQ5N&dchild=1&keywords=meditations+marcus+aurelius&qid=1589542523&sprefix=meditations+%2Caps%2C154&sr=8-1)
 - [Sustainable energy - without the hot air, David McKay](http://www.withouthotair.com/)
 - [The Art of Statistics: Learning from Data, David Spiegelhalter](https://www.amazon.co.uk/Learning-Data-Statistics-Pelican-Books/dp/0241258766/ref=tmm_pap_swatch_0?_encoding=UTF8&qid=&sr=)
+- [Probably Approximately Correct, Leslie Valiant](https://www.amazon.co.uk/Probably-Approximately-Correct-Algorithms-Prospering/dp/0465060722/ref=sr_1_1?dchild=1&keywords=probably+approximately+correct&qid=1599657065&sr=8-1)
 
 
 # Cool random stuff
