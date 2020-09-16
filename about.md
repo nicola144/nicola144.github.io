@@ -6,7 +6,7 @@ I am broadly interested in the intersection between [Bayesian Inference](https:/
 optimization, causality and graphical models. 
 
 
-### [Resume](http://bit.ly/nbranchini-resume)
+### [Resume](http://bit.ly/cv-nbranchini)
 
 
 # Great reads 
