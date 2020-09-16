@@ -4,6 +4,8 @@ I am a Research Assistant at the [Alan Turing Institute]( https://www.turing.ac.
 As undergrad, I studied Computer Science at the [University of Warwick](https://warwick.ac.uk/fac/sci/dcs/). 
 I am broadly interested in the intersection between [Bayesian Inference](https://en.m.wikipedia.org/wiki/Bayesian_inference) & [Machine Learning](https://en.m.wikipedia.org/wiki/Machine_learning); particularly in scalable approximate inference for [Gaussian processes](https://en.m.wikipedia.org/wiki/Gaussian_process) and for modern "deep" probabilistic models. 
 
+### [Resume](http://bit.ly/nbranchini-resume)
+
 
 # Great reads 
 - [The book of why, Judea Pearl & Dana McKenzie](https://www.amazon.co.uk/Book-Why-Science-Cause-Effect/dp/0141982411/ref=sr_1_1?dchild=1&keywords=the+book+of+why+judea&qid=1589542460&sr=8-1)
