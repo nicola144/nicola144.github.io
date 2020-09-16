@@ -1,6 +1,6 @@
 ## About
 
-I am a Research Assistant at the [Alan Turing Institute]( https://www.turing.ac.uk/), working within the [Warwick Machine Learning Group](https://wmlg.io/). Previously, I was a Master's student in the [School of Informatics at the University of Edinburgh](https://www.ed.ac.uk/informatics).
+I am a Research Assistant at the [Alan Turing Institute]( https://www.turing.ac.uk/), working within the [Warwick Machine Learning Group](https://wmlg.io/) and supervised by [Dr. Theo Damoulas](https://warwick.ac.uk/fac/sci/statistics/staff/academic-research/damoulas). Previously, I was a Master's student in the [School of Informatics at the University of Edinburgh](https://www.ed.ac.uk/informatics).
 As undergrad, I studied Computer Science at the [University of Warwick](https://warwick.ac.uk/fac/sci/dcs/). 
 I am broadly interested in the intersection between [Bayesian Inference](https://en.m.wikipedia.org/wiki/Bayesian_inference) & [Machine Learning](https://en.m.wikipedia.org/wiki/Machine_learning); particularly in scalable approximate inference for spatio-temporal models such as [Gaussian processes](https://en.m.wikipedia.org/wiki/Gaussian_process) and for modern "deep" probabilistic models, Bayesian
 optimization, causality and graphical models. 
