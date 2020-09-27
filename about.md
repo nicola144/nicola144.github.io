@@ -6,7 +6,7 @@ I am broadly interested in the intersection between [Bayesian Inference](https:/
 optimization](https://en.wikipedia.org/wiki/Hyperparameter_optimization#Bayesian_optimization), [causal inference](https://en.wikipedia.org/wiki/Causal_inference) and [probabilistic graphical models](https://en.wikipedia.org/wiki/Graphical_model) . 
 
 
-### [Resume](http://bit.ly/cv-nbranchini)
+### [Resume](http://bit.ly/CV-nicolab)
 
 
 # Great reads 
