@@ -2,8 +2,8 @@
 
 I am a Research Assistant at the [Alan Turing Institute]( https://www.turing.ac.uk/), working within the [Warwick Machine Learning Group](https://wmlg.io/) and supervised by [Dr. Theo Damoulas](https://warwick.ac.uk/fac/sci/statistics/staff/academic-research/damoulas). Previously, I was a Master's student in the [School of Informatics at the University of Edinburgh](https://www.ed.ac.uk/informatics).
 As undergrad, I studied Computer Science at the [University of Warwick](https://warwick.ac.uk/fac/sci/dcs/). 
-I am broadly interested in the intersection between [Bayesian Inference](https://en.m.wikipedia.org/wiki/Bayesian_inference) & [Machine Learning](https://en.m.wikipedia.org/wiki/Machine_learning); particularly in scalable approximate inference for spatio-temporal models such as [Gaussian processes](https://en.m.wikipedia.org/wiki/Gaussian_process) and for modern "deep" probabilistic models, [Sequential Monte Carlo](https://en.wikipedia.org/wiki/Particle_filter), [Bayesian
-optimization](https://en.wikipedia.org/wiki/Hyperparameter_optimization#Bayesian_optimization), [causal inference](https://en.wikipedia.org/wiki/Causal_inference) and [probabilistic graphical models](https://en.wikipedia.org/wiki/Graphical_model) . 
+I am broadly interested in the intersection between [Bayesian Inference](https://www.wikiwand.com/en/Bayesian_inference) & [Machine Learning](https://www.wikiwand.com/en/Machine_learning); particularly in scalable approximate inference for spatio-temporal models such as [Gaussian processes](https://www.wikiwand.com/en/Gaussian_process) and for modern "deep" probabilistic models, [Sequential Monte Carlo](https://www.wikiwand.com/en/Particle_filter), [Bayesian
+optimization](https://www.wikiwand.com/en/Bayesian_optimization), [causal inference](https://www.wikiwand.com/en/Causal_inference) and [probabilistic graphical models](https://www.wikiwand.com/en/Graphical_model) . 
 
 
 ### [Resume](http://bit.ly/CV-nicolab)
