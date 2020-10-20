@@ -1,7 +1,7 @@
 ## About
 
-I am a Research Assistant at the [Alan Turing Institute]( https://www.turing.ac.uk/), working within the [Warwick Machine Learning Group](https://wmlg.io/) and supervised by [Dr. Theo Damoulas](https://warwick.ac.uk/fac/sci/statistics/staff/academic-research/damoulas). Previously, I was a Master's student in the [School of Informatics at the University of Edinburgh](https://www.ed.ac.uk/informatics).
-As undergrad, I studied Computer Science at the [University of Warwick](https://warwick.ac.uk/fac/sci/dcs/). 
+I am a Research Assistant at the [Alan Turing Institute]( https://www.turing.ac.uk/), working within the [Warwick Machine Learning Group](https://wmlg.io/) and supervised by [Dr. Theo Damoulas](https://warwick.ac.uk/fac/sci/statistics/staff/academic-research/damoulas). Previously, I was a Master's student in the [School of Informatics at the University of Edinburgh](https://www.ed.ac.uk/informatics) where I was supervised by [Dr. Víctor Elvira](https://victorelvira.github.io/) working on auxiliary particle filters.
+As undergrad, I studied Computer Science at the [University of Warwick](https://warwick.ac.uk/fac/sci/dcs/), where I did my BSc dissertation on reproducing AlphaZero supervised by [Dr. Paolo Turrini](https://www.dcs.warwick.ac.uk/~pturrini/).
 I am broadly interested in the intersection between [Bayesian Inference](https://www.wikiwand.com/en/Bayesian_inference) & [Machine Learning](https://www.wikiwand.com/en/Machine_learning); particularly in scalable approximate inference for spatio-temporal models such as [Gaussian processes](https://www.wikiwand.com/en/Gaussian_process) and for modern "deep" probabilistic models, [Sequential Monte Carlo](https://www.wikiwand.com/en/Particle_filter), [Bayesian
 optimization](https://www.wikiwand.com/en/Bayesian_optimization), [causal inference](https://www.wikiwand.com/en/Causal_inference) and [probabilistic graphical models](https://www.wikiwand.com/en/Graphical_model) . 
 
