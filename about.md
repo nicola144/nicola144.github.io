@@ -6,7 +6,7 @@ I am broadly interested in the intersection between [Bayesian Inference](https:/
 optimization](https://www.wikiwand.com/en/Bayesian_optimization), [causal inference](https://www.wikiwand.com/en/Causal_inference) and [probabilistic graphical models](https://www.wikiwand.com/en/Graphical_model) . 
 
 
-### [Resume](http://bit.ly/CV-nicolab)
+### [Resume](https://drive.google.com/file/d/1eaIP5kKM06C6Uu0PRf75GjMGMZakUj8s/view?usp=sharing)
 
 
 # Great reads 
