@@ -25,9 +25,10 @@ Totally worth having the physical version.
 - [CMU blog on ML](https://blog.ml.cmu.edu/)
 - [Terence Tao's blog](https://terrytao.wordpress.com/)
 - [Troubling Trends in Machine Learning Scholarship](https://arxiv.org/pdf/1807.03341.pdf?source=post_page---------------------------)
-- Cool ML courses that have public material:
+- Cool ML/Stat courses that have public material:
   - [Probabilistic Machine Learning (Tübingen)](https://www.youtube.com/playlist?list=PL05umP7R6ij1tHaOFY96m5uX3J21a6yNd)
   - [Statistical Machine Learning (Tübingen)](https://www.youtube.com/playlist?list=PL05umP7R6ij2XCvrRzLokX6EoHWaGA2cC)
+  - [Couplings and Monte Carlo (Pierre E. Jacob, several unis)](https://sites.google.com/site/pierrejacob/cmclectures)
   - [Probabilistic Modelling and Reasoning (Edinburgh)](https://www.inf.ed.ac.uk/teaching/courses/pmr/19-20/material/)
   - [Advanced Topics in Statistical Machine Learning (Oxford)](https://github.com/ywteh/advml2020)
   - [Machine Learning and Pattern Recognition (Edinburgh)](https://www.inf.ed.ac.uk/teaching/courses/mlpr/2019/notes/)
