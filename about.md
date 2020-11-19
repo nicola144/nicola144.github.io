@@ -8,6 +8,9 @@ optimization](https://www.wikiwand.com/en/Bayesian_optimization), [causal infere
 
 ### [Resume](https://drive.google.com/file/d/1k-pCQnZiO_tzO-zmKdii-14wUO4S03Zb/view?usp=sharing)
 
+### Preprints
+- [*Optimized Auxiliary Particle Filters*](https://arxiv.org/abs/2011.09317), Branchini, Nicola and Elvira, Víctor. 
+
 
 # Great reads 
 Totally worth having the physical version.
