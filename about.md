@@ -1,9 +1,14 @@
-## About
+## Research interests
+I am interested broadly in Statistics and its applications to Machine Learning. Recently, I have started working on optimization methods within Monte Carlo (with particular focus on Sequential Monte Carlo and importance sampling), as well as Bayesian approaches to causal optimization and discovery.
+
+Further topics I am keen on are:
+- Efficient monte carlo estimators (Bayesian monte carlo / Black-box importance sampling)
+- Connections between adaptive importance sampling and varitional inference 
+
+## About me
 
 I am a Research Assistant at the [Alan Turing Institute]( https://www.turing.ac.uk/), working within the [Warwick Machine Learning Group](https://wmlg.io/) and supervised by [Dr. Theo Damoulas](https://warwick.ac.uk/fac/sci/statistics/staff/academic-research/damoulas). Previously, I was a Master's student in the [School of Informatics at the University of Edinburgh](https://www.ed.ac.uk/informatics) where I was supervised by [Dr. Víctor Elvira](https://victorelvira.github.io/) working on auxiliary particle filters.
 As undergrad, I studied Computer Science at the [University of Warwick](https://warwick.ac.uk/fac/sci/dcs/), where I did my BSc dissertation on reproducing AlphaZero supervised by [Dr. Paolo Turrini](https://www.dcs.warwick.ac.uk/~pturrini/).
-I am broadly interested in the intersection between [Bayesian Inference](https://www.wikiwand.com/en/Bayesian_inference) & [Machine Learning](https://www.wikiwand.com/en/Machine_learning); particularly in scalable approximate inference for spatio-temporal models such as [Gaussian processes](https://www.wikiwand.com/en/Gaussian_process) and for modern "deep" probabilistic models, [Sequential Monte Carlo](https://www.wikiwand.com/en/Particle_filter), [Bayesian
-optimization](https://www.wikiwand.com/en/Bayesian_optimization), [causal inference](https://www.wikiwand.com/en/Causal_inference) and [probabilistic graphical models](https://www.wikiwand.com/en/Graphical_model) . 
 
 
 ### [Resume](https://drive.google.com/file/d/1k-pCQnZiO_tzO-zmKdii-14wUO4S03Zb/view?usp=sharing)
