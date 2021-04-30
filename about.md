@@ -3,7 +3,8 @@ I am interested broadly in Statistics and its applications to Machine Learning. 
 
 Further topics I am keen on are:
 - Efficient monte carlo estimators (Bayesian monte carlo / Black-box importance sampling)
-- Connections between adaptive importance sampling and varitional inference 
+- Connections between adaptive importance sampling and variational inference 
+- Variance reduction in black-box variational inference
 
 ## About me
 
