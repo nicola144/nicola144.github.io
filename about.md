@@ -16,8 +16,8 @@ As undergrad, I studied Computer Science at the [University of Warwick](https://
 
 ### [Resume](https://drive.google.com/file/d/1k-pCQnZiO_tzO-zmKdii-14wUO4S03Zb/view?usp=sharing)
 
-### Preprints
-- [*Optimized Auxiliary Particle Filters*](https://arxiv.org/abs/2011.09317), Branchini, Nicola and Elvira, Víctor. 
+### Publications
+- [*Optimized Auxiliary Particle Filters*], Branchini, Nicola and Elvira, Víctor. To appear in *37th Conference on Uncertainty in Artificial Intelligence (UAI)*.
 
 
 # Great reads 
