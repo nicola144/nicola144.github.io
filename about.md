@@ -9,7 +9,7 @@ Further topics I am keen on are:
 
 ## About me
 
-I will start a PhD in Statitics (unconditional offer accepted) in September 2021 at the School of Mathematics at the University of Edinburgh. 
+I will start a PhD in Statistics in September 2021 at the School of Mathematics at the University of Edinburgh. 
 Currently, I am a Research Assistant at the [Alan Turing Institute]( https://www.turing.ac.uk/), working within the [Warwick Machine Learning Group](https://wmlg.io/) and supervised by [Dr. Theo Damoulas](https://warwick.ac.uk/fac/sci/statistics/staff/academic-research/damoulas). Previously, I was a Master's student in the [School of Informatics at the University of Edinburgh](https://www.ed.ac.uk/informatics) where I was supervised by [Dr. Víctor Elvira](https://victorelvira.github.io/) working on auxiliary particle filters.
 As undergrad, I studied Computer Science at the [University of Warwick](https://warwick.ac.uk/fac/sci/dcs/), where I did my BSc dissertation on reproducing AlphaZero supervised by [Dr. Paolo Turrini](https://www.dcs.warwick.ac.uk/~pturrini/).
 
@@ -17,7 +17,7 @@ As undergrad, I studied Computer Science at the [University of Warwick](https://
 ### [Resume](https://drive.google.com/file/d/1k-pCQnZiO_tzO-zmKdii-14wUO4S03Zb/view?usp=sharing)
 
 ### Publications
-- [*Optimized Auxiliary Particle Filters*], Branchini, Nicola and Elvira, Víctor. To appear in *37th Conference on Uncertainty in Artificial Intelligence (UAI)*.
+- *Optimized Auxiliary Particle Filters*, Branchini, Nicola and Elvira, Víctor. To appear in *37th Conference on Uncertainty in Artificial Intelligence (UAI)*.
 
 
 # Great reads 
