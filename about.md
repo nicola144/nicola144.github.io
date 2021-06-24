@@ -3,21 +3,29 @@
 I am interested broadly in Statistics and its applications to Machine Learning. Recently, I have started working on optimization methods within Monte Carlo (with particular focus on Sequential Monte Carlo and importance sampling), as well as Bayesian approaches to causal optimization and discovery.
 
 Further topics I am keen on are:
-- Efficient monte carlo estimators (Bayesian monte carlo / Black-box importance sampling)
+- Efficient monte carlo estimators 
 - Connections between adaptive importance sampling and variational inference 
+- Connections between optimal transport, importance sampling and information-theoretic divergences
 - Variance reduction in black-box variational inference
+
+### Publications
+- [*Optimized Auxiliary Particle Filters: adapting mixture proposals via convex optimization*](https://arxiv.org/abs/2011.09317), Branchini, Nicola and Elvira, Víctor. To appear in *37th Conference on Uncertainty in Artificial Intelligence (UAI), 2021*.
+
+
+## Awards
+- [Feuer International Scholarship in Artificial Intelligence (full funding)](https://warwick.ac.uk/services/dc/schols_fund/scholarships_and_funding/feuer/scholarships/) (declined) 
+- [School of Mathematics Studentship, University of Edinburgh (full funding)](https://www.maths.ed.ac.uk/school-of-mathematics/studying-here/pgr/funding-opportunities) 
+- Dissertation Prize for the Artificial Intelligence MSc, *University of Edinburgh*
+- Oustanding dissertation award (BSc Computer Science), *University of Warwick*
 
 ## About me
 
-I will start a PhD in Statistics in September 2021 at the School of Mathematics at the University of Edinburgh. 
+I will start a PhD in Statistics in] September 2021 at the School of Mathematics at the University of Edinburgh. 
 Currently, I am a Research Assistant at the [Alan Turing Institute]( https://www.turing.ac.uk/), working within the [Warwick Machine Learning Group](https://wmlg.io/) and supervised by [Dr. Theo Damoulas](https://warwick.ac.uk/fac/sci/statistics/staff/academic-research/damoulas). Previously, I was a Master's student in the [School of Informatics at the University of Edinburgh](https://www.ed.ac.uk/informatics) where I was supervised by [Dr. Víctor Elvira](https://victorelvira.github.io/) working on auxiliary particle filters.
 As undergrad, I studied Computer Science at the [University of Warwick](https://warwick.ac.uk/fac/sci/dcs/), where I did my BSc dissertation on reproducing AlphaZero supervised by [Dr. Paolo Turrini](https://www.dcs.warwick.ac.uk/~pturrini/).
 
 
 ### [Resume](https://drive.google.com/file/d/1k-pCQnZiO_tzO-zmKdii-14wUO4S03Zb/view?usp=sharing)
-
-### Publications
-- *Optimized Auxiliary Particle Filters*, Branchini, Nicola and Elvira, Víctor. To appear in *37th Conference on Uncertainty in Artificial Intelligence (UAI)*.
 
 
 # Great reads 
@@ -41,5 +49,4 @@ Totally worth having the physical version.
   - [Statistical Machine Learning (Tübingen)](https://www.youtube.com/playlist?list=PL05umP7R6ij2XCvrRzLokX6EoHWaGA2cC)
   - [Couplings and Monte Carlo (Pierre E. Jacob, several unis)](https://sites.google.com/site/pierrejacob/cmclectures)
   - [Probabilistic Modelling and Reasoning (Edinburgh)](https://www.inf.ed.ac.uk/teaching/courses/pmr/19-20/material/)
-  - [Advanced Topics in Statistical Machine Learning (Oxford)](https://github.com/ywteh/advml2020)
   - [Machine Learning and Pattern Recognition (Edinburgh)](https://www.inf.ed.ac.uk/teaching/courses/mlpr/2019/notes/)
