@@ -25,8 +25,6 @@ Currently, I am a Research Assistant at the [Alan Turing Institute]( https://www
 As undergrad, I studied Computer Science at the [University of Warwick](https://warwick.ac.uk/fac/sci/dcs/), where I did my BSc dissertation on reproducing AlphaZero supervised by [Dr. Paolo Turrini](https://www.dcs.warwick.ac.uk/~pturrini/).
 
 
-### [Resume](https://drive.google.com/file/d/1k-pCQnZiO_tzO-zmKdii-14wUO4S03Zb/view?usp=sharing)
-
 
 # Great reads 
 Totally worth having the physical version.
